@@ -56,7 +56,6 @@ class PhotosViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(PhotoTableViewCell.self, forCellReuseIdentifier: "photoCell")
-        tableView.register(CollectionsTableViewCell.self, forCellReuseIdentifier: "collectionsCell")
     }
     
     func setupSearchBar() {
@@ -87,38 +86,28 @@ class PhotosViewController: UIViewController {
 
 extension PhotosViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return viewModel.sections.count
+        return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return section == 0 ? 1: viewModel.photos.count
+        return viewModel.photos.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if indexPath.section == 0 {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "collectionsCell", for: indexPath) as? CollectionsTableViewCell else {
-                return UITableViewCell()
-            }
-            
-            cell.textLabel?.text = "text"
-            
-            return cell
-        } else {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "photoCell", for: indexPath) as? PhotoTableViewCell else {
-                return UITableViewCell()
-            }
-            
-            cell.photoImageView.image = UIImage(named: viewModel.photos[indexPath.row])
-            cell.authorButton.setTitle("Lorem", for: .normal)
-            
-            return cell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "photoCell", for: indexPath) as? PhotoTableViewCell else {
+            return UITableViewCell()
         }
+        
+        cell.photoImageView.image = UIImage(named: viewModel.photos[indexPath.row])
+        cell.authorButton.setTitle("Lorem", for: .normal)
+        
+        return cell
         
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return section == 0 ? "Explore": "New"
+        return "New"
     }
     
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {

@@ -48,8 +48,8 @@ class PhotoTableViewCell: UITableViewCell {
         
         addSubview(photoImageView)
         photoImageView.snp.makeConstraints({make in
-            make.leading.trailing.bottom.equalToSuperview()
-            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(1)
+            make.leading.trailing.top.equalToSuperview()
+            make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).offset(-1)
         })
         
         photoImageView.addSubview(authorButton)

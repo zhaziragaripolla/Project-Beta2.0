@@ -10,8 +10,6 @@ import Foundation
 
 class PhotosViewModel {
     
-    var photos: [String] = ["jelly", "test"]
-    var collections: [String] = ["toronto", "table"]
-    var sections: [String] = ["Explore", "New"]
+    var photos: [String] = ["jelly", "test", "toronto", "table"]
     
 }

@@ -25,7 +25,6 @@
 		F165A60422EF1A760014EE59 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A60322EF1A760014EE59 /* DetailViewController.swift */; };
 		F165A60622EF1BC00014EE59 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A60522EF1BC00014EE59 /* Photo.swift */; };
 		F165A60822EF1F960014EE59 /* Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A60722EF1F960014EE59 /* Collection.swift */; };
-		F165A60E22EF21E50014EE59 /* CollectionsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A60D22EF21E50014EE59 /* CollectionsTableViewCell.swift */; };
 		F165A61122EF2A160014EE59 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = F165A61022EF2A160014EE59 /* .gitignore */; };
 /* End PBXBuildFile section */
 
@@ -52,7 +51,6 @@
 		F165A60322EF1A760014EE59 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		F165A60522EF1BC00014EE59 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		F165A60722EF1F960014EE59 /* Collection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Collection.swift; sourceTree = "<group>"; };
-		F165A60D22EF21E50014EE59 /* CollectionsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionsTableViewCell.swift; sourceTree = "<group>"; };
 		F165A61022EF2A160014EE59 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -149,7 +147,6 @@
 			children = (
 				F165A5F022EEF46E0014EE59 /* GradientImageView.swift */,
 				F165A5EE22EEF4540014EE59 /* PhotoTableViewCell.swift */,
-				F165A60D22EF21E50014EE59 /* CollectionsTableViewCell.swift */,
 				F165A5FE22EEFABF0014EE59 /* CollectionTableViewCell.swift */,
 			);
 			path = "Custom Views";
@@ -296,7 +293,6 @@
 				F165A5D322EEF24C0014EE59 /* ViewController.swift in Sources */,
 				F165A5FF22EEFABF0014EE59 /* CollectionTableViewCell.swift in Sources */,
 				F165A5F122EEF46E0014EE59 /* GradientImageView.swift in Sources */,
-				F165A60E22EF21E50014EE59 /* CollectionsTableViewCell.swift in Sources */,
 				F165A5F322EEF66D0014EE59 /* API.swift in Sources */,
 				F165A60222EF18EC0014EE59 /* PhotosViewModel.swift in Sources */,
 				F165A5F522EEF6830014EE59 /* LocalDatabase.swift in Sources */,
