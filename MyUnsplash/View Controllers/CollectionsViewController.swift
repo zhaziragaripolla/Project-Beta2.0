@@ -10,16 +10,19 @@ import UIKit
 
 class CollectionsViewController: UIViewController {
 
+    var viewModel: CollectionsViewModel!
     var tableView = UITableView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = "Lorem Ipsum"
         view.backgroundColor = .white
+        title = "Collections"
+        
+        viewModel = CollectionsViewModel(delegate: self)
+        viewModel.fetchCollections()
         
         setupTableView()
-        
         layoutUI()
     }
     
@@ -35,25 +38,42 @@ class CollectionsViewController: UIViewController {
         tableView.snp.makeConstraints({make in
             make.leading.trailing.top.bottom.equalTo(view.safeAreaLayoutGuide)
         })
+        
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        
     }
     
 }
 
 extension CollectionsViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        return viewModel.collections.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "collectionCell", for: indexPath) as? CollectionTableViewCell else {
             return UITableViewCell()
         }
-        cell.photoImageView.image = UIImage(named: "toronto")
-        cell.titleLabel.text = "Lorem Ipsum"
+        let collection = viewModel.collections[indexPath.row]
+        cell.updateUI(collection: collection)
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return view.bounds.height * 0.3
+        return view.bounds.height * 0.28
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let collection = viewModel.collections[indexPath.row]
+        let listViewController = ListViewController(collection: collection)
+        navigationController?.pushViewController(listViewController, animated: true)
+    }
+}
+
+extension CollectionsViewController: DataViewModelDelegate {
+    func reloadData() {
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
 }

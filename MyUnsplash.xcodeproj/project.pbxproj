@@ -26,6 +26,14 @@
 		F165A60622EF1BC00014EE59 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A60522EF1BC00014EE59 /* Photo.swift */; };
 		F165A60822EF1F960014EE59 /* Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A60722EF1F960014EE59 /* Collection.swift */; };
 		F165A61122EF2A160014EE59 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = F165A61022EF2A160014EE59 /* .gitignore */; };
+		F165A61322EF32C40014EE59 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A61222EF32C40014EE59 /* ListViewController.swift */; };
+		F165A61522EF34520014EE59 /* Delegate Protols.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A61422EF34520014EE59 /* Delegate Protols.swift */; };
+		F165A61722EF62DD0014EE59 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A61622EF62DD0014EE59 /* APIClient.swift */; };
+		F165A61922EF633D0014EE59 /* DataFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A61822EF633D0014EE59 /* DataFetcher.swift */; };
+		F165A61B22EF63770014EE59 /* URLConstructor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A61A22EF63770014EE59 /* URLConstructor.swift */; };
+		F165A61D22EF64D90014EE59 /* CollectionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A61C22EF64D90014EE59 /* CollectionsViewModel.swift */; };
+		F165A61F22EF81DA0014EE59 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A61E22EF81DA0014EE59 /* Colors.swift */; };
+		F165A62222EF95850014EE59 /* AuthorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A62122EF95850014EE59 /* AuthorViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +60,14 @@
 		F165A60522EF1BC00014EE59 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		F165A60722EF1F960014EE59 /* Collection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Collection.swift; sourceTree = "<group>"; };
 		F165A61022EF2A160014EE59 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		F165A61222EF32C40014EE59 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
+		F165A61422EF34520014EE59 /* Delegate Protols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Delegate Protols.swift"; sourceTree = "<group>"; };
+		F165A61622EF62DD0014EE59 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
+		F165A61822EF633D0014EE59 /* DataFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataFetcher.swift; sourceTree = "<group>"; };
+		F165A61A22EF63770014EE59 /* URLConstructor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLConstructor.swift; sourceTree = "<group>"; };
+		F165A61C22EF64D90014EE59 /* CollectionsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionsViewModel.swift; sourceTree = "<group>"; };
+		F165A61E22EF81DA0014EE59 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		F165A62122EF95850014EE59 /* AuthorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +123,7 @@
 			children = (
 				F165A5DA22EEF24D0014EE59 /* Assets.xcassets */,
 				F165A5D022EEF24C0014EE59 /* AppDelegate.swift */,
+				F165A62022EF81F10014EE59 /* Models */,
 				F165A60F22EF281B0014EE59 /* Networking */,
 				F165A60022EF0DC90014EE59 /* View Models */,
 				F165A5E622EEF2840014EE59 /* Supporting FIles */,
@@ -124,9 +141,11 @@
 			children = (
 				F165A5D222EEF24C0014EE59 /* ViewController.swift */,
 				F165A5EA22EEF2C20014EE59 /* PopoverViewController.swift */,
+				F165A61222EF32C40014EE59 /* ListViewController.swift */,
 				F165A5E822EEF2AE0014EE59 /* PhotosViewController.swift */,
-				F165A60322EF1A760014EE59 /* DetailViewController.swift */,
 				F165A5EC22EEF2CF0014EE59 /* CollectionsViewController.swift */,
+				F165A62122EF95850014EE59 /* AuthorViewController.swift */,
+				F165A60322EF1A760014EE59 /* DetailViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -135,9 +154,9 @@
 			isa = PBXGroup;
 			children = (
 				F165A5F222EEF66D0014EE59 /* API.swift */,
-				F165A60522EF1BC00014EE59 /* Photo.swift */,
-				F165A60722EF1F960014EE59 /* Collection.swift */,
+				F165A61E22EF81DA0014EE59 /* Colors.swift */,
 				F165A5F422EEF6830014EE59 /* LocalDatabase.swift */,
+				F165A61422EF34520014EE59 /* Delegate Protols.swift */,
 			);
 			path = "Supporting FIles";
 			sourceTree = "<group>";
@@ -156,6 +175,7 @@
 			isa = PBXGroup;
 			children = (
 				F165A60122EF18EC0014EE59 /* PhotosViewModel.swift */,
+				F165A61C22EF64D90014EE59 /* CollectionsViewModel.swift */,
 			);
 			path = "View Models";
 			sourceTree = "<group>";
@@ -163,8 +183,20 @@
 		F165A60F22EF281B0014EE59 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
+				F165A61622EF62DD0014EE59 /* APIClient.swift */,
+				F165A61822EF633D0014EE59 /* DataFetcher.swift */,
+				F165A61A22EF63770014EE59 /* URLConstructor.swift */,
 			);
 			path = Networking;
+			sourceTree = "<group>";
+		};
+		F165A62022EF81F10014EE59 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F165A60522EF1BC00014EE59 /* Photo.swift */,
+				F165A60722EF1F960014EE59 /* Collection.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -282,12 +314,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F165A61522EF34520014EE59 /* Delegate Protols.swift in Sources */,
+				F165A61F22EF81DA0014EE59 /* Colors.swift in Sources */,
 				F165A60622EF1BC00014EE59 /* Photo.swift in Sources */,
 				F165A60422EF1A760014EE59 /* DetailViewController.swift in Sources */,
 				F165A5EF22EEF4540014EE59 /* PhotoTableViewCell.swift in Sources */,
+				F165A61B22EF63770014EE59 /* URLConstructor.swift in Sources */,
 				F165A5ED22EEF2CF0014EE59 /* CollectionsViewController.swift in Sources */,
 				F165A5D922EEF24C0014EE59 /* MyUnsplash.xcdatamodeld in Sources */,
 				F165A5E922EEF2AE0014EE59 /* PhotosViewController.swift in Sources */,
+				F165A61922EF633D0014EE59 /* DataFetcher.swift in Sources */,
 				F165A60822EF1F960014EE59 /* Collection.swift in Sources */,
 				F165A5EB22EEF2C20014EE59 /* PopoverViewController.swift in Sources */,
 				F165A5D322EEF24C0014EE59 /* ViewController.swift in Sources */,
@@ -296,7 +332,11 @@
 				F165A5F322EEF66D0014EE59 /* API.swift in Sources */,
 				F165A60222EF18EC0014EE59 /* PhotosViewModel.swift in Sources */,
 				F165A5F522EEF6830014EE59 /* LocalDatabase.swift in Sources */,
+				F165A62222EF95850014EE59 /* AuthorViewController.swift in Sources */,
+				F165A61322EF32C40014EE59 /* ListViewController.swift in Sources */,
+				F165A61D22EF64D90014EE59 /* CollectionsViewModel.swift in Sources */,
 				F165A5D122EEF24C0014EE59 /* AppDelegate.swift in Sources */,
+				F165A61722EF62DD0014EE59 /* APIClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

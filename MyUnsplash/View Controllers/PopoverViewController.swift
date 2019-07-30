@@ -91,5 +91,6 @@ class PopoverViewController: UIViewController {
     
     @IBAction func switchChanged(_ mySwitch: UISwitch) {
         print("switch")
+        switchView.onTintColor = .black
     }
 }

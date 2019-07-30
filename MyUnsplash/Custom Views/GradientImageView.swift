@@ -29,11 +29,11 @@ class GradientImageView: UIImageView {
         myGradientLayer.startPoint = CGPoint(x: 1, y: 1)
         myGradientLayer.endPoint = CGPoint(x: 1, y: 0)
         let colors: [CGColor] = [
-            UIColor(red: 0, green: 0, blue: 0, alpha: 0.4).cgColor,
+            UIColor(red: 0, green: 0, blue: 0, alpha: 0.3).cgColor,
             UIColor.clear.cgColor ]
         myGradientLayer.colors = colors
         myGradientLayer.isOpaque = false
-        myGradientLayer.locations = [0.0, 0.6]
+        myGradientLayer.locations = [0.0, 0.4]
         self.layer.addSublayer(myGradientLayer)
     }
     

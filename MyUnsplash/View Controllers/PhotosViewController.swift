@@ -17,7 +17,7 @@ class PhotosViewController: UIViewController {
     
     var popoverViewController = PopoverViewController()
     
-    let viewModel = PhotosViewModel()
+    var viewModel: PhotosViewModel!
     
     let menuButton: UIButton = {
         let button = UIButton()
@@ -31,9 +31,11 @@ class PhotosViewController: UIViewController {
         view.backgroundColor = .white
         title = "Photos for everyone"
         
+        viewModel = PhotosViewModel(delegate: self)
+        viewModel.fetchPhotos()
+        
         setupTableView()
         setupSearchBar()
-        
         layoutUI()
     }
     
@@ -48,6 +50,8 @@ class PhotosViewController: UIViewController {
         
         menuButton.addTarget(self, action: #selector(didTapMenuButton), for: .touchUpInside)
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: menuButton)
+        
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     
     func setupTableView() {
@@ -57,7 +61,7 @@ class PhotosViewController: UIViewController {
         tableView.delegate = self
         tableView.register(PhotoTableViewCell.self, forCellReuseIdentifier: "photoCell")
     }
-    
+
     func setupSearchBar() {
         searchController.searchResultsUpdater = self
         searchController.searchBar.delegate = self
@@ -85,35 +89,26 @@ class PhotosViewController: UIViewController {
 }
 
 extension PhotosViewController: UITableViewDataSource {
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.photos.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "photoCell", for: indexPath) as? PhotoTableViewCell else {
             return UITableViewCell()
         }
+        let photo = viewModel.photos[indexPath.row]
         
-        cell.photoImageView.image = UIImage(named: viewModel.photos[indexPath.row])
-        cell.authorButton.setTitle("Lorem", for: .normal)
+        cell.delegate = self
+        cell.updateUI(photo: photo)
         
         return cell
-        
-    }
-    
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "New"
     }
     
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         if let header = view as? UITableViewHeaderFooterView {
             header.backgroundView?.backgroundColor = UIColor.clear
-            
         }
     }
 }
@@ -121,13 +116,20 @@ extension PhotosViewController: UITableViewDataSource {
 
 extension PhotosViewController: UITableViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        print("scroll")
+//        print("scroll")
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let photo = viewModel.photos[indexPath.row]
+        let width = view.bounds.width
+        let height = (width * CGFloat(photo.height)) / CGFloat(photo.width)
+        return height
     }
 }
 
 extension PhotosViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        print("changes")
+//        print("changes")
     }
 }
 
@@ -138,12 +140,22 @@ extension PhotosViewController: UIPopoverPresentationControllerDelegate {
 }
 
 extension PhotosViewController: UISearchBarDelegate {
-    
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        
-    }
-    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         
+    }
+}
+
+extension PhotosViewController: PhotosViewControllerDelegate {
+    func didTapAuthorButton() {
+        let authorViewController = AuthorViewController()
+        navigationController?.pushViewController(authorViewController, animated: true)
+    }
+}
+
+extension PhotosViewController: DataViewModelDelegate {
+    func reloadData() {
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
 }

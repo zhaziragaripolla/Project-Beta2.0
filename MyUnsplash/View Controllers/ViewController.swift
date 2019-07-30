@@ -19,11 +19,15 @@ class ViewController: UITabBarController {
         tabBar.unselectedItemTintColor = .black
         
         let photosVC = UINavigationController(rootViewController: PhotosViewController())
-        photosVC.tabBarItem = UITabBarItem(title: "Photos", image: UIImage(named: "camera"), tag: 1)
+        photosVC.tabBarItem = UITabBarItem(title: "Photos for everyone", image: UIImage(named: "camera"), tag: 1)
         let collectionsVC = UINavigationController(rootViewController: CollectionsViewController())
         collectionsVC.tabBarItem = UITabBarItem(title: "Collections", image: UIImage(named: "gallery"), tag: 2)
         
         viewControllers = [ photosVC, collectionsVC ]
+        
+        let navigationBarAppearace = UINavigationBar.appearance()
+        navigationBarAppearace.tintColor = .black
+        navigationBarAppearace.barTintColor = .white
     }
     
 }

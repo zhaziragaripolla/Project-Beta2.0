@@ -8,6 +8,11 @@
 
 import Foundation
 
-class Collection {
-    
+struct Collection: Codable {
+    let id: Int
+    let title: String
+    let description: String?
+    let totalPhotos: Int
+    let coverPhoto: Photo
 }
+

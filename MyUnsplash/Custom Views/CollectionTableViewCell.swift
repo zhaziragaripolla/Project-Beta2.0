@@ -30,13 +30,17 @@ class CollectionTableViewCell: UITableViewCell {
     }()
     
     func updateUI(collection: Collection) {
+        photoImageView.image = nil
         
+        guard let url = URL(string: collection.coverPhoto.urls.full!) else { return }
+        photoImageView.af_setImage(withURL: url)
+        titleLabel.text = collection.title
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        backgroundColor = .clear
+        backgroundColor = .white
         
         layoutUI()
     }

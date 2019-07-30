@@ -10,6 +10,8 @@ import UIKit
 
 class PhotoTableViewCell: UITableViewCell {
     
+    weak var delegate: PhotosViewControllerDelegate?
+    
     let photoImageView: GradientImageView = {
         let imageView = GradientImageView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         imageView.contentMode = UIView.ContentMode.scaleToFill
@@ -21,14 +23,12 @@ class PhotoTableViewCell: UITableViewCell {
         button.contentHorizontalAlignment = .left
         button.setTitleColor(.white, for: .normal)
         button.titleLabel!.font = UIFont.systemFont(ofSize: 15)
-        button.addTarget(self, action: #selector(didTapAuthorButton), for: .touchUpInside)
         return button
     }()
     
     let sponsoredLabel: UILabel = {
         let label = UILabel()
-        label.text = "Sponsored"
-        label.textColor = UIColor.gray
+        label.textColor = .unsplashGray
         label.font = UIFont.systemFont(ofSize: 13)
         return label
     }()
@@ -44,16 +44,21 @@ class PhotoTableViewCell: UITableViewCell {
     }
     
     func layoutUI() {
-        backgroundColor = .clear
+        backgroundColor = .white
         
         addSubview(photoImageView)
         photoImageView.snp.makeConstraints({make in
             make.leading.trailing.top.equalToSuperview()
             make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).offset(-1)
+            make.height.equalTo(200)
         })
         
-        photoImageView.addSubview(authorButton)
-        photoImageView.addSubview(sponsoredLabel)
+        addSubview(authorButton)
+        
+        authorButton.addTarget(self, action: #selector(didTapAuthorButton), for: .touchUpInside)
+        authorButton.titleLabel!.font = UIFont.systemFont(ofSize: 15)
+        
+        addSubview(sponsoredLabel)
         
         sponsoredLabel.snp.makeConstraints({make in
             make.bottom.equalToSuperview().offset(-15)
@@ -68,7 +73,20 @@ class PhotoTableViewCell: UITableViewCell {
         })
     }
     
+    func updateUI(photo: Photo) {
+        photoImageView.image = nil
+        
+        guard  let url = URL(string: photo.urls.full!) else {
+            return
+        }
+        photoImageView.af_setImage(withURL: url)
+        authorButton.setTitle(photo.user.name, for: .normal)
+        if photo.sponsored {
+            sponsoredLabel.text = "Sponsored \(photo.user.name)" 
+        }
+    }
+    
     @IBAction func didTapAuthorButton() {
-        print("author button")
+        delegate?.didTapAuthorButton()
     }
 }
