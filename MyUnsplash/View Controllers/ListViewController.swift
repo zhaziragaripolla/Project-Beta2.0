@@ -10,15 +10,21 @@ import UIKit
 
 class ListViewController: UIViewController {
     
-    var collection: Collection!
-    var tableView = UITableView()
+    private var viewModel: ListViewModel!
+    private var tableView = UITableView()
+    
+    init(searchWord: String) {
+        super.init(nibName: nil, bundle: nil)
+        
+        title = searchWord
+        viewModel = ListViewModel(delegate: self)
+    }
     
     init(collection: Collection) {
-        self.collection = collection
-        
         super.init(nibName: nil, bundle: nil)
         
         title = collection.title
+        viewModel = ListViewModel(delegate: self)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -30,9 +36,9 @@ class ListViewController: UIViewController {
 
         view.backgroundColor = .white
         
+        tableView.register(PhotoTableViewCell.self, forCellReuseIdentifier: "photoCell")
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(PhotoTableViewCell.self, forCellReuseIdentifier: "photoCell")
         
         layoutUI()
     }
@@ -47,7 +53,7 @@ class ListViewController: UIViewController {
 
 extension ListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return viewModel.photos.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -56,6 +62,12 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate {
         }
         return cell
     }
-    
-    
+}
+
+extension ListViewController: DataFetcherDelegate {
+    func parseData() {
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+    }
 }

@@ -10,7 +10,7 @@ import UIKit
 
 class GradientImageView: UIImageView {
     
-    let myGradientLayer: CAGradientLayer
+    private let myGradientLayer: CAGradientLayer
     
     override init(frame: CGRect) {
         myGradientLayer = CAGradientLayer()

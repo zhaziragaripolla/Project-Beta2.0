@@ -9,6 +9,7 @@
 import Foundation
 
 class CollectionsViewModel {
+    private var page = 1
     var collections: [Collection] = []
     let dataFetcher = DataFetcher()
     weak var delegate: DataViewModelDelegate?
@@ -28,7 +29,7 @@ class CollectionsViewModel {
     }
     
     func fetchCollections() {
-        dataFetcher.getCollections(page: 1){ [weak self] result in
+        dataFetcher.getCollections(page: page){ [weak self] result in
             switch result {
             case .failure(let error):
                 print(error.reason)
@@ -39,5 +40,6 @@ class CollectionsViewModel {
                 print("Collections fetched successfully")
             }
         }
+        page += 1
     }
 }

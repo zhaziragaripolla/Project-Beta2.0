@@ -33,13 +33,13 @@ protocol DataFetcherDelegate: class {
 
 class DataFetcher: APIClient {
     
-    func getPhotos(page: Int, completion: @escaping (Result<[Photo], NetworkError>)-> Void) {
+    func getPhotos(page: Int, completion: @escaping (Result<[Photo], NetworkError>) -> Void) {
         let request = URLConstructor.getPhotos(page: page).request
         print(request.url!)
         fetch(with: request, completion: completion)
     }
     
-    func getCollections(page: Int, completion: @escaping (Result<[Collection], NetworkError>)-> Void) {
+    func getCollections(page: Int, completion: @escaping (Result<[Collection], NetworkError>) -> Void) {
         let request = URLConstructor.getCollections(page: page).request
         print(request.url!)
         fetch(with: request, completion: completion)
@@ -54,4 +54,8 @@ class DataFetcher: APIClient {
         task.resume()
     }
     
+    
+    func searchPhotos(page: Int, word: String, completion: @escaping (Result<[Collection], NetworkError>) -> Void) {
+        
+    }
 }

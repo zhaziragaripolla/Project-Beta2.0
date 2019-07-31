@@ -10,7 +10,7 @@ import UIKit
 
 class CollectionTableViewCell: UITableViewCell {
 
-    let photoImageView: UIImageView = {
+    private let photoImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = ContentMode.scaleAspectFill
         imageView.layer.cornerRadius = 10
@@ -19,9 +19,9 @@ class CollectionTableViewCell: UITableViewCell {
         return imageView
     }()
     
-    let darkView = UIView()
+    private let darkView = UIView()
     
-    let titleLabel: UILabel = {
+    private let titleLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
         label.font = UIFont.boldSystemFont(ofSize: 20)

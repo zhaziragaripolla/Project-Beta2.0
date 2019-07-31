@@ -12,13 +12,13 @@ class PhotoTableViewCell: UITableViewCell {
     
     weak var delegate: PhotosViewControllerDelegate?
     
-    let photoImageView: GradientImageView = {
+    private let photoImageView: GradientImageView = {
         let imageView = GradientImageView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         imageView.contentMode = UIView.ContentMode.scaleToFill
         return imageView
     }()
     
-    var authorButton: UIButton = {
+    private var authorButton: UIButton = {
         var button = UIButton()
         button.contentHorizontalAlignment = .left
         button.setTitleColor(.white, for: .normal)
@@ -26,7 +26,7 @@ class PhotoTableViewCell: UITableViewCell {
         return button
     }()
     
-    let sponsoredLabel: UILabel = {
+    private let sponsoredLabel: UILabel = {
         let label = UILabel()
         label.textColor = .unsplashGray
         label.font = UIFont.systemFont(ofSize: 13)

@@ -12,12 +12,12 @@ import AlamofireImage
 
 class PhotosViewController: UIViewController {
     
-    let tableView = UITableView()
-    let searchController = UISearchController(searchResultsController: nil)
+    private let tableView = UITableView()
+    private let searchController = UISearchController(searchResultsController: nil)
     
-    var popoverViewController = PopoverViewController()
+    private var popoverViewController = PopoverViewController()
     
-    var viewModel: PhotosViewModel!
+    private var viewModel: PhotosViewModel!
     
     let menuButton: UIButton = {
         let button = UIButton()
@@ -63,7 +63,6 @@ class PhotosViewController: UIViewController {
     }
 
     func setupSearchBar() {
-        searchController.searchResultsUpdater = self
         searchController.searchBar.delegate = self
         
         searchController.dimsBackgroundDuringPresentation = false
@@ -127,12 +126,6 @@ extension PhotosViewController: UITableViewDelegate {
     }
 }
 
-extension PhotosViewController: UISearchResultsUpdating {
-    func updateSearchResults(for searchController: UISearchController) {
-//        print("changes")
-    }
-}
-
 extension PhotosViewController: UIPopoverPresentationControllerDelegate {
     func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
         return .none
@@ -141,7 +134,9 @@ extension PhotosViewController: UIPopoverPresentationControllerDelegate {
 
 extension PhotosViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        
+        let searchWord = searchBar.text!
+        let listViewController = ListViewController(searchWord: searchWord)
+        navigationController?.pushViewController(listViewController, animated: true)
     }
 }
 

@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Collection: Codable {
+class Collection: Codable {
     let id: Int
     let title: String
     let description: String?

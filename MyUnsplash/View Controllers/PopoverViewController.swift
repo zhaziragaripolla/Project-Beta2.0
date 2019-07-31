@@ -10,8 +10,8 @@ import UIKit
 
 class PopoverViewController: UIViewController {
     
-    let logoImageView = UIImageView()
-    let versionLabel: UILabel = {
+    private let logoImageView = UIImageView()
+    private let versionLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         label.text = "v1.6.2 (56)"
@@ -19,26 +19,26 @@ class PopoverViewController: UIViewController {
         label.font = UIFont.systemFont(ofSize: 12)
         return label
     }()
-    let switchLabel: UILabel = {
+    private let switchLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 15)
         label.text = "Dark Mode"
         return label
     }()
-    let switchView: UISwitch = {
+    private let switchView: UISwitch = {
         let switchview = UISwitch()
         switchview.isOn = false
         switchview.addTarget(self, action: #selector(switchChanged(_:)), for: .touchUpInside)
         return switchview
     }()
-    lazy var switchStackView: UIStackView = {
+    private lazy var switchStackView: UIStackView = {
         var switchSV = UIStackView(arrangedSubviews: [switchLabel, switchView])
         switchSV.axis = .horizontal
         switchSV.distribution = UIStackView.Distribution.fill
         switchSV.alignment = .fill
         return switchSV
     }()
-    let webSiteLink: UIButton = {
+    private let webSiteLink: UIButton = {
         let button = UIButton()
         button.setTitleColor(.black, for: .normal)
         button.setTitleColor(.darkGray, for: .focused)

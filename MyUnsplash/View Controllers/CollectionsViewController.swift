@@ -10,8 +10,8 @@ import UIKit
 
 class CollectionsViewController: UIViewController {
 
-    var viewModel: CollectionsViewModel!
-    var tableView = UITableView()
+    private var viewModel: CollectionsViewModel!
+    private var tableView = UITableView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,7 +65,7 @@ extension CollectionsViewController: UITableViewDataSource, UITableViewDelegate 
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let collection = viewModel.collections[indexPath.row]
-        let listViewController = ListViewController(collection: collection)
+        let listViewController = ListViewController(searchWord: collection.title)
         navigationController?.pushViewController(listViewController, animated: true)
     }
 }
