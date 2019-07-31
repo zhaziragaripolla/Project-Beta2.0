@@ -56,6 +56,4 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate {
         }
         return cell
     }
-    
-    
 }

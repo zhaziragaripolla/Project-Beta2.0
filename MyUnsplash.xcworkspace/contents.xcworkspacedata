@@ -5,6 +5,9 @@
       location = "group:MyUnsplash.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:/Users/bekdaulet/Developer/xcode_workspace/MyUnsplash/.gitignore">
+   </FileRef>
+   <FileRef
       location = "group:Pods/Pods.xcodeproj">
    </FileRef>
 </Workspace>
