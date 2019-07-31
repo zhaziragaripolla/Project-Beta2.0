@@ -161,7 +161,6 @@
 		F165A5E622EEF2840014EE59 /* Supporting FIles */ = {
 			isa = PBXGroup;
 			children = (
-				F165A5F222EEF66D0014EE59 /* API.swift */,
 				F165A61E22EF81DA0014EE59 /* Colors.swift */,
 				F165A5F422EEF6830014EE59 /* LocalDatabase.swift */,
 				F165A61422EF34520014EE59 /* Delegate Protols.swift */,
@@ -196,6 +195,7 @@
 				F165A61622EF62DD0014EE59 /* APIClient.swift */,
 				F165A61822EF633D0014EE59 /* DataFetcher.swift */,
 				F165A61A22EF63770014EE59 /* URLConstructor.swift */,
+				F165A5F222EEF66D0014EE59 /* API.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
