@@ -41,7 +41,9 @@ extension Endpoint {
 
 enum URLConstructor {
     case getPhotos(page: Int)
+    case searchPhotos(text: String)
     case getCollections(page: Int)
+    case getPhotosOfCollection(id: Int)
 }
 
 extension URLConstructor: Endpoint {
@@ -56,6 +58,10 @@ extension URLConstructor: Endpoint {
             return "/photos"
         case .getCollections:
             return "/collections"
+        case .getPhotosOfCollection(let id):
+            return "/collections/\(id)/photos"
+        case .searchPhotos:
+            return "/search/photos"
         }
     }
     
@@ -65,6 +71,10 @@ extension URLConstructor: Endpoint {
             return ["client_id": API.key, "page": page]
         case .getCollections(let page):
             return ["client_id": API.key, "page": page]
+        case .getPhotosOfCollection:
+            return ["client_id": API.key]
+        case .searchPhotos(let text):
+            return ["query": text, "client_id": API.key]
         }
     }
 }
@@ -76,7 +86,7 @@ extension Dictionary {
             let escapedKey = "\(key)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
             let escapedValue = "\(value)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
             return escapedKey + "=" + escapedValue
-            }
+        }
             .joined(separator: "&")
     }
     
