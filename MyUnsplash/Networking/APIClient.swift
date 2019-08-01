@@ -9,30 +9,40 @@
 import Foundation
 
 protocol APIClient {
-    func fetch<T: Decodable>(with request: URLRequest,
-                             completion: @escaping (Result<[T], NetworkError>) -> Void)
+    func fetch<ResponseType: Decodable>(with request: URLRequest, responseType: ResponseType.Type,
+                             completion: @escaping (ResponseType?, Error?) -> Void)
 }
 
 extension APIClient {
     
-    func fetch<T: Decodable>(with request: URLRequest,
-                             completion: @escaping (Result<[T], NetworkError>) -> Void) {
+    func fetch<ResponseType: Decodable>(with request: URLRequest, responseType: ResponseType.Type,
+                             completion: @escaping (ResponseType?, Error?) -> Void) {
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            if error != nil {
-                completion(.failure(.network))
-            }
-            
-            if let unwrappedData = data {
-                do {
-                    let decoder = JSONDecoder()
-                    decoder.keyDecodingStrategy = .convertFromSnakeCase
-                    let response = try decoder.decode([T].self, from: unwrappedData)
-                    completion(.success(response))
+            guard let data = data else {
+                DispatchQueue.main.async {
+                    completion(nil, error)
                 }
-                catch {
-                    completion(Result.failure(NetworkError.decoding))
-                    print(error.localizedDescription)
+                return
+            }
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            do {
+                let response = try decoder.decode(ResponseType.self, from: data)
+                DispatchQueue.main.async {
+                    completion(response, nil)
+                }
+            }
+            catch {
+                do {
+                    let errorResponse = try decoder.decode(UnsplashResponse.self, from: data) as Error
+                    DispatchQueue.main.async {
+                        completion(nil, errorResponse)
+                    }
+                } catch {
+                    DispatchQueue.main.async {
+                        completion(nil, error)
+                    }
                 }
             }
         }
