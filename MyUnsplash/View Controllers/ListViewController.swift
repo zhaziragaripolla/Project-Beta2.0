@@ -10,29 +10,26 @@ import UIKit
 
 class ListViewController: UIViewController {
     
-    var collection: Collection!
     var tableView = UITableView()
-    
-    init(collection: Collection) {
-        self.collection = collection
-        
-        super.init(nibName: nil, bundle: nil)
-        
-        title = collection.title
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    var viewModel: ListViewModel!
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        title = viewModel.title
+        viewModel.delegate = self
         view.backgroundColor = .white
         
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(PhotoTableViewCell.self, forCellReuseIdentifier: "photoCell")
+        
+        switch viewModel.currentMode {
+        case .listOfPhotos:
+            tableView.register(PhotoTableViewCell.self, forCellReuseIdentifier: "cell")
+        case .listOfCollections:
+            tableView.register(CollectionTableViewCell.self, forCellReuseIdentifier: "cell")
+        }
         
         layoutUI()
     }
@@ -47,13 +44,45 @@ class ListViewController: UIViewController {
 
 extension ListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return viewModel.container.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "photoCell", for: indexPath) as? PhotoTableViewCell else {
-            return UITableViewCell()
+        
+        switch viewModel.currentMode {
+        case .listOfPhotos:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! PhotoTableViewCell
+            let photo = viewModel.container[indexPath.row] as! Photo
+            cell.updateUI(photo: photo)
+            return cell
+        case .listOfCollections:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CollectionTableViewCell
+            let collection = viewModel.container[indexPath.row] as! Collection
+            cell.updateUI(collection: collection)
+            return cell
         }
-        return cell
+    
     }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
+        switch viewModel.currentMode {
+        case .listOfPhotos:
+            let photo = viewModel.container[indexPath.row]  as! Photo
+            let width = view.bounds.width
+            return (width * CGFloat(photo.height)) / CGFloat(photo.width)
+        case .listOfCollections:
+            return view.bounds.height * 0.28
+        }
+
+    }
+}
+
+extension ListViewController: DataViewModelDelegate {
+    func reloadData() {
+        DispatchQueue.main.async { [weak self] in
+            self?.tableView.reloadData()
+        }
+    }
+    
 }

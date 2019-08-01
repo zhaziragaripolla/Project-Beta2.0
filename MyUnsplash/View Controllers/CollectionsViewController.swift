@@ -64,9 +64,10 @@ extension CollectionsViewController: UITableViewDataSource, UITableViewDelegate 
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let collection = viewModel.collections[indexPath.row]
-        let listViewController = ListViewController(collection: collection)
-        navigationController?.pushViewController(listViewController, animated: true)
+        let listVM = viewModel.checkPhotosOfCollection(for: indexPath.row)
+        let listVC = ListViewController()
+        listVC.viewModel = listVM
+        navigationController?.pushViewController(listVC, animated: true)
     }
 }
 

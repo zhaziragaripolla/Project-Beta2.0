@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		23962B38D83A597088AA1408 /* Pods_MyUnsplash.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E0BFBB06854955754632D84 /* Pods_MyUnsplash.framework */; };
+		56ED8D7B22F061CB006FE3F1 /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ED8D7A22F061CB006FE3F1 /* DetailViewModel.swift */; };
+		56ED8D7D22F17623006FE3F1 /* ListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ED8D7C22F17623006FE3F1 /* ListViewModel.swift */; };
+		56ED8D7F22F18F57006FE3F1 /* SearchResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ED8D7E22F18F57006FE3F1 /* SearchResponse.swift */; };
+		56ED8D8122F1A2B6006FE3F1 /* UnsplashResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ED8D8022F1A2B6006FE3F1 /* UnsplashResponse.swift */; };
 		F165A5D122EEF24C0014EE59 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A5D022EEF24C0014EE59 /* AppDelegate.swift */; };
 		F165A5D322EEF24C0014EE59 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A5D222EEF24C0014EE59 /* ViewController.swift */; };
 		F165A5D922EEF24C0014EE59 /* MyUnsplash.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F165A5D722EEF24C0014EE59 /* MyUnsplash.xcdatamodeld */; };
@@ -38,6 +42,10 @@
 
 /* Begin PBXFileReference section */
 		1BCC15307C30FDAAFB4C288F /* Pods-MyUnsplash.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyUnsplash.debug.xcconfig"; path = "Target Support Files/Pods-MyUnsplash/Pods-MyUnsplash.debug.xcconfig"; sourceTree = "<group>"; };
+		56ED8D7A22F061CB006FE3F1 /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
+		56ED8D7C22F17623006FE3F1 /* ListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewModel.swift; sourceTree = "<group>"; };
+		56ED8D7E22F18F57006FE3F1 /* SearchResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResponse.swift; sourceTree = "<group>"; };
+		56ED8D8022F1A2B6006FE3F1 /* UnsplashResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsplashResponse.swift; sourceTree = "<group>"; };
 		9E0BFBB06854955754632D84 /* Pods_MyUnsplash.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyUnsplash.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2C7624F1DC3207F9CF44A84 /* Pods-MyUnsplash.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyUnsplash.release.xcconfig"; path = "Target Support Files/Pods-MyUnsplash/Pods-MyUnsplash.release.xcconfig"; sourceTree = "<group>"; };
 		F165A5CD22EEF24C0014EE59 /* MyUnsplash.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyUnsplash.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -153,7 +161,6 @@
 		F165A5E622EEF2840014EE59 /* Supporting FIles */ = {
 			isa = PBXGroup;
 			children = (
-				F165A5F222EEF66D0014EE59 /* API.swift */,
 				F165A61E22EF81DA0014EE59 /* Colors.swift */,
 				F165A5F422EEF6830014EE59 /* LocalDatabase.swift */,
 				F165A61422EF34520014EE59 /* Delegate Protols.swift */,
@@ -176,6 +183,8 @@
 			children = (
 				F165A60122EF18EC0014EE59 /* PhotosViewModel.swift */,
 				F165A61C22EF64D90014EE59 /* CollectionsViewModel.swift */,
+				56ED8D7A22F061CB006FE3F1 /* DetailViewModel.swift */,
+				56ED8D7C22F17623006FE3F1 /* ListViewModel.swift */,
 			);
 			path = "View Models";
 			sourceTree = "<group>";
@@ -186,6 +195,7 @@
 				F165A61622EF62DD0014EE59 /* APIClient.swift */,
 				F165A61822EF633D0014EE59 /* DataFetcher.swift */,
 				F165A61A22EF63770014EE59 /* URLConstructor.swift */,
+				F165A5F222EEF66D0014EE59 /* API.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -195,6 +205,8 @@
 			children = (
 				F165A60522EF1BC00014EE59 /* Photo.swift */,
 				F165A60722EF1F960014EE59 /* Collection.swift */,
+				56ED8D7E22F18F57006FE3F1 /* SearchResponse.swift */,
+				56ED8D8022F1A2B6006FE3F1 /* UnsplashResponse.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -314,6 +326,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				56ED8D7F22F18F57006FE3F1 /* SearchResponse.swift in Sources */,
 				F165A61522EF34520014EE59 /* Delegate Protols.swift in Sources */,
 				F165A61F22EF81DA0014EE59 /* Colors.swift in Sources */,
 				F165A60622EF1BC00014EE59 /* Photo.swift in Sources */,
@@ -321,13 +334,16 @@
 				F165A5EF22EEF4540014EE59 /* PhotoTableViewCell.swift in Sources */,
 				F165A61B22EF63770014EE59 /* URLConstructor.swift in Sources */,
 				F165A5ED22EEF2CF0014EE59 /* CollectionsViewController.swift in Sources */,
+				56ED8D7B22F061CB006FE3F1 /* DetailViewModel.swift in Sources */,
 				F165A5D922EEF24C0014EE59 /* MyUnsplash.xcdatamodeld in Sources */,
+				56ED8D8122F1A2B6006FE3F1 /* UnsplashResponse.swift in Sources */,
 				F165A5E922EEF2AE0014EE59 /* PhotosViewController.swift in Sources */,
 				F165A61922EF633D0014EE59 /* DataFetcher.swift in Sources */,
 				F165A60822EF1F960014EE59 /* Collection.swift in Sources */,
 				F165A5EB22EEF2C20014EE59 /* PopoverViewController.swift in Sources */,
 				F165A5D322EEF24C0014EE59 /* ViewController.swift in Sources */,
 				F165A5FF22EEFABF0014EE59 /* CollectionTableViewCell.swift in Sources */,
+				56ED8D7D22F17623006FE3F1 /* ListViewModel.swift in Sources */,
 				F165A5F122EEF46E0014EE59 /* GradientImageView.swift in Sources */,
 				F165A5F322EEF66D0014EE59 /* API.swift in Sources */,
 				F165A60222EF18EC0014EE59 /* PhotosViewModel.swift in Sources */,
@@ -476,13 +492,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = J2AS8B8DGM;
+				DEVELOPMENT_TEAM = 3359JPU45W;
 				INFOPLIST_FILE = MyUnsplash/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = bekdaulet.kassymov.learing.MyUnsplash;
+				PRODUCT_BUNDLE_IDENTIFIER = zhazira.garipolla.learing.MyUnsplash;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -495,13 +511,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = J2AS8B8DGM;
+				DEVELOPMENT_TEAM = 3359JPU45W;
 				INFOPLIST_FILE = MyUnsplash/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = bekdaulet.kassymov.learing.MyUnsplash;
+				PRODUCT_BUNDLE_IDENTIFIER = zhazira.garipolla.learing.MyUnsplash;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

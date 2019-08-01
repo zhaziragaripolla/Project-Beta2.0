@@ -6,27 +6,16 @@
 //  Copyright © 2019 Бекдаулет Касымов. All rights reserved.
 //
 
-import Foundation
+import AlamofireImage
 
-class PhotosViewModel {
+class PhotosViewModel: APIClient {
     
     private var page: Int = 1
     var photos: [Photo] = []
-    let dataFetcher = DataFetcher()
     
     weak var delegate: DataViewModelDelegate?
+    weak var showAlertDelegate: NetworkFailureDelegate?
     
-    init(delegate: DataViewModelDelegate) {
-        self.delegate = delegate
-    }
-    
-    func id (for index: Int) -> String {
-        return photos[index].id
-    }
-    
-    func author(for index: Int) -> String {
-        return photos[index].user.name
-    }
     
     func photo(for Index: Int)-> URL? {
         let regularPhotoURL = photos[Index].urls.regular
@@ -35,17 +24,49 @@ class PhotosViewModel {
     }
     
     func fetchPhotos() {
-        dataFetcher.getPhotos(page: page) { [weak self] result in
-            switch result {
-            case .failure(let error):
-                print(error.reason)
-            case .success(let response):
+        let request = URLConstructor.getPhotos(page: page).request
+        
+        fetch(with: request, responseType: [Photo].self) { [weak self] response, error in
+            if let response = response {
                 self?.photos = response
                 self?.delegate?.reloadData()
-                print("Photos fetched successfully")
             }
+            
+            if let error = error {
+                // TODO: delegate to VC to show alert controller with error
+                print(error.localizedDescription)
+            }
+            
         }
         self.page += 1
     }
+    
+    func fetchSearchResults(text: String)-> ListViewModel? {
+        let newViewModel = ListViewModel(sourceType: .listOfPhotos)
+        newViewModel.title = text
+        let request = URLConstructor.searchPhotos(text: text).request
+        
+        fetch(with: request, responseType: SearchResponse.self) { response, error in
+            if let response = response {
+                newViewModel.container = response.results
+            }
+            if let error = error {
+                // TODO: delegate to VC to show alert controller with error
+                self.showAlertDelegate?.showAlert(message: error.localizedDescription)
+            }
+        }
+        
+        return newViewModel
+    }
+    
+    func setupDetailForPhoto(index: Int)-> DetailViewModel? {
+        let newViewModel = DetailViewModel(index: index)
+        newViewModel.photos = photos
+        return newViewModel
+    }
+ 
 }
+
+
+
 
