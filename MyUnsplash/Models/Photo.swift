@@ -15,7 +15,7 @@ struct Photo: Codable {
     let height: Int
     let user: User
     let urls: ImageURL
-    let sponsored: Bool
+    let sponsored: Bool?
 }
 
 struct User: Codable {

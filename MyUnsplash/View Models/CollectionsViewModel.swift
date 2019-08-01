@@ -42,7 +42,7 @@ class CollectionsViewModel: APIClient {
         }
     }
     
-    func checkPhotosOfCollection(for index: Int)->ListViewModel? {
+    func checkPhotosOfCollection(for index: Int) -> ListViewModel? {
         let collection = collections[index]
         let newViewModel = ListViewModel(sourceType: .listOfPhotos)
         newViewModel.title = collection.title

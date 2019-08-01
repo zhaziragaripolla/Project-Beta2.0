@@ -81,7 +81,7 @@ class PhotoTableViewCell: UITableViewCell {
         }
         photoImageView.af_setImage(withURL: url)
         authorButton.setTitle(photo.user.name, for: .normal)
-        if photo.sponsored {
+        if let _ = photo.sponsored {
             sponsoredLabel.text = "Sponsored \(photo.user.name)" 
         }
     }

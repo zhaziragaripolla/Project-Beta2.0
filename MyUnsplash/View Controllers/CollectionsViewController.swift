@@ -42,7 +42,6 @@ class CollectionsViewController: UIViewController {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         
     }
-    
 }
 
 extension CollectionsViewController: UITableViewDataSource, UITableViewDelegate {
