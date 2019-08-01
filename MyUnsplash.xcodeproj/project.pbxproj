@@ -36,6 +36,7 @@
 		F165A62222EF95850014EE59 /* AuthorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A62122EF95850014EE59 /* AuthorViewController.swift */; };
 		F165A62E22F0B3FA0014EE59 /* ListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A62D22F0B3FA0014EE59 /* ListViewModel.swift */; };
 		F165A63122F0C6F30014EE59 /* ParallaxImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A63022F0C6F30014EE59 /* ParallaxImageView.swift */; };
+		F165A63522F254310014EE59 /* AuthorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A63422F254310014EE59 /* AuthorViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -72,6 +73,7 @@
 		F165A62122EF95850014EE59 /* AuthorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorViewController.swift; sourceTree = "<group>"; };
 		F165A62D22F0B3FA0014EE59 /* ListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewModel.swift; sourceTree = "<group>"; };
 		F165A63022F0C6F30014EE59 /* ParallaxImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParallaxImageView.swift; sourceTree = "<group>"; };
+		F165A63422F254310014EE59 /* AuthorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -180,6 +182,7 @@
 			isa = PBXGroup;
 			children = (
 				F165A62D22F0B3FA0014EE59 /* ListViewModel.swift */,
+				F165A63422F254310014EE59 /* AuthorViewModel.swift */,
 				F165A60122EF18EC0014EE59 /* PhotosViewModel.swift */,
 				F165A61C22EF64D90014EE59 /* CollectionsViewModel.swift */,
 			);
@@ -323,6 +326,7 @@
 				F165A61522EF34520014EE59 /* Delegate Protols.swift in Sources */,
 				F165A61F22EF81DA0014EE59 /* Colors.swift in Sources */,
 				F165A62E22F0B3FA0014EE59 /* ListViewModel.swift in Sources */,
+				F165A63522F254310014EE59 /* AuthorViewModel.swift in Sources */,
 				F165A60622EF1BC00014EE59 /* Photo.swift in Sources */,
 				F165A63122F0C6F30014EE59 /* ParallaxImageView.swift in Sources */,
 				F165A60422EF1A760014EE59 /* DetailViewController.swift in Sources */,

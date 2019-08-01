@@ -10,6 +10,7 @@ import UIKit
 
 class PhotoTableViewCell: UITableViewCell {
     
+    var photo: Photo!
     weak var delegate: PhotosViewControllerDelegate?
     
     private let photoImageView: GradientImageView = {
@@ -74,6 +75,7 @@ class PhotoTableViewCell: UITableViewCell {
     }
     
     func updateUI(photo: Photo) {
+        self.photo = photo
         photoImageView.image = nil
         
         guard  let url = URL(string: photo.urls.full!) else {

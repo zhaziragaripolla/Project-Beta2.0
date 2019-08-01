@@ -27,6 +27,7 @@ class User: Codable {
     let totalPhotos: Int
     let totalCollections: Int
     let profileImage: ProfileImage?
+    let portfolioUrl: String
     
     struct ProfileImage: Codable {
         let medium: String // 64px.r
