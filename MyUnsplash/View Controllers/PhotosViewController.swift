@@ -17,7 +17,7 @@ class PhotosViewController: UIViewController {
     
     private var popoverViewController = PopoverViewController()
     
-    private var viewModel: PhotosViewModel!
+    var viewModel = PhotosViewModel()
     
     let menuButton: UIButton = {
         let button = UIButton()
@@ -31,7 +31,8 @@ class PhotosViewController: UIViewController {
         view.backgroundColor = .white
         title = "Photos for everyone"
         
-        viewModel = PhotosViewModel(delegate: self)
+        viewModel.delegate = self
+        viewModel.showAlertDelegate = self
         viewModel.fetchPhotos()
         
         setupTableView()
@@ -60,6 +61,7 @@ class PhotosViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(PhotoTableViewCell.self, forCellReuseIdentifier: "photoCell")
+        tableView.isPagingEnabled = true
     }
 
     func setupSearchBar() {
@@ -111,6 +113,12 @@ extension PhotosViewController: UITableViewDataSource {
             header.backgroundView?.backgroundColor = UIColor.clear
         }
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let vc = DetailViewController()
+        vc.viewModel = viewModel.setupDetailForPhoto(index: indexPath.row)
+        present(vc, animated: true)
+    }
 }
 
 
@@ -135,9 +143,13 @@ extension PhotosViewController: UIPopoverPresentationControllerDelegate {
 
 extension PhotosViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        let searchWord = searchBar.text!
-        let listViewController = ListViewController(searchWord: searchWord)
-        navigationController?.pushViewController(listViewController, animated: true)
+        guard let textToSearch = searchBar.text, !textToSearch.isEmpty else {
+            return
+        }
+        
+        let listVC = ListViewController()
+        listVC.viewModel = viewModel.fetchSearchResults(text: textToSearch)
+        navigationController?.pushViewController(listVC, animated: true)
     }
 }
 
@@ -150,10 +162,16 @@ extension PhotosViewController: PhotosViewControllerDelegate {
     }
 }
 
-extension PhotosViewController: DataViewModelDelegate {
+extension PhotosViewController: DataViewModelDelegate, NetworkFailureDelegate  {
     func reloadData() {
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
+    }
+    
+    func showAlert(message: String) {
+        let alertVC = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        show(alertVC, sender: nil)
     }
 }

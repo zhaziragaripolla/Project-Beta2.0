@@ -42,7 +42,6 @@ class CollectionsViewController: UIViewController {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         
     }
-    
 }
 
 extension CollectionsViewController: UITableViewDataSource, UITableViewDelegate {
@@ -64,9 +63,10 @@ extension CollectionsViewController: UITableViewDataSource, UITableViewDelegate 
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let collection = viewModel.collections[indexPath.row]
-        let listViewController = ListViewController(searchWord: collection.title)
-        navigationController?.pushViewController(listViewController, animated: true)
+        let listVM = viewModel.checkPhotosOfCollection(for: indexPath.row)
+        let listVC = ListViewController()
+        listVC.viewModel = listVM
+        navigationController?.pushViewController(listVC, animated: true)
     }
 }
 

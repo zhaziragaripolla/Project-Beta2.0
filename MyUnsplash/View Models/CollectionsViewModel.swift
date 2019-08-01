@@ -8,11 +8,10 @@
 
 import Foundation
 
-class CollectionsViewModel {
-    private var page = 1
+class CollectionsViewModel: APIClient {
     var collections: [Collection] = []
-    let dataFetcher = DataFetcher()
     weak var delegate: DataViewModelDelegate?
+    
     
     init(delegate: DataViewModelDelegate) {
         self.delegate = delegate
@@ -29,17 +28,37 @@ class CollectionsViewModel {
     }
     
     func fetchCollections() {
-        dataFetcher.getCollections(page: page){ [weak self] result in
-            switch result {
-            case .failure(let error):
-                print(error.reason)
-                
-            case .success(let response):
+        let request = URLConstructor.getCollections(page: 1).request
+        fetch(with: request, responseType: [Collection].self) { [weak self] response, error in
+            if let response = response {
                 self?.collections = response
                 self?.delegate?.reloadData()
-                print("Collections fetched successfully")
             }
+            
+            if let error = error {
+                // TODO: delegate to VC to show alert controller with error
+            }
+            
         }
         page += 1
     }
+    
+    func checkPhotosOfCollection(for index: Int) -> ListViewModel? {
+        let collection = collections[index]
+        let newViewModel = ListViewModel(sourceType: .listOfPhotos)
+        newViewModel.title = collection.title
+        let request = URLConstructor.getPhotosOfCollection(id: collection.id).request
+        fetch(with: request, responseType: [Photo].self) {  response, error in
+            if let response = response {
+                newViewModel.container = response
+            }
+            
+            if let error = error {
+                // TODO: delegate to VC to show alert controller with error
+            }
+            
+        }
+        return newViewModel
+    }
+    
 }

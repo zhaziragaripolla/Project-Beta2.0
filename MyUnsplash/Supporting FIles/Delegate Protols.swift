@@ -15,3 +15,7 @@ protocol PhotosViewControllerDelegate: class {
 protocol DataViewModelDelegate: class {
     func reloadData()
 }
+
+protocol NetworkFailureDelegate: class {
+    func showAlert(message: String)
+}
