@@ -14,21 +14,18 @@ class ParallaxImageView: UIImageView {
         let imageView = UIImageView()
         imageView.layer.cornerRadius = 32
         imageView.clipsToBounds = true
-        imageView.image = UIImage(named: "profile")
         imageView.bounds.size = CGSize(width: 64, height: 64)
         imageView.contentMode = ContentMode.scaleAspectFit
         return imageView
     }()
     let authorLabel: UILabel = {
         let label = UILabel()
-        label.text = "Name Surname"
         label.font = UIFont.boldSystemFont(ofSize: 20)
         label.textColor = .white
         return label
     }()
     let locationLabel: UILabel = {
         let label = UILabel()
-        label.text = "somewhere"
         label.font = UIFont.systemFont(ofSize: 16)
         label.textColor = .lightGray
         return label
@@ -36,7 +33,6 @@ class ParallaxImageView: UIImageView {
     let websiteButton: UIButton = {
         let button = UIButton()
         button.contentHorizontalAlignment = .left
-        button.setTitle("unsplash.com", for: .normal)
         button.titleLabel!.font = UIFont.systemFont(ofSize: 16)
         button.setTitleColor(.lightGray, for: .normal)
         return button
@@ -44,16 +40,16 @@ class ParallaxImageView: UIImageView {
     let blurEffect = UIBlurEffect(style: .dark)
     lazy var blurredEffectView = UIVisualEffectView(effect: blurEffect)
     
-    override init(image: UIImage?) {
-        super.init(image: image)
-        
-        layoutUI()
-    }
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
         layoutUI()
+    }
+    
+    func updateUI(user: User) {
+        authorLabel.text = user.name
+        websiteButton.setTitle("unsplash.com", for: .normal)
+        locationLabel.text = "somewhere"
     }
     
     func layoutUI(){

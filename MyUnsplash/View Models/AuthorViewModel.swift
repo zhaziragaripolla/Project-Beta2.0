@@ -10,8 +10,6 @@ import Foundation
 
 class AuthorViewModel {
     
-    
-    
     var photos: [Photo] = []
     var likedPhotos: [Photo] = []
     var collections: [Collection] = []

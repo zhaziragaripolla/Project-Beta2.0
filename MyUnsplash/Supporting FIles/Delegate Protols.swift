@@ -9,7 +9,7 @@
 import Foundation
 
 protocol PhotosViewControllerDelegate: class {
-    func didTapAuthorButton()
+    func didTapAuthorButton(index: Int)
 }
 
 protocol DataViewModelDelegate: class {

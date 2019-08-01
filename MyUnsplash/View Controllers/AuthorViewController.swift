@@ -10,6 +10,16 @@ import UIKit
 
 class AuthorViewController: UIViewController {
     
+    init(user: User) {
+        super.init(nibName: nil, bundle: nil)
+        
+        parallaxImageView.updateUI(user: user)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     private var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.alwaysBounceVertical = true
@@ -17,7 +27,7 @@ class AuthorViewController: UIViewController {
         return scrollView
     }()
     private var tableView = UITableView()
-    private var parallaxImageView = ParallaxImageView(image: UIImage(named: "toronto"))
+    private var parallaxImageView = ParallaxImageView(frame: CGRect())
     private let segmentView = UISegmentedControl(items: ["Photos", "Likes", "Collections"])
     
     override func viewDidLoad() {
@@ -30,8 +40,7 @@ class AuthorViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.frame = CGRect(x: 0, y: view.bounds.height * 0.4, width: view.bounds.width, height: view.bounds.height * 0.6)
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "photoCell")
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "collectionCell")
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         
         scrollView.delegate = self
         scrollView.bounces = false

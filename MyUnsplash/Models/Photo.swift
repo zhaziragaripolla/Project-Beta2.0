@@ -15,7 +15,7 @@ class Photo: Codable {
     let height: Int
     let user: User
     let urls: ImageURL
-    let sponsored: Bool
+    let sponsored: Bool?
 }
 
 class User: Codable {
@@ -27,7 +27,6 @@ class User: Codable {
     let totalPhotos: Int
     let totalCollections: Int
     let profileImage: ProfileImage?
-    let portfolioUrl: String
     
     struct ProfileImage: Codable {
         let medium: String // 64px.r
