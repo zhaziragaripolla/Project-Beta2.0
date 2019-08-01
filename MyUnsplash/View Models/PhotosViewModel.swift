@@ -16,7 +16,6 @@ class PhotosViewModel: APIClient {
     weak var delegate: DataViewModelDelegate?
     weak var showAlertDelegate: NetworkFailureDelegate?
     
-    
     func photo(for Index: Int)-> URL? {
         let regularPhotoURL = photos[Index].urls.regular
         let photoURL = URL(string: regularPhotoURL!)

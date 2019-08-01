@@ -87,11 +87,3 @@ extension ListViewController: DataViewModelDelegate {
     }
     
 }
-
-extension ListViewController: DataFetcherDelegate {
-    func parseData() {
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-        }
-    }
-}
