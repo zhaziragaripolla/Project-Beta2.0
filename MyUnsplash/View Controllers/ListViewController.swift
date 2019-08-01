@@ -21,6 +21,7 @@ class ListViewController: UIViewController {
         viewModel.delegate = self
         view.backgroundColor = .white
         
+        tableView.register(PhotoTableViewCell.self, forCellReuseIdentifier: "photoCell")
         tableView.dataSource = self
         tableView.delegate = self
         
@@ -85,4 +86,12 @@ extension ListViewController: DataViewModelDelegate {
         }
     }
     
+}
+
+extension ListViewController: DataFetcherDelegate {
+    func parseData() {
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+    }
 }

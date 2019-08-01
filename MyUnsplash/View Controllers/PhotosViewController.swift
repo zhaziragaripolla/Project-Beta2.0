@@ -12,10 +12,10 @@ import AlamofireImage
 
 class PhotosViewController: UIViewController {
     
-    let tableView = UITableView()
-    let searchController = UISearchController(searchResultsController: nil)
+    private let tableView = UITableView()
+    private let searchController = UISearchController(searchResultsController: nil)
     
-    var popoverViewController = PopoverViewController()
+    private var popoverViewController = PopoverViewController()
     
     var viewModel = PhotosViewModel()
     
@@ -65,7 +65,6 @@ class PhotosViewController: UIViewController {
     }
 
     func setupSearchBar() {
-        searchController.searchResultsUpdater = self
         searchController.searchBar.delegate = self
         
         searchController.dimsBackgroundDuringPresentation = false
@@ -103,6 +102,7 @@ extension PhotosViewController: UITableViewDataSource {
         let photo = viewModel.photos[indexPath.row]
         
         cell.delegate = self
+        cell.index = indexPath.row
         cell.updateUI(photo: photo)
         
         return cell
@@ -135,12 +135,6 @@ extension PhotosViewController: UITableViewDelegate {
     }
 }
 
-extension PhotosViewController: UISearchResultsUpdating {
-    func updateSearchResults(for searchController: UISearchController) {
-//        print("changes")
-    }
-}
-
 extension PhotosViewController: UIPopoverPresentationControllerDelegate {
     func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
         return .none
@@ -159,9 +153,11 @@ extension PhotosViewController: UISearchBarDelegate {
     }
 }
 
+// MARK: didTapAuthorButton
 extension PhotosViewController: PhotosViewControllerDelegate {
-    func didTapAuthorButton() {
-        let authorViewController = AuthorViewController()
+    func didTapAuthorButton(index: Int) {
+        let user = viewModel.photos[index].user
+        let authorViewController = AuthorViewController(user: user)
         navigationController?.pushViewController(authorViewController, animated: true)
     }
 }

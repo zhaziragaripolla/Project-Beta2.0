@@ -10,8 +10,8 @@ import UIKit
 
 class CollectionsViewController: UIViewController {
 
-    var viewModel: CollectionsViewModel!
-    var tableView = UITableView()
+    private var viewModel: CollectionsViewModel!
+    private var tableView = UITableView()
     
     override func viewDidLoad() {
         super.viewDidLoad()

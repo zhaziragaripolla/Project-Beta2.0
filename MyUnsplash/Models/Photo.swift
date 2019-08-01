@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Photo: Codable {
+class Photo: Codable {
     let id: String
     let description: String?
     let width: Int
@@ -18,7 +18,7 @@ struct Photo: Codable {
     let sponsored: Bool?
 }
 
-struct User: Codable {
+class User: Codable {
     let id: String
     let name: String
     let username: String
@@ -33,7 +33,7 @@ struct User: Codable {
     }
 }
 
-struct ImageURL: Codable {
+class ImageURL: Codable {
     let raw: String?
     let full: String?
     let regular: String?

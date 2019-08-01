@@ -38,6 +38,9 @@
 		F165A61D22EF64D90014EE59 /* CollectionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A61C22EF64D90014EE59 /* CollectionsViewModel.swift */; };
 		F165A61F22EF81DA0014EE59 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A61E22EF81DA0014EE59 /* Colors.swift */; };
 		F165A62222EF95850014EE59 /* AuthorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A62122EF95850014EE59 /* AuthorViewController.swift */; };
+		F165A62E22F0B3FA0014EE59 /* ListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A62D22F0B3FA0014EE59 /* ListViewModel.swift */; };
+		F165A63122F0C6F30014EE59 /* ParallaxImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A63022F0C6F30014EE59 /* ParallaxImageView.swift */; };
+		F165A63522F254310014EE59 /* AuthorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A63422F254310014EE59 /* AuthorViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -76,6 +79,9 @@
 		F165A61C22EF64D90014EE59 /* CollectionsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionsViewModel.swift; sourceTree = "<group>"; };
 		F165A61E22EF81DA0014EE59 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		F165A62122EF95850014EE59 /* AuthorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorViewController.swift; sourceTree = "<group>"; };
+		F165A62D22F0B3FA0014EE59 /* ListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewModel.swift; sourceTree = "<group>"; };
+		F165A63022F0C6F30014EE59 /* ParallaxImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParallaxImageView.swift; sourceTree = "<group>"; };
+		F165A63422F254310014EE59 /* AuthorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,8 +154,8 @@
 			isa = PBXGroup;
 			children = (
 				F165A5D222EEF24C0014EE59 /* ViewController.swift */,
-				F165A5EA22EEF2C20014EE59 /* PopoverViewController.swift */,
 				F165A61222EF32C40014EE59 /* ListViewController.swift */,
+				F165A5EA22EEF2C20014EE59 /* PopoverViewController.swift */,
 				F165A5E822EEF2AE0014EE59 /* PhotosViewController.swift */,
 				F165A5EC22EEF2CF0014EE59 /* CollectionsViewController.swift */,
 				F165A62122EF95850014EE59 /* AuthorViewController.swift */,
@@ -171,6 +177,7 @@
 		F165A5E722EEF2920014EE59 /* Custom Views */ = {
 			isa = PBXGroup;
 			children = (
+				F165A63022F0C6F30014EE59 /* ParallaxImageView.swift */,
 				F165A5F022EEF46E0014EE59 /* GradientImageView.swift */,
 				F165A5EE22EEF4540014EE59 /* PhotoTableViewCell.swift */,
 				F165A5FE22EEFABF0014EE59 /* CollectionTableViewCell.swift */,
@@ -181,6 +188,8 @@
 		F165A60022EF0DC90014EE59 /* View Models */ = {
 			isa = PBXGroup;
 			children = (
+				F165A62D22F0B3FA0014EE59 /* ListViewModel.swift */,
+				F165A63422F254310014EE59 /* AuthorViewModel.swift */,
 				F165A60122EF18EC0014EE59 /* PhotosViewModel.swift */,
 				F165A61C22EF64D90014EE59 /* CollectionsViewModel.swift */,
 				56ED8D7A22F061CB006FE3F1 /* DetailViewModel.swift */,
@@ -329,7 +338,10 @@
 				56ED8D7F22F18F57006FE3F1 /* SearchResponse.swift in Sources */,
 				F165A61522EF34520014EE59 /* Delegate Protols.swift in Sources */,
 				F165A61F22EF81DA0014EE59 /* Colors.swift in Sources */,
+				F165A62E22F0B3FA0014EE59 /* ListViewModel.swift in Sources */,
+				F165A63522F254310014EE59 /* AuthorViewModel.swift in Sources */,
 				F165A60622EF1BC00014EE59 /* Photo.swift in Sources */,
+				F165A63122F0C6F30014EE59 /* ParallaxImageView.swift in Sources */,
 				F165A60422EF1A760014EE59 /* DetailViewController.swift in Sources */,
 				F165A5EF22EEF4540014EE59 /* PhotoTableViewCell.swift in Sources */,
 				F165A61B22EF63770014EE59 /* URLConstructor.swift in Sources */,
