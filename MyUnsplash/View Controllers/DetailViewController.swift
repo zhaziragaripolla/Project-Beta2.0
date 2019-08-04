@@ -236,33 +236,5 @@ extension DetailViewController: UICollectionViewDelegateFlowLayout, UICollection
         return CGSize(width: view.frame.width, height: view.frame.height)
     }
     
-    @objc func didTapUploadButton() {
-        if let photoImageURL = viewModel.currentPhotoURL(at: currentIndex()!) {
-            let activityController = UIActivityViewController(activityItems: [photoImageURL], applicationActivities: nil)
-            activityController.popoverPresentationController?.sourceView = self.view
-            self.present(activityController, animated: true, completion: nil)
-
-            activityController.completionWithItemsHandler = { (activity, success, items, error) in
-                if success {
-                    print("sucessfully saved")
-                }
-                if let error = error {
-                    print(error.localizedDescription)
-                }
-            }
-        }
-    }
-    
-    @objc func didDragInformationView(_ sender: UIPanGestureRecognizer) {
-        
-    }
-    
-    @objc func didTapDownloadButton() {
-        if let url = viewModel.currentPhotoURL(at: currentIndex()!),
-            let data = try? Data(contentsOf: url),
-            let image = UIImage(data: data) {
-            UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
-        }
-    }
 }
 
