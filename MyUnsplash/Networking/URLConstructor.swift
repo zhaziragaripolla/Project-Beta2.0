@@ -44,6 +44,8 @@ enum URLConstructor {
     case searchPhotos(text: String)
     case getCollections(page: Int)
     case getPhotosOfCollection(id: Int)
+    case getAuthorPhotos(username: String)
+    case getAuthorCollections(username: String)
 }
 
 extension URLConstructor: Endpoint {
@@ -62,6 +64,10 @@ extension URLConstructor: Endpoint {
             return "/collections/\(id)/photos"
         case .searchPhotos:
             return "/search/photos"
+        case .getAuthorPhotos(let username):
+            return "/users/\(username)/photos"
+        case .getAuthorCollections(let username):
+            return "/users/\(username)/collections"
         }
     }
     
@@ -75,6 +81,10 @@ extension URLConstructor: Endpoint {
             return ["client_id": API.key]
         case .searchPhotos(let text):
             return ["query": text, "client_id": API.key]
+        case .getAuthorPhotos:
+            return ["client_id": API.key]
+        case .getAuthorCollections:
+            return ["client_id": API.key]
         }
     }
 }

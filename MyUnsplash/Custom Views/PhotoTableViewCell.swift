@@ -35,6 +35,12 @@ class PhotoTableViewCell: UITableViewCell {
         return label
     }()
     
+    private let activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .gray)
+        indicator.hidesWhenStopped = true
+        return indicator
+    }()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -73,16 +79,20 @@ class PhotoTableViewCell: UITableViewCell {
             make.leading.equalToSuperview().offset(15)
             make.trailing.equalToSuperview().offset(-5)
         })
+        
+//        addSubview(activityIndicator)
+//        activityIndicator.snp_makeConstraints{ make in
+//            make.center.equalToSuperview()
+//        }
     }
     
     func updateUI(photo: Photo) {
         self.photo = photo
         photoImageView.image = nil
-        
-        guard  let url = URL(string: photo.urls.full!) else {
-            return
-        }
+//        activityIndicator.startAnimating()
+        guard let url = URL(string: photo.urls.full!) else { return }
         photoImageView.af_setImage(withURL: url)
+        
         authorButton.setTitle(photo.user.name, for: .normal)
         if let _ = photo.sponsored {
             sponsoredLabel.text = "Sponsored \(photo.user.name)" 
@@ -93,3 +103,5 @@ class PhotoTableViewCell: UITableViewCell {
         delegate?.didTapAuthorButton(index: self.index)
     }
 }
+
+

@@ -13,13 +13,32 @@ class PhotosViewModel: APIClient {
     private var page: Int = 1
     var photos: [Photo] = []
     
+    let photoCache = AutoPurgingImageCache(
+        memoryCapacity: UInt64(400).megabytes(),
+        preferredMemoryUsageAfterPurge: UInt64(350).megabytes()
+    )
+    
     weak var delegate: DataViewModelDelegate?
     weak var showAlertDelegate: NetworkFailureDelegate?
+
     
-    func photo(for Index: Int)-> URL? {
-        let regularPhotoURL = photos[Index].urls.regular
-        let photoURL = URL(string: regularPhotoURL!)
-        return photoURL
+    func cacheImage(_ photo: Photo) {
+//        if let url = URL(string: photo.urls.full!), let newData = try? Data(contentsOf: url), let image = UIImage(data: newData) {
+//            self.photoCache.add(image, withIdentifier: photo.id)
+//            return image
+//        }
+//        return nil
+        DispatchQueue.global().async { [weak self] in
+            if let url = URL(string: photo.urls.full!), let newData = try? Data(contentsOf: url), let image = UIImage(data: newData) {
+                
+                DispatchQueue.main.async {
+                    self?.photoCache.add(image, withIdentifier: photo.id)
+                    self?.delegate?.reloadData()
+                    print("image is added")
+                }
+                
+            }
+        }
     }
     
     func fetchPhotos() {
@@ -64,6 +83,14 @@ class PhotosViewModel: APIClient {
         return newViewModel
     }
  
+}
+
+extension UInt64 {
+    
+    func megabytes() -> UInt64 {
+        return self * 1024 * 1024
+    }
+    
 }
 
 

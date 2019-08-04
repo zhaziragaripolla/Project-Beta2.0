@@ -96,5 +96,6 @@ extension AuthorViewController: UITableViewDataSource, UITableViewDelegate {
 extension AuthorViewController: PopNavigationControllerDelegate {
     func popNavigionController() {
         navigationController?.popViewController(animated: true)
+        navigationController?.navigationBar.isHidden = false
     }
 }

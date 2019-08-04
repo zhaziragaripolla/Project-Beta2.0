@@ -10,9 +10,20 @@ import UIKit
 import AlamofireImage
 import MobileCoreServices
 
-class DetailViewController: UIViewController, UIScrollViewDelegate {
+class DetailViewController: UIViewController {
     
     var viewModel: DetailViewModel!
+    var isShown = false
+    
+    var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.backgroundColor = .black
+        collectionView.register(DetailCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        collectionView.isPagingEnabled = true
+        return collectionView
+    }()
     
     private var downloadButton: UIButton = {
         let button = UIButton(type: .custom)
@@ -45,14 +56,6 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
     
     private var informationView: InformationView!
     
-    private let scrollView: UIScrollView = {
-        let scroll = UIScrollView()
-        scroll.isPagingEnabled = true
-        scroll.showsVerticalScrollIndicator = false
-        scroll.showsHorizontalScrollIndicator = false
-        scroll.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-        return scroll
-    }()
     
     private let informationButton: UIButton = {
         let button = UIButton()
@@ -75,9 +78,19 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func layoutUI() {
-        view.addSubview(scrollView)
-        tabBarController?.tabBar.isHidden = true
+        setupButtons()
         
+        view.addSubview(collectionView)
+        collectionView.snp_makeConstraints{ make in
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(30)
+            make.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+            make.bottom.equalTo(downloadButton.snp.top).offset(-20)
+        }
+        
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        
+        tabBarController?.tabBar.isHidden = true
         let yPosition = UIApplication.shared.statusBarFrame.size.height
         let navBar = UINavigationBar(frame: CGRect(x: 0, y: yPosition, width: UIScreen.main.bounds.width, height: 44))
         navBar.barStyle = UIBarStyle.black
@@ -92,9 +105,11 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
         navBar.setItems([navItem], animated: false)
         view.addSubview(navBar)
         
-        setupImages()
-        setupButtons()
         setupInformationView()
+    }
+ 
+    @objc func didTapDone() {
+        dismiss(animated: true, completion: nil)
     }
     
     func setupInformationView() {
@@ -102,23 +117,6 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
         view.addSubview(informationView)
         let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(didDragInformationView(_:)))
         informationView.addGestureRecognizer(panGestureRecognizer)
-    }
-    
-    func setupImages(){
-        for i in 0 ..< viewModel.photos.count {
-            let imageView = UIImageView()
-            imageView.af_setImage(withURL: viewModel.showPhoto(at: i)!)
-            
-            let xPosition = UIScreen.main.bounds.width * CGFloat(i)
-            imageView.frame = CGRect(x: xPosition, y: 0, width: scrollView.frame.width, height: scrollView.frame.height)
-            imageView.contentMode = .scaleAspectFit
-            
-            scrollView.contentSize.width = scrollView.frame.width * CGFloat(i + 1)
-            let xInitialPos = UIScreen.main.bounds.width *  CGFloat(viewModel.startIndex)
-            scrollView.contentOffset = CGPoint(x: xInitialPos, y: 0)
-            scrollView.addSubview(imageView)
-            scrollView.delegate = self
-        }
     }
     
     func setupButtons() {
@@ -176,13 +174,14 @@ extension DetailViewController {
             
             activityController.completionWithItemsHandler = { (activity, success, items, error) in
                 if success {
-                    print("sucessfully saved")
+                    print("Shared")
                 }
                 if let error = error {
                     print(error.localizedDescription)
                 }
             }
         }
+        
     }
     
     @objc func didDragInformationView(_ sender: UIPanGestureRecognizer) {
@@ -190,10 +189,51 @@ extension DetailViewController {
     }
     
     @objc func didTapDownloadButton() {
-        if let url = viewModel.currentPhotoURL(at: currentIndex()!),
-            let data = try? Data(contentsOf: url),
-            let image = UIImage(data: data) {
+        if let url = viewModel.currentPhotoURL(at: currentIndex()!), let data = try? Data(contentsOf: url), let image = UIImage(data: data) {
+            let alertController = UIAlertController(title: "Download image", message: "Successfully saved", preferredStyle: .alert)
+            
+            UIView.animate(withDuration: 3) {
+                self.present(alertController, animated: true)
+            }
+            dismiss(animated: true, completion: nil)
             UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
         }
     }
+    func currentIndex()-> Int? {
+        if collectionView.indexPathsForVisibleItems.count == 1 {
+            let currentIndexPath = collectionView.indexPathsForVisibleItems[0].row
+            return currentIndexPath
+        }
+        return nil
+    }
 }
+
+extension DetailViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return viewModel.photos.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! DetailCollectionViewCell
+      
+        let photo = viewModel.photos[indexPath.row]
+        if let url = photo.urls.regular {
+            cell.photoImageView.af_setImage(withURL: URL(string: url)!)
+        }
+        if !isShown {
+            collectionView.scrollToItem(at: IndexPath(row: viewModel.startIndex, section: 0), at: .centeredHorizontally, animated: false)
+            isShown = true
+        }
+        
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: view.frame.width, height: view.frame.height)
+    }
+}
+

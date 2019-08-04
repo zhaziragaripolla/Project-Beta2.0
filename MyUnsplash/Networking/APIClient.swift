@@ -29,6 +29,7 @@ extension APIClient {
             decoder.keyDecodingStrategy = .convertFromSnakeCase
             do {
                 let response = try decoder.decode(ResponseType.self, from: data)
+//                completion(response, nil)
                 DispatchQueue.main.async {
                     completion(response, nil)
                 }

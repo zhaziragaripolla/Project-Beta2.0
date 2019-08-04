@@ -15,6 +15,7 @@ class Photo: Codable {
     let height: Int
     let user: User
     let urls: ImageURL
+    let likes: Int
     let sponsored: Bool?
 }
 

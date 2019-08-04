@@ -100,11 +100,11 @@ extension PhotosViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         let photo = viewModel.photos[indexPath.row]
+//        viewModel.cacheImage(photo)
+        cell.updateUI(photo: photo)
         
         cell.delegate = self
         cell.index = indexPath.row
-        cell.updateUI(photo: photo)
-        
         return cell
     }
     
@@ -118,6 +118,8 @@ extension PhotosViewController: UITableViewDataSource {
         let vc = DetailViewController()
         vc.viewModel = viewModel.setupDetailForPhoto(index: indexPath.row)
         present(vc, animated: true)
+//        let navigationController = UINavigationController(rootViewController: vc)
+//        present(navigationController, animated: true)
     }
 }
 
