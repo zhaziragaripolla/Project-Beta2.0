@@ -55,6 +55,7 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate {
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! PhotoTableViewCell
             let photo = viewModel.container[indexPath.row] as! Photo
             cell.updateUI(photo: photo)
+            cell.delegate = self
             return cell
         case .listOfCollections:
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CollectionTableViewCell
@@ -92,11 +93,16 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
-extension ListViewController: DataViewModelDelegate {
+extension ListViewController: DataViewModelDelegate, PhotosViewControllerDelegate {
+    func didTapAuthorButton(index: Int) {
+        let photo = viewModel.container[index] as! Photo
+        let authorViewController = AuthorViewController(photo: photo)
+        navigationController?.pushViewController(authorViewController, animated: true)
+    }
+    
     func reloadData() {
         DispatchQueue.main.async { [weak self] in
             self?.tableView.reloadData()
         }
     }
-    
 }
