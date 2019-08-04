@@ -169,7 +169,20 @@ extension DetailViewController {
     }
     
     @objc func didTapUploadButton() {
-        print("menu")
+        if let photoImageURL = viewModel.currentPhotoURL(at: currentIndex()!) {
+            let activityController = UIActivityViewController(activityItems: [photoImageURL], applicationActivities: nil)
+            activityController.popoverPresentationController?.sourceView = self.view
+            self.present(activityController, animated: true, completion: nil)
+            
+            activityController.completionWithItemsHandler = { (activity, success, items, error) in
+                if success {
+                    print("sucessfully saved")
+                }
+                if let error = error {
+                    print(error.localizedDescription)
+                }
+            }
+        }
     }
     
     @objc func didDragInformationView(_ sender: UIPanGestureRecognizer) {
@@ -177,12 +190,10 @@ extension DetailViewController {
     }
     
     @objc func didTapDownloadButton() {
-        print("download")
-    }
-}
-
-extension DetailViewController: UIDocumentMenuDelegate,UIDocumentPickerDelegate,UINavigationControllerDelegate {
-    func documentMenu(_ documentMenu: UIDocumentMenuViewController, didPickDocumentPicker documentPicker: UIDocumentPickerViewController) {
-        // TODO: menu
+        if let url = viewModel.currentPhotoURL(at: currentIndex()!),
+            let data = try? Data(contentsOf: url),
+            let image = UIImage(data: data) {
+            UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+        }
     }
 }
