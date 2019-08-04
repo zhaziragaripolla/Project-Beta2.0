@@ -14,9 +14,5 @@ class AuthorViewModel {
     var likedPhotos: [Photo] = []
     var collections: [Collection] = []
     
-    weak var delegate: DataFetcherDelegate?
-    
-    init(delegate: DataFetcherDelegate) {
-        self.delegate = delegate
-    }
+   
 }

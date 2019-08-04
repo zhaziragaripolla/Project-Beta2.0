@@ -40,7 +40,6 @@ class CollectionsViewModel: APIClient {
             }
             
         }
-        page += 1
     }
     
     func checkPhotosOfCollection(for index: Int) -> ListViewModel? {

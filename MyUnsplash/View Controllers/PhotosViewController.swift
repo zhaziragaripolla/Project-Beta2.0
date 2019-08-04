@@ -100,11 +100,11 @@ extension PhotosViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         let photo = viewModel.photos[indexPath.row]
+//        viewModel.cacheImage(photo)
+        cell.updateUI(photo: photo)
         
         cell.delegate = self
         cell.index = indexPath.row
-        cell.updateUI(photo: photo)
-        
         return cell
     }
     
@@ -118,6 +118,8 @@ extension PhotosViewController: UITableViewDataSource {
         let vc = DetailViewController()
         vc.viewModel = viewModel.setupDetailForPhoto(index: indexPath.row)
         present(vc, animated: true)
+//        let navigationController = UINavigationController(rootViewController: vc)
+//        present(navigationController, animated: true)
     }
 }
 
@@ -156,8 +158,8 @@ extension PhotosViewController: UISearchBarDelegate {
 // MARK: didTapAuthorButton
 extension PhotosViewController: PhotosViewControllerDelegate {
     func didTapAuthorButton(index: Int) {
-        let user = viewModel.photos[index].user
-        let authorViewController = AuthorViewController(user: user)
+        let photo = viewModel.photos[index]
+        let authorViewController = AuthorViewController(photo: photo)
         navigationController?.pushViewController(authorViewController, animated: true)
     }
 }

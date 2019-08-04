@@ -75,7 +75,20 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate {
         case .listOfCollections:
             return view.bounds.height * 0.28
         }
-
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch viewModel.currentMode {
+            case .listOfPhotos:
+                let detailViewController = DetailViewController()
+                detailViewController.viewModel = DetailViewModel(index: indexPath.row)
+                detailViewController.viewModel.photos = viewModel.container as! [Photo]
+                present(detailViewController, animated: true)
+            case .listOfCollections:
+                let listViewController = ListViewController()
+                listViewController.viewModel = ListViewModel(sourceType: .listOfPhotos)
+                navigationController?.pushViewController(listViewController, animated: true)
+        }
     }
 }
 
@@ -86,12 +99,4 @@ extension ListViewController: DataViewModelDelegate {
         }
     }
     
-}
-
-extension ListViewController: DataFetcherDelegate {
-    func parseData() {
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-        }
-    }
 }

@@ -6,9 +6,10 @@
 //  Copyright © 2019 Бекдаулет Касымов. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 class DetailViewModel {
+    var isShown: Bool = false
     var photos: [Photo] = []
     
     var startIndex: Int = 0
@@ -17,10 +18,15 @@ class DetailViewModel {
         self.startIndex = index
     }
     
-    func showPhoto(at index: Int)->URL? {
-        let regularPhotoURL = photos[index].urls.regular
-        let photoURL = URL(string: regularPhotoURL!)
-        return photoURL
+//    func currentPhotoURL()-> URL? {
+//        guard let urlString = photos[startIndex].urls.regular else { return nil }
+//        return URL(string: urlString)
+//    }
+    
+    func currentPhotoURL(at index: Int)-> URL? {
+        let url = photos[index].urls.regular!
+        return URL(string: url)
+        
     }
-
+   
 }
