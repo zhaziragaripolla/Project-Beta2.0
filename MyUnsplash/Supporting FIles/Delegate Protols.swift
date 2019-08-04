@@ -19,3 +19,7 @@ protocol DataViewModelDelegate: class {
 protocol NetworkFailureDelegate: class {
     func showAlert(message: String)
 }
+
+protocol PopNavigationControllerDelegate: class {
+    func popNavigionController()
+}

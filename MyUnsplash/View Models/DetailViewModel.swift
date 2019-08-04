@@ -9,6 +9,7 @@
 import Foundation
 
 class DetailViewModel {
+    var isShown: Bool = false
     var photos: [Photo] = []
     
     var startIndex: Int = 0
@@ -17,7 +18,7 @@ class DetailViewModel {
         self.startIndex = index
     }
     
-    func showPhoto(at index: Int)->URL? {
+    func showPhoto(at index: Int) -> URL? {
         let regularPhotoURL = photos[index].urls.regular
         let photoURL = URL(string: regularPhotoURL!)
         return photoURL

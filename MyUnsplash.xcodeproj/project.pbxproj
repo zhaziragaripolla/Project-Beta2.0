@@ -41,6 +41,8 @@
 		F165A62E22F0B3FA0014EE59 /* ListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A62D22F0B3FA0014EE59 /* ListViewModel.swift */; };
 		F165A63122F0C6F30014EE59 /* ParallaxImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A63022F0C6F30014EE59 /* ParallaxImageView.swift */; };
 		F165A63522F254310014EE59 /* AuthorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A63422F254310014EE59 /* AuthorViewModel.swift */; };
+		F165A63722F59FF00014EE59 /* InformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A63622F59FF00014EE59 /* InformationView.swift */; };
+		F165A63922F69FED0014EE59 /* DoubleLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A63822F69FED0014EE59 /* DoubleLabelView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -82,6 +84,8 @@
 		F165A62D22F0B3FA0014EE59 /* ListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewModel.swift; sourceTree = "<group>"; };
 		F165A63022F0C6F30014EE59 /* ParallaxImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParallaxImageView.swift; sourceTree = "<group>"; };
 		F165A63422F254310014EE59 /* AuthorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorViewModel.swift; sourceTree = "<group>"; };
+		F165A63622F59FF00014EE59 /* InformationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationView.swift; sourceTree = "<group>"; };
+		F165A63822F69FED0014EE59 /* DoubleLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleLabelView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -177,6 +181,8 @@
 		F165A5E722EEF2920014EE59 /* Custom Views */ = {
 			isa = PBXGroup;
 			children = (
+				F165A63622F59FF00014EE59 /* InformationView.swift */,
+				F165A63822F69FED0014EE59 /* DoubleLabelView.swift */,
 				F165A63022F0C6F30014EE59 /* ParallaxImageView.swift */,
 				F165A5F022EEF46E0014EE59 /* GradientImageView.swift */,
 				F165A5EE22EEF4540014EE59 /* PhotoTableViewCell.swift */,
@@ -341,6 +347,7 @@
 				F165A62E22F0B3FA0014EE59 /* ListViewModel.swift in Sources */,
 				F165A63522F254310014EE59 /* AuthorViewModel.swift in Sources */,
 				F165A60622EF1BC00014EE59 /* Photo.swift in Sources */,
+				F165A63922F69FED0014EE59 /* DoubleLabelView.swift in Sources */,
 				F165A63122F0C6F30014EE59 /* ParallaxImageView.swift in Sources */,
 				F165A60422EF1A760014EE59 /* DetailViewController.swift in Sources */,
 				F165A5EF22EEF4540014EE59 /* PhotoTableViewCell.swift in Sources */,
@@ -354,6 +361,7 @@
 				F165A60822EF1F960014EE59 /* Collection.swift in Sources */,
 				F165A5EB22EEF2C20014EE59 /* PopoverViewController.swift in Sources */,
 				F165A5D322EEF24C0014EE59 /* ViewController.swift in Sources */,
+				F165A63722F59FF00014EE59 /* InformationView.swift in Sources */,
 				F165A5FF22EEFABF0014EE59 /* CollectionTableViewCell.swift in Sources */,
 				56ED8D7D22F17623006FE3F1 /* ListViewModel.swift in Sources */,
 				F165A5F122EEF46E0014EE59 /* GradientImageView.swift in Sources */,

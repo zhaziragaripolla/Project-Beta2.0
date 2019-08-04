@@ -10,10 +10,10 @@ import UIKit
 
 class AuthorViewController: UIViewController {
     
-    init(user: User) {
+    init(photo: Photo) {
         super.init(nibName: nil, bundle: nil)
         
-        parallaxImageView.updateUI(user: user)
+        parallaxImageView.updateUI(photo: photo)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -35,42 +35,43 @@ class AuthorViewController: UIViewController {
 
         view.backgroundColor = .white
         
-        tableView.bounces = false
-//        tableView.isScrollEnabled = false
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.frame = CGRect(x: 0, y: view.bounds.height * 0.4, width: view.bounds.width, height: view.bounds.height * 0.6)
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         
-        scrollView.delegate = self
-        scrollView.bounces = false
+        parallaxImageView.delegate = self
         
         layoutUI()
     }
     
+    override func viewDidLayoutSubviews() {
+        tableView.tableHeaderView = parallaxImageView
+    }
+
     func layoutUI() {
         view.addSubview(parallaxImageView)
-        parallaxImageView.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height * 0.4)
-        
-        view.addSubview(scrollView)
-        scrollView.snp.makeConstraints { (make) in
-            make.leading.trailing.top.bottom.equalToSuperview()
+        parallaxImageView.snp.makeConstraints { (make) in
+            make.height.equalToSuperview().multipliedBy(0.4)
         }
         
-        view.addSubview(segmentView)
-        segmentView.selectedSegmentIndex = 0
-        segmentView.snp.makeConstraints { (make) in
-            make.leading.trailing.equalToSuperview().inset(20)
-            make.top.equalTo(parallaxImageView.snp.bottom).offset(10)
-        }
+        
+//        view.addSubview(scrollView)
+//        scrollView.snp.makeConstraints { (make) in
+//            make.leading.trailing.top.bottom.equalToSuperview()
+//        }
+        
+//        view.addSubview(segmentView)
+//        segmentView.selectedSegmentIndex = 0
+//        segmentView.snp.makeConstraints { (make) in
+//            make.leading.trailing.equalToSuperview().inset(20)
+//            make.top.equalTo(parallaxImageView.snp.bottom).offset(10)
+//        }
         view.addSubview(tableView)
         tableView.snp.makeConstraints { (make) in
-            make.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
-            make.top.equalTo(segmentView.snp.bottom).offset(10)
+            make.top.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
         }
         
-        navigationController?.navigationBar.shadowImage = UIImage()
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.isHidden = true
     }
 }
 
@@ -89,5 +90,11 @@ extension AuthorViewController: UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         cell.textLabel!.text = "Row: \(indexPath.row)"
         return cell
+    }
+}
+
+extension AuthorViewController: PopNavigationControllerDelegate {
+    func popNavigionController() {
+        navigationController?.popViewController(animated: true)
     }
 }

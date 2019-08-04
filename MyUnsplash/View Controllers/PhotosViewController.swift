@@ -156,8 +156,8 @@ extension PhotosViewController: UISearchBarDelegate {
 // MARK: didTapAuthorButton
 extension PhotosViewController: PhotosViewControllerDelegate {
     func didTapAuthorButton(index: Int) {
-        let user = viewModel.photos[index].user
-        let authorViewController = AuthorViewController(user: user)
+        let photo = viewModel.photos[index]
+        let authorViewController = AuthorViewController(photo: photo)
         navigationController?.pushViewController(authorViewController, animated: true)
     }
 }
