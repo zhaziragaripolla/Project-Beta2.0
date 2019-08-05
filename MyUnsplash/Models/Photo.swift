@@ -17,6 +17,7 @@ class Photo: Codable {
     let urls: ImageURL
     let likes: Int
     let sponsored: Bool?
+    let createdAt: String
 }
 
 class User: Codable {

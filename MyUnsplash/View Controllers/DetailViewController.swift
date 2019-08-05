@@ -56,7 +56,6 @@ class DetailViewController: UIViewController {
     
     private var informationView: InformationView!
     
-    
     private let informationButton: UIButton = {
         let button = UIButton()
         let tintedImage = UIImage(named: "info")?.withRenderingMode(.alwaysTemplate)
