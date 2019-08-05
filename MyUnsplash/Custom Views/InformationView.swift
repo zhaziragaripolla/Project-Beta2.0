@@ -11,7 +11,18 @@ import UIKit
 class InformationView: UIView {
     
     let blurEffect = UIBlurEffect(style: .dark)
+    var delegate: InformationViewDelegate?
     lazy var blurredEffectView = UIVisualEffectView(effect: blurEffect)
+    
+    lazy var hideButton: UIButton = {
+        let button = UIButton()
+        let image = UIImage(named: "minus")
+        let tintedImage = image?.withRenderingMode(.alwaysTemplate)
+        button.setImage(tintedImage, for: .normal)
+        button.tintColor = .lightGray
+        button.addTarget(self, action: #selector(hideSelf), for: .touchUpInside)
+        return button
+    }()
     
     let cameraLabel: UILabel = {
         let label = UILabel()
@@ -48,10 +59,18 @@ class InformationView: UIView {
         blurredEffectView.clipsToBounds = true
         addSubview(blurredEffectView)
         
+        addSubview(hideButton)
+        hideButton.snp.makeConstraints { (make) in
+            make.centerX.equalToSuperview()
+            make.top.equalToSuperview().offset(5)
+            make.width.equalTo(40)
+            make.height.equalTo(30)
+        }
+        
         addSubview(cameraLabel)
         cameraLabel.snp.makeConstraints { (make) in
-            make.trailing.leading.equalToSuperview().offset(10)
-            make.top.equalToSuperview().offset(30)
+            make.trailing.leading.equalToSuperview().inset(15)
+            make.top.equalTo(hideButton.snp.bottom).offset(10)
         }
         
         makeDoubleLabel = DoubleLabelView(headerText: "Make", bodyText: "-")
@@ -60,9 +79,17 @@ class InformationView: UIView {
         apertureDoubleLabel = DoubleLabelView(headerText: "Aperture", bodyText: "-")
         addSubview(stackView)
         stackView.snp.makeConstraints { (make) in
-            make.leading.equalToSuperview().offset(10)
+            make.leading.equalToSuperview().inset(10)
             make.top.equalTo(cameraLabel.snp.bottom).offset(20)
         }
+    }
+    
+    func updateUI(photo: Photo) {
+        
+    }
+    
+    @objc func hideSelf() {
+        delegate?.hideInformationView()
     }
     
     func updateSize() {

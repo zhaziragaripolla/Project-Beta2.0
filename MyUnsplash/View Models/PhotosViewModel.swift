@@ -54,7 +54,6 @@ class PhotosViewModel: APIClient {
                 // TODO: delegate to VC to show alert controller with error
                 print(error.localizedDescription)
             }
-            
         }
         self.page += 1
     }

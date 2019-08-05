@@ -44,6 +44,10 @@
 		F165A63522F254310014EE59 /* AuthorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A63422F254310014EE59 /* AuthorViewModel.swift */; };
 		F165A63722F59FF00014EE59 /* InformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A63622F59FF00014EE59 /* InformationView.swift */; };
 		F165A63922F69FED0014EE59 /* DoubleLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A63822F69FED0014EE59 /* DoubleLabelView.swift */; };
+		F165A63B22F8582E0014EE59 /* CustomSegmentedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A63A22F8582E0014EE59 /* CustomSegmentedView.swift */; };
+		F165A63D22F8630F0014EE59 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A63C22F8630F0014EE59 /* NetworkManager.swift */; };
+		F165A63F22F8647B0014EE59 /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A63E22F8647B0014EE59 /* LaunchViewController.swift */; };
+		F165A64122F865600014EE59 /* OfflineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A64022F865600014EE59 /* OfflineViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -88,6 +92,10 @@
 		F165A63422F254310014EE59 /* AuthorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorViewModel.swift; sourceTree = "<group>"; };
 		F165A63622F59FF00014EE59 /* InformationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationView.swift; sourceTree = "<group>"; };
 		F165A63822F69FED0014EE59 /* DoubleLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleLabelView.swift; sourceTree = "<group>"; };
+		F165A63A22F8582E0014EE59 /* CustomSegmentedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSegmentedView.swift; sourceTree = "<group>"; };
+		F165A63C22F8630F0014EE59 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		F165A63E22F8647B0014EE59 /* LaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
+		F165A64022F865600014EE59 /* OfflineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,6 +167,7 @@
 		F165A5E522EEF2760014EE59 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				F165A63E22F8647B0014EE59 /* LaunchViewController.swift */,
 				F165A5D222EEF24C0014EE59 /* ViewController.swift */,
 				F165A61222EF32C40014EE59 /* ListViewController.swift */,
 				F165A5EA22EEF2C20014EE59 /* PopoverViewController.swift */,
@@ -166,6 +175,7 @@
 				F165A5EC22EEF2CF0014EE59 /* CollectionsViewController.swift */,
 				F165A62122EF95850014EE59 /* AuthorViewController.swift */,
 				F165A60322EF1A760014EE59 /* DetailViewController.swift */,
+				F165A64022F865600014EE59 /* OfflineViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -197,6 +207,7 @@
 		F165A60022EF0DC90014EE59 /* View Models */ = {
 			isa = PBXGroup;
 			children = (
+				F165A63A22F8582E0014EE59 /* CustomSegmentedView.swift */,
 				F165A62D22F0B3FA0014EE59 /* ListViewModel.swift */,
 				F165A63422F254310014EE59 /* AuthorViewModel.swift */,
 				F165A60122EF18EC0014EE59 /* PhotosViewModel.swift */,
@@ -210,6 +221,7 @@
 		F165A60F22EF281B0014EE59 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
+				F165A63C22F8630F0014EE59 /* NetworkManager.swift */,
 				F165A61622EF62DD0014EE59 /* APIClient.swift */,
 				F165A61822EF633D0014EE59 /* DataFetcher.swift */,
 				F165A61A22EF63770014EE59 /* URLConstructor.swift */,
@@ -351,6 +363,7 @@
 				F165A63522F254310014EE59 /* AuthorViewModel.swift in Sources */,
 				F165A60622EF1BC00014EE59 /* Photo.swift in Sources */,
 				F165A63922F69FED0014EE59 /* DoubleLabelView.swift in Sources */,
+				F165A63F22F8647B0014EE59 /* LaunchViewController.swift in Sources */,
 				F165A63122F0C6F30014EE59 /* ParallaxImageView.swift in Sources */,
 				F165A60422EF1A760014EE59 /* DetailViewController.swift in Sources */,
 				F165A5EF22EEF4540014EE59 /* PhotoTableViewCell.swift in Sources */,
@@ -361,7 +374,9 @@
 				56ED8D8122F1A2B6006FE3F1 /* UnsplashResponse.swift in Sources */,
 				F165A5E922EEF2AE0014EE59 /* PhotosViewController.swift in Sources */,
 				F165A61922EF633D0014EE59 /* DataFetcher.swift in Sources */,
+				F165A63D22F8630F0014EE59 /* NetworkManager.swift in Sources */,
 				F165A60822EF1F960014EE59 /* Collection.swift in Sources */,
+				F165A63B22F8582E0014EE59 /* CustomSegmentedView.swift in Sources */,
 				F165A5EB22EEF2C20014EE59 /* PopoverViewController.swift in Sources */,
 				56ED8D8722F58B1E006FE3F1 /* DetailCollectionViewCell.swift in Sources */,
 				F165A5D322EEF24C0014EE59 /* ViewController.swift in Sources */,
@@ -369,6 +384,7 @@
 				F165A5FF22EEFABF0014EE59 /* CollectionTableViewCell.swift in Sources */,
 				56ED8D7D22F17623006FE3F1 /* ListViewModel.swift in Sources */,
 				F165A5F122EEF46E0014EE59 /* GradientImageView.swift in Sources */,
+				F165A64122F865600014EE59 /* OfflineViewController.swift in Sources */,
 				F165A5F322EEF66D0014EE59 /* API.swift in Sources */,
 				F165A60222EF18EC0014EE59 /* PhotosViewModel.swift in Sources */,
 				F165A5F522EEF6830014EE59 /* LocalDatabase.swift in Sources */,
@@ -518,6 +534,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3359JPU45W;
 				INFOPLIST_FILE = MyUnsplash/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -537,6 +554,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3359JPU45W;
 				INFOPLIST_FILE = MyUnsplash/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

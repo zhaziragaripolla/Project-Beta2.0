@@ -8,11 +8,6 @@
 
 import SnapKit
 
-protocol DetailCollectionViewCellDelegate: class {
-    func downloadPhoto(_ cell: DetailCollectionViewCell)
-    func getPhotoInfo(_ cell: DetailCollectionViewCell)
-}
-
 class DetailCollectionViewCell: UICollectionViewCell {
     let photoImageView: UIImageView = {
         let imageView = UIImageView()

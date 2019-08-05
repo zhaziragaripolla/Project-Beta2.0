@@ -90,7 +90,7 @@ class PhotoTableViewCell: UITableViewCell {
         self.photo = photo
         photoImageView.image = nil
 //        activityIndicator.startAnimating()
-        guard let url = URL(string: photo.urls.full!) else { return }
+        guard let url = URL(string: photo.urls.regular!) else { return }
         photoImageView.af_setImage(withURL: url)
         
         authorButton.setTitle(photo.user.name, for: .normal)
