@@ -114,6 +114,7 @@ class DetailViewController: UIViewController {
     
     func setupInformationView() {
         informationView = InformationView(frame: CGRect(x: 0, y: view.bounds.height, width: view.bounds.width, height: view.bounds.height / 2))
+        informationView.delegate = self
         view.addSubview(informationView)
         let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(didDragInformationView(_:)))
         informationView.addGestureRecognizer(panGestureRecognizer)
@@ -147,7 +148,7 @@ class DetailViewController: UIViewController {
 }
 
 // MARK: IBAction
-extension DetailViewController {
+extension DetailViewController: InformationViewDelegate {
     @objc func hideInformationView() {
         UIView.animate(withDuration: 0.3) {
             self.informationView.frame.origin = CGPoint(x: 0, y: self.view.bounds.height)
@@ -157,7 +158,7 @@ extension DetailViewController {
     
     @objc func showInfromatinView() {
         UIView.animate(withDuration: 0.3) {
-            self.informationView.frame.origin = CGPoint(x: 0, y: self.view.bounds.height / 2)
+            self.informationView.frame.origin = CGPoint(x: 0, y: self.view.bounds.height - self.informationView.bounds.height)
         }
         viewModel.isShown = true
     }
@@ -185,7 +186,7 @@ extension DetailViewController {
     }
     
     @objc func didDragInformationView(_ sender: UIPanGestureRecognizer) {
-        
+        // TODO: gestures
     }
     
     @objc func didTapDownloadButton() {
