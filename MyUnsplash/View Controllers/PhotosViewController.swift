@@ -102,7 +102,6 @@ extension PhotosViewController: UITableViewDataSource {
         let photo = viewModel.photos[indexPath.row]
 //        viewModel.cacheImage(photo)
         cell.updateUI(photo: photo)
-        
         cell.delegate = self
         cell.index = indexPath.row
         return cell

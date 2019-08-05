@@ -96,6 +96,7 @@ extension AuthorViewController: UITableViewDataSource, UITableViewDelegate {
                 return UITableViewCell()
             }
             let photo = viewModel.getItem(atIndex: indexPath.row) as! Photo
+            cell.delegate = self
             cell.updateUI(photo: photo)
             return cell
         }
@@ -149,7 +150,13 @@ extension AuthorViewController: PopNavigationControllerDelegate {
     }
 }
 
-extension AuthorViewController: DataViewModelDelegate {
+extension AuthorViewController: DataViewModelDelegate, PhotosViewControllerDelegate {
+    func didTapAuthorButton(index: Int) {
+        let photo = viewModel.photos[index]
+        let authorViewController = AuthorViewController(photo: photo)
+        navigationController?.pushViewController(authorViewController, animated: true)
+    }
+    
     func reloadData() {
         tableView.reloadData()
     }
