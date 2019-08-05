@@ -14,21 +14,20 @@ class ParallaxImageView: UIImageView {
     var photo: Photo!
     var delegate: PopNavigationControllerDelegate?
     
-    lazy var backButton = UIButton()
-//        = {
-//        let button = UIButton()
-//        let image = UIImage(named: "backArrow")
-//        let tintedImage = image?.withRenderingMode(.alwaysTemplate)
-//        button.setImage(tintedImage, for: .normal)
-//        button.tintColor = .white
-//        button.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
-//        return button
-//    }()
+    lazy var backButton: UIButton = {
+        let button = UIButton()
+        let image = UIImage(named: "backArrow")
+        let tintedImage = image?.withRenderingMode(.alwaysTemplate)
+        button.setImage(tintedImage, for: .normal)
+        button.tintColor = .white
+        button.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
+        return button
+    }()
     let profileImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.cornerRadius = 32
         imageView.clipsToBounds = true
-        imageView.contentMode = ContentMode.scaleAspectFit
+        imageView.contentMode = ContentMode.scaleToFill
         return imageView
     }()
     let authorLabel: UILabel = {
@@ -57,7 +56,8 @@ class ParallaxImageView: UIImageView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        contentMode = ContentMode.scaleToFill
+        contentMode = ContentMode.scaleAspectFit
+        autoresizingMask = [.flexibleWidth, .flexibleHeight]
         isUserInteractionEnabled = true
         
         layoutUI()
@@ -74,7 +74,7 @@ class ParallaxImageView: UIImageView {
         authorLabel.text = photo.user.name
         websiteButton.setTitle((photo.user.portfolioUrl ?? ""), for: .normal)
         locationLabel.text = (photo.user.location ?? "")
-        if let url = URL(string: photo.urls.full!) {
+        if let url = URL(string: photo.urls.regular!) {
             af_setImage(withURL: url)
         }
         
@@ -84,9 +84,13 @@ class ParallaxImageView: UIImageView {
     }
     
     func layoutUI(){
+        snp.makeConstraints { (make) in
+            make.width.equalTo(UIScreen.main.bounds.width)
+        }
+        
         addSubview(blurredEffectView)
         blurredEffectView.snp.makeConstraints { (make) in
-            make.leading.trailing.top.bottom.equalToSuperview()
+            make.edges.equalToSuperview()
         }
         
         addSubview(profileImageView)
@@ -94,12 +98,6 @@ class ParallaxImageView: UIImageView {
         addSubview(locationLabel)
         addSubview(websiteButton)
         addSubview(backButton)
-        
-        let image = UIImage(named: "backArrow")
-        let tintedImage = image?.withRenderingMode(.alwaysTemplate)
-        backButton.setImage(tintedImage, for: .normal)
-        backButton.tintColor = .white
-        backButton.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
         
         backButton.snp.makeConstraints { (make) in
             make.leading.equalToSuperview().offset(10)

@@ -54,7 +54,6 @@ class PhotosViewModel: APIClient {
                 // TODO: delegate to VC to show alert controller with error
                 print(error.localizedDescription)
             }
-            
         }
         self.page += 1
     }
@@ -74,12 +73,6 @@ class PhotosViewModel: APIClient {
             }
         }
         
-        return newViewModel
-    }
-    
-    func setupDetailForPhoto(index: Int) -> DetailViewModel? {
-        let newViewModel = DetailViewModel(index: index)
-        newViewModel.photos = photos
         return newViewModel
     }
  

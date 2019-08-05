@@ -14,7 +14,7 @@ class AuthorViewController: UIViewController {
     init(photo: Photo) {
         super.init(nibName: nil, bundle: nil)
         
-        viewModel = AuthorViewModel(delegate: self)
+        viewModel = AuthorViewModel(delegate: self, user: photo.user)
         parallaxImageView.updateUI(photo: photo)
     }
     
@@ -23,7 +23,7 @@ class AuthorViewController: UIViewController {
     }
     private var tableView = UITableView()
     private var parallaxImageView = ParallaxImageView(frame: CGRect())
-    private let segmentView = UISegmentedControl(items: ["Photos", "Likes", "Collections"])
+    private let customSegmentView = CustomSegmentedView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,8 +35,12 @@ class AuthorViewController: UIViewController {
         tableView.register(PhotoTableViewCell.self, forCellReuseIdentifier: "photoCell")
         tableView.register(PhotoTableViewCell.self, forCellReuseIdentifier: "likedPhotoCell")
         tableView.register(CollectionTableViewCell.self, forCellReuseIdentifier: "collectionCell")
-//        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+
         parallaxImageView.delegate = self
+
+        viewModel.fetchPhotos()
+        viewModel.fetchCollections()
+        viewModel.fetchLikedPhotos()
         
         layoutUI()
     }
@@ -46,9 +50,7 @@ class AuthorViewController: UIViewController {
     }
 
     func layoutUI() {
-        segmentView.backgroundColor = .white
-        segmentView.selectedSegmentIndex = 0
-        segmentView.addTarget(self, action: #selector(didCatchAction(_:)), for: .valueChanged)
+        customSegmentView.segmentView.addTarget(self, action: #selector(didCatchAction(_:)), for: .valueChanged)
         
         view.addSubview(parallaxImageView)
         parallaxImageView.snp.makeConstraints { (make) in
@@ -78,7 +80,6 @@ class AuthorViewController: UIViewController {
 extension AuthorViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.getSize()
-//        return 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -98,20 +99,46 @@ extension AuthorViewController: UITableViewDataSource, UITableViewDelegate {
             cell.updateUI(photo: photo)
             return cell
         }
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-//        switch viewModel.sourceType {
-//        case .collections:
-//            cell.textLabel!.text = "collection"
-//        case .photos:
-//            cell.textLabel!.text = "photo"
-//        case .likedPhotos:
-//            cell.textLabel!.text = "liked photo"
-//        }
-//        return cell
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return segmentView
+        return customSegmentView
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        switch viewModel.sourceType {
+        case .collections:
+            return view.bounds.height * 0.28
+        case .likedPhotos:
+            let photo = viewModel.likedPhotos[indexPath.row]
+            let width = view.bounds.width
+            let height = (width * CGFloat(photo.height)) / CGFloat(photo.width)
+            return height
+        case .photos:
+            let photo = viewModel.photos[indexPath.row]
+            let width = view.bounds.width
+            let height = (width * CGFloat(photo.height)) / CGFloat(photo.width)
+            return height
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        navigationController?.navigationBar.isHidden = false
+        switch viewModel.sourceType {
+        case .collections:
+            let listViewController = ListViewController()
+            let collection = viewModel.collections[indexPath.row]
+            listViewController.viewModel = viewModel.checkPhotosOfCollection(for: collection)
+            navigationController?.pushViewController(listViewController, animated: true)
+        case .likedPhotos:
+            let detailViewController = DetailViewController()
+            detailViewController.viewModel = DetailViewModel(index: indexPath.row, photos: viewModel.likedPhotos)
+            present(detailViewController, animated: true)
+        case .photos:
+            let detailViewController = DetailViewController()
+            detailViewController.viewModel = DetailViewModel(index: indexPath.row, photos: viewModel.photos)
+            present(detailViewController, animated: true)
+        }
     }
 }
 

@@ -8,6 +8,10 @@
 
 import Foundation
 
+protocol InformationViewDelegate: class {
+    func hideInformationView()
+}
+
 protocol PhotosViewControllerDelegate: class {
     func didTapAuthorButton(index: Int)
 }
@@ -23,3 +27,9 @@ protocol NetworkFailureDelegate: class {
 protocol PopNavigationControllerDelegate: class {
     func popNavigionController()
 }
+
+protocol DetailCollectionViewCellDelegate: class {
+    func downloadPhoto(_ cell: DetailCollectionViewCell)
+    func getPhotoInfo(_ cell: DetailCollectionViewCell)
+}
+

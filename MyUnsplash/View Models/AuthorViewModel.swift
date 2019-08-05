@@ -8,17 +8,18 @@
 
 import Foundation
 
-class AuthorViewModel {
-
+class AuthorViewModel: PhotosOfCollectionProtocol {
+    var user: User!
     var photos: [Photo] = []
     var likedPhotos: [Photo] = []
     var collections: [Collection] = []
     
     var sourceType = SourceType.photos
-    var delegate: DataViewModelDelegate?
+    private var delegate: DataViewModelDelegate?
     
-    init(delegate: DataViewModelDelegate) {
+    init(delegate: DataViewModelDelegate, user: User) {
         self.delegate = delegate
+        self.user = user
     }
     
     enum SourceType: String {
@@ -53,4 +54,54 @@ class AuthorViewModel {
         self.sourceType = sourceType
         delegate?.reloadData()
     }
+    
+    func fetchPhotos() {
+        let request = URLConstructor.getAuthorPhotos(username: user.username).request
+        
+        fetch(with: request, responseType: [Photo].self) { [weak self] response, error in
+            if let response = response {
+                self?.photos = response
+                self?.delegate?.reloadData()
+            }
+            
+            if let error = error {
+                print(error.localizedDescription)
+            }
+            
+        }
+    }
+    
+    func fetchLikedPhotos() {
+        let request = URLConstructor.getAuthorLikedPhotos(username: user.username).request
+        
+        fetch(with: request, responseType: [Photo].self) { [weak self] response, error in
+            if let response = response {
+                self?.likedPhotos = response
+                self?.delegate?.reloadData()
+            }
+            
+            if let error = error {
+                print(error.localizedDescription)
+            }
+            
+        }
+    }
+    
+    func fetchCollections() {
+        let request = URLConstructor.getAuthorCollections(username: user.username).request
+        
+        fetch(with: request, responseType: [Collection].self) { [weak self] response, error in
+            if let response = response {
+                self?.collections = response
+                self?.delegate?.reloadData()
+            }
+            
+            if let error = error {
+                print(error.localizedDescription)
+            }
+            
+        }
+    }
+    
+    
 }
