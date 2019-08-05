@@ -80,23 +80,31 @@ class PhotoTableViewCell: UITableViewCell {
             make.trailing.equalToSuperview().offset(-5)
         })
         
-//        addSubview(activityIndicator)
-//        activityIndicator.snp_makeConstraints{ make in
-//            make.center.equalToSuperview()
-//        }
+        addSubview(activityIndicator)
+        activityIndicator.snp_makeConstraints{ make in
+            make.center.equalToSuperview()
+        }
     }
     
-    func updateUI(photo: Photo) {
+    func updateUI(photo: Photo?) {
         self.photo = photo
         photoImageView.image = nil
-//        activityIndicator.startAnimating()
-        guard let url = URL(string: photo.urls.full!) else { return }
-        photoImageView.af_setImage(withURL: url)
         
-        authorButton.setTitle(photo.user.name, for: .normal)
-        if let _ = photo.sponsored {
-            sponsoredLabel.text = "Sponsored \(photo.user.name)" 
+        if let photo = photo {
+            guard let url = URL(string: photo.urls.small!) else { return }
+            photoImageView.af_setImage(withURL: url)
+            
+            authorButton.setTitle(photo.user.name, for: .normal)
+            if let _ = photo.sponsored {
+                sponsoredLabel.text = "Sponsored \(photo.user.name)"
+            }
+            
+            activityIndicator.stopAnimating()
         }
+        else {
+            activityIndicator.startAnimating()
+        }
+     
     }
     
     @IBAction func didTapAuthorButton() {
