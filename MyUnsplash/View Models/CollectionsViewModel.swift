@@ -8,7 +8,7 @@
 
 import Foundation
 
-class CollectionsViewModel: APIClient {
+class CollectionsViewModel: PhotosOfCollectionProtocol {
     var collections: [Collection] = []
     weak var delegate: DataViewModelDelegate?
     
@@ -41,23 +41,4 @@ class CollectionsViewModel: APIClient {
             
         }
     }
-    
-    func checkPhotosOfCollection(for index: Int) -> ListViewModel? {
-        let collection = collections[index]
-        let newViewModel = ListViewModel(sourceType: .listOfPhotos)
-        newViewModel.title = collection.title
-        let request = URLConstructor.getPhotosOfCollection(id: collection.id).request
-        fetch(with: request, responseType: [Photo].self) {  response, error in
-            if let response = response {
-                newViewModel.container = response
-            }
-            
-            if let error = error {
-                // TODO: delegate to VC to show alert controller with error
-            }
-            
-        }
-        return newViewModel
-    }
-    
 }

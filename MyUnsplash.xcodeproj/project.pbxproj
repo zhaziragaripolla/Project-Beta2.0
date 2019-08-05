@@ -48,6 +48,7 @@
 		F165A63D22F8630F0014EE59 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A63C22F8630F0014EE59 /* NetworkManager.swift */; };
 		F165A63F22F8647B0014EE59 /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A63E22F8647B0014EE59 /* LaunchViewController.swift */; };
 		F165A64122F865600014EE59 /* OfflineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A64022F865600014EE59 /* OfflineViewController.swift */; };
+		F165A64522F8E24D0014EE59 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A64422F8E24D0014EE59 /* Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -96,6 +97,7 @@
 		F165A63C22F8630F0014EE59 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		F165A63E22F8647B0014EE59 /* LaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
 		F165A64022F865600014EE59 /* OfflineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineViewController.swift; sourceTree = "<group>"; };
+		F165A64422F8E24D0014EE59 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -186,6 +188,7 @@
 				F165A61E22EF81DA0014EE59 /* Colors.swift */,
 				F165A5F422EEF6830014EE59 /* LocalDatabase.swift */,
 				F165A61422EF34520014EE59 /* Delegate Protols.swift */,
+				F165A64422F8E24D0014EE59 /* Extensions.swift */,
 			);
 			path = "Supporting FIles";
 			sourceTree = "<group>";
@@ -208,10 +211,10 @@
 			isa = PBXGroup;
 			children = (
 				F165A63A22F8582E0014EE59 /* CustomSegmentedView.swift */,
-				F165A62D22F0B3FA0014EE59 /* ListViewModel.swift */,
 				F165A63422F254310014EE59 /* AuthorViewModel.swift */,
 				F165A60122EF18EC0014EE59 /* PhotosViewModel.swift */,
 				F165A61C22EF64D90014EE59 /* CollectionsViewModel.swift */,
+				F165A62D22F0B3FA0014EE59 /* ListViewModel.swift */,
 				56ED8D7A22F061CB006FE3F1 /* DetailViewModel.swift */,
 				56ED8D7C22F17623006FE3F1 /* ListViewModel.swift */,
 			);
@@ -363,6 +366,7 @@
 				F165A63522F254310014EE59 /* AuthorViewModel.swift in Sources */,
 				F165A60622EF1BC00014EE59 /* Photo.swift in Sources */,
 				F165A63922F69FED0014EE59 /* DoubleLabelView.swift in Sources */,
+				F165A64522F8E24D0014EE59 /* Extensions.swift in Sources */,
 				F165A63F22F8647B0014EE59 /* LaunchViewController.swift in Sources */,
 				F165A63122F0C6F30014EE59 /* ParallaxImageView.swift in Sources */,
 				F165A60422EF1A760014EE59 /* DetailViewController.swift in Sources */,

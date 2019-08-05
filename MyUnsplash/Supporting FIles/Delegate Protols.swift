@@ -32,3 +32,4 @@ protocol DetailCollectionViewCellDelegate: class {
     func downloadPhoto(_ cell: DetailCollectionViewCell)
     func getPhotoInfo(_ cell: DetailCollectionViewCell)
 }
+

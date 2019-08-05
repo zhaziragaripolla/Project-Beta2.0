@@ -56,7 +56,7 @@ class ParallaxImageView: UIImageView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        contentMode = ContentMode.scaleAspectFill
+        contentMode = ContentMode.scaleAspectFit
         autoresizingMask = [.flexibleWidth, .flexibleHeight]
         isUserInteractionEnabled = true
         

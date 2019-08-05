@@ -40,6 +40,7 @@ class AuthorViewController: UIViewController {
 
         viewModel.fetchPhotos()
         viewModel.fetchCollections()
+        viewModel.fetchLikedPhotos()
         
         layoutUI()
     }
@@ -121,8 +122,23 @@ extension AuthorViewController: UITableViewDataSource, UITableViewDelegate {
         }
     }
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        print(scrollView.contentOffset.y)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        navigationController?.navigationBar.isHidden = false
+        switch viewModel.sourceType {
+        case .collections:
+            let listViewController = ListViewController()
+            let collection = viewModel.collections[indexPath.row]
+            listViewController.viewModel = viewModel.checkPhotosOfCollection(for: collection)
+            navigationController?.pushViewController(listViewController, animated: true)
+        case .likedPhotos:
+            let detailViewController = DetailViewController()
+            detailViewController.viewModel = DetailViewModel(index: indexPath.row, photos: viewModel.likedPhotos)
+            present(detailViewController, animated: true)
+        case .photos:
+            let detailViewController = DetailViewController()
+            detailViewController.viewModel = DetailViewModel(index: indexPath.row, photos: viewModel.photos)
+            present(detailViewController, animated: true)
+        }
     }
 }
 

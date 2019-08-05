@@ -115,11 +115,9 @@ extension PhotosViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let vc = DetailViewController()
-        vc.viewModel = viewModel.setupDetailForPhoto(index: indexPath.row)
-        present(vc, animated: true)
-//        let navigationController = UINavigationController(rootViewController: vc)
-//        present(navigationController, animated: true)
+        let detailViewController = DetailViewController()
+        detailViewController.viewModel = DetailViewModel(index: indexPath.row, photos: viewModel.photos)
+        present(detailViewController, animated: true)
     }
 }
 

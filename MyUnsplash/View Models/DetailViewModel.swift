@@ -9,24 +9,28 @@
 import UIKit
 
 class DetailViewModel {
+    
     var isShown: Bool = false
     var photos: [Photo] = []
     
+    var touchPosition: CGPoint!
+    var startHeight: CGFloat!
+    
     var startIndex: Int = 0
     
-    init(index: Int) {
+    init(index: Int, photos: [Photo]) {
         self.startIndex = index
+        self.photos = photos
     }
-    
-//    func currentPhotoURL()-> URL? {
-//        guard let urlString = photos[startIndex].urls.regular else { return nil }
-//        return URL(string: urlString)
-//    }
+
+    func updateLocation(position: CGPoint, viewHeight: CGFloat) -> (CGFloat, CGFloat) {
+        let newY = max(position.y - touchPosition.y, 0)
+        return (viewHeight + touchPosition.y, newY)
+    }
     
     func currentPhotoURL(at index: Int)-> URL? {
         let url = photos[index].urls.regular!
-        return URL(string: url)
-        
+        return URL(string: url)   
     }
    
 }

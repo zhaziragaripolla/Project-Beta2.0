@@ -75,12 +75,6 @@ class PhotosViewModel: APIClient {
         
         return newViewModel
     }
-    
-    func setupDetailForPhoto(index: Int) -> DetailViewModel? {
-        let newViewModel = DetailViewModel(index: index)
-        newViewModel.photos = photos
-        return newViewModel
-    }
  
 }
 

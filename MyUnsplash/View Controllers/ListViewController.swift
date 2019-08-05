@@ -82,8 +82,8 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate {
         switch viewModel.currentMode {
             case .listOfPhotos:
                 let detailViewController = DetailViewController()
-                detailViewController.viewModel = DetailViewModel(index: indexPath.row)
-                detailViewController.viewModel.photos = viewModel.container as! [Photo]
+                let photos = viewModel.container as! [Photo]
+                detailViewController.viewModel = DetailViewModel(index: indexPath.row, photos: photos)
                 present(detailViewController, animated: true)
             case .listOfCollections:
                 let listViewController = ListViewController()
