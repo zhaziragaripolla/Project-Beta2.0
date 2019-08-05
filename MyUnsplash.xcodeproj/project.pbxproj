@@ -169,13 +169,13 @@
 			children = (
 				F165A63E22F8647B0014EE59 /* LaunchViewController.swift */,
 				F165A5D222EEF24C0014EE59 /* ViewController.swift */,
+				F165A64022F865600014EE59 /* OfflineViewController.swift */,
 				F165A61222EF32C40014EE59 /* ListViewController.swift */,
 				F165A5EA22EEF2C20014EE59 /* PopoverViewController.swift */,
 				F165A5E822EEF2AE0014EE59 /* PhotosViewController.swift */,
 				F165A5EC22EEF2CF0014EE59 /* CollectionsViewController.swift */,
 				F165A62122EF95850014EE59 /* AuthorViewController.swift */,
 				F165A60322EF1A760014EE59 /* DetailViewController.swift */,
-				F165A64022F865600014EE59 /* OfflineViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
