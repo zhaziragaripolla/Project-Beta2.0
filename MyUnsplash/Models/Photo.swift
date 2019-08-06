@@ -15,8 +15,17 @@ class Photo: Codable {
     let height: Int
     let user: User
     let urls: ImageURL
-    let likes: Int
+    let likes: Int?
     let sponsored: Bool?
+    let exif: Camera?
+    var isSaved: Bool?
+    
+    struct Camera: Codable {
+        let make: String?
+        let model: String?
+        let exposureTime: String?
+        let aperture: String?
+    }
 }
 
 class User: Codable {

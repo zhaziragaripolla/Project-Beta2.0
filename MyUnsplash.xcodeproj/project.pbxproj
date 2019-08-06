@@ -11,8 +11,12 @@
 		56ED8D7B22F061CB006FE3F1 /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ED8D7A22F061CB006FE3F1 /* DetailViewModel.swift */; };
 		56ED8D7D22F17623006FE3F1 /* ListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ED8D7C22F17623006FE3F1 /* ListViewModel.swift */; };
 		56ED8D7F22F18F57006FE3F1 /* SearchResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ED8D7E22F18F57006FE3F1 /* SearchResponse.swift */; };
-		56ED8D8122F1A2B6006FE3F1 /* UnsplashResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ED8D8022F1A2B6006FE3F1 /* UnsplashResponse.swift */; };
 		56ED8D8722F58B1E006FE3F1 /* DetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ED8D8622F58B1E006FE3F1 /* DetailCollectionViewCell.swift */; };
+		56F297DC22F859BE004F1346 /* ImageCacher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56F297DB22F859BE004F1346 /* ImageCacher.swift */; };
+		56F297DE22F9B957004F1346 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56F297DD22F9B957004F1346 /* DataController.swift */; };
+		56F297E222F9CE72004F1346 /* StoredPhotosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56F297E122F9CE72004F1346 /* StoredPhotosViewController.swift */; };
+		56F297E422F9E223004F1346 /* StoredPhotoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56F297E322F9E223004F1346 /* StoredPhotoTableViewCell.swift */; };
+		56F297E622F9F412004F1346 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56F297E522F9F412004F1346 /* Extensions.swift */; };
 		F165A5D122EEF24C0014EE59 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A5D022EEF24C0014EE59 /* AppDelegate.swift */; };
 		F165A5D322EEF24C0014EE59 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A5D222EEF24C0014EE59 /* ViewController.swift */; };
 		F165A5D922EEF24C0014EE59 /* MyUnsplash.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F165A5D722EEF24C0014EE59 /* MyUnsplash.xcdatamodeld */; };
@@ -55,8 +59,12 @@
 		56ED8D7A22F061CB006FE3F1 /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
 		56ED8D7C22F17623006FE3F1 /* ListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewModel.swift; sourceTree = "<group>"; };
 		56ED8D7E22F18F57006FE3F1 /* SearchResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResponse.swift; sourceTree = "<group>"; };
-		56ED8D8022F1A2B6006FE3F1 /* UnsplashResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsplashResponse.swift; sourceTree = "<group>"; };
 		56ED8D8622F58B1E006FE3F1 /* DetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCollectionViewCell.swift; sourceTree = "<group>"; };
+		56F297DB22F859BE004F1346 /* ImageCacher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ImageCacher.swift; path = ../Models/ImageCacher.swift; sourceTree = "<group>"; };
+		56F297DD22F9B957004F1346 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
+		56F297E122F9CE72004F1346 /* StoredPhotosViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoredPhotosViewController.swift; sourceTree = "<group>"; };
+		56F297E322F9E223004F1346 /* StoredPhotoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoredPhotoTableViewCell.swift; sourceTree = "<group>"; };
+		56F297E522F9F412004F1346 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		9E0BFBB06854955754632D84 /* Pods_MyUnsplash.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyUnsplash.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2C7624F1DC3207F9CF44A84 /* Pods-MyUnsplash.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyUnsplash.release.xcconfig"; path = "Target Support Files/Pods-MyUnsplash/Pods-MyUnsplash.release.xcconfig"; sourceTree = "<group>"; };
 		F165A5CD22EEF24C0014EE59 /* MyUnsplash.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyUnsplash.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -176,6 +184,7 @@
 				F165A5EC22EEF2CF0014EE59 /* CollectionsViewController.swift */,
 				F165A62122EF95850014EE59 /* AuthorViewController.swift */,
 				F165A60322EF1A760014EE59 /* DetailViewController.swift */,
+				56F297E122F9CE72004F1346 /* StoredPhotosViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -183,9 +192,12 @@
 		F165A5E622EEF2840014EE59 /* Supporting FIles */ = {
 			isa = PBXGroup;
 			children = (
+				56F297DB22F859BE004F1346 /* ImageCacher.swift */,
 				F165A61E22EF81DA0014EE59 /* Colors.swift */,
 				F165A5F422EEF6830014EE59 /* LocalDatabase.swift */,
 				F165A61422EF34520014EE59 /* Delegate Protols.swift */,
+				56F297DD22F9B957004F1346 /* DataController.swift */,
+				56F297E522F9F412004F1346 /* Extensions.swift */,
 			);
 			path = "Supporting FIles";
 			sourceTree = "<group>";
@@ -200,6 +212,7 @@
 				F165A5EE22EEF4540014EE59 /* PhotoTableViewCell.swift */,
 				F165A5FE22EEFABF0014EE59 /* CollectionTableViewCell.swift */,
 				56ED8D8622F58B1E006FE3F1 /* DetailCollectionViewCell.swift */,
+				56F297E322F9E223004F1346 /* StoredPhotoTableViewCell.swift */,
 			);
 			path = "Custom Views";
 			sourceTree = "<group>";
@@ -236,7 +249,6 @@
 				F165A60522EF1BC00014EE59 /* Photo.swift */,
 				F165A60722EF1F960014EE59 /* Collection.swift */,
 				56ED8D7E22F18F57006FE3F1 /* SearchResponse.swift */,
-				56ED8D8022F1A2B6006FE3F1 /* UnsplashResponse.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -357,21 +369,25 @@
 			buildActionMask = 2147483647;
 			files = (
 				56ED8D7F22F18F57006FE3F1 /* SearchResponse.swift in Sources */,
+				56F297DC22F859BE004F1346 /* ImageCacher.swift in Sources */,
 				F165A61522EF34520014EE59 /* Delegate Protols.swift in Sources */,
 				F165A61F22EF81DA0014EE59 /* Colors.swift in Sources */,
 				F165A62E22F0B3FA0014EE59 /* ListViewModel.swift in Sources */,
 				F165A63522F254310014EE59 /* AuthorViewModel.swift in Sources */,
 				F165A60622EF1BC00014EE59 /* Photo.swift in Sources */,
+				56F297DE22F9B957004F1346 /* DataController.swift in Sources */,
 				F165A63922F69FED0014EE59 /* DoubleLabelView.swift in Sources */,
 				F165A63F22F8647B0014EE59 /* LaunchViewController.swift in Sources */,
 				F165A63122F0C6F30014EE59 /* ParallaxImageView.swift in Sources */,
+				56F297E222F9CE72004F1346 /* StoredPhotosViewController.swift in Sources */,
 				F165A60422EF1A760014EE59 /* DetailViewController.swift in Sources */,
 				F165A5EF22EEF4540014EE59 /* PhotoTableViewCell.swift in Sources */,
 				F165A61B22EF63770014EE59 /* URLConstructor.swift in Sources */,
+				56F297E622F9F412004F1346 /* Extensions.swift in Sources */,
 				F165A5ED22EEF2CF0014EE59 /* CollectionsViewController.swift in Sources */,
+				56F297E422F9E223004F1346 /* StoredPhotoTableViewCell.swift in Sources */,
 				56ED8D7B22F061CB006FE3F1 /* DetailViewModel.swift in Sources */,
 				F165A5D922EEF24C0014EE59 /* MyUnsplash.xcdatamodeld in Sources */,
-				56ED8D8122F1A2B6006FE3F1 /* UnsplashResponse.swift in Sources */,
 				F165A5E922EEF2AE0014EE59 /* PhotosViewController.swift in Sources */,
 				F165A61922EF633D0014EE59 /* DataFetcher.swift in Sources */,
 				F165A63D22F8630F0014EE59 /* NetworkManager.swift in Sources */,

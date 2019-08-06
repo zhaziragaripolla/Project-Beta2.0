@@ -10,7 +10,7 @@ import UIKit
 
 class CollectionsViewController: UIViewController {
 
-    private var viewModel: CollectionsViewModel!
+    private var viewModel = CollectionsViewModel()
     private var tableView = UITableView()
     
     override func viewDidLoad() {
@@ -19,22 +19,24 @@ class CollectionsViewController: UIViewController {
         view.backgroundColor = .white
         title = "Collections"
         
-        viewModel = CollectionsViewModel(delegate: self)
-        viewModel.fetchCollections()
+        viewModel.delegate = self
+        viewModel.showAlertDelegate = self
         
         setupTableView()
         layoutUI()
     }
     
     func setupTableView() {
+        view.addSubview(tableView)
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.prefetchDataSource = self
+        tableView.estimatedRowHeight = 0
         tableView.register(CollectionTableViewCell.self, forCellReuseIdentifier: "collectionCell")
         tableView.tableFooterView = UIView()
     }
     
     func layoutUI() {
-        view.addSubview(tableView)
         tableView.snp.makeConstraints({make in
             make.leading.trailing.top.bottom.equalTo(view.safeAreaLayoutGuide)
         })
@@ -44,17 +46,26 @@ class CollectionsViewController: UIViewController {
     }
 }
 
-extension CollectionsViewController: UITableViewDataSource, UITableViewDelegate {
+extension CollectionsViewController: UITableViewDataSource, UITableViewDelegate, UITableViewDataSourcePrefetching {
+    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+        if indexPaths.contains(where: isLoadingCell) {
+            viewModel.fetchCollections()
+        }
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.collections.count
+        return viewModel.totalCount
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "collectionCell", for: indexPath) as? CollectionTableViewCell else {
             return UITableViewCell()
         }
-        let collection = viewModel.collections[indexPath.row]
-        cell.updateUI(collection: collection)
+        
+        if !isLoadingCell(for: indexPath) {
+            let collection = viewModel.collections[indexPath.row]
+            cell.updateUI(collection: collection)
+        }
         return cell
     }
     
@@ -70,10 +81,33 @@ extension CollectionsViewController: UITableViewDataSource, UITableViewDelegate 
     }
 }
 
-extension CollectionsViewController: DataViewModelDelegate {
-    func reloadData() {
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
+extension CollectionsViewController: PrefetcherDelegate, NetworkFailureDelegate {
+    func showAlert(message: String) {
+        let alertVC = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alertVC, animated: false)
+    }
+    
+    func onFetchCompleted(with newIndexPathsToReload: [IndexPath]?) {
+        guard let newIndexPathsToReload = newIndexPathsToReload else {
+            tableView.isHidden = false
+            tableView.reloadData()
+            return
         }
+        
+        let indexPathsToReload = visibleIndexPathsToReload(intersecting: newIndexPathsToReload)
+        tableView.reloadRows(at: indexPathsToReload, with: .none)
+    }
+    
+}
+private extension CollectionsViewController {
+    func isLoadingCell(for indexPath: IndexPath) -> Bool {
+        return indexPath.row >= viewModel.currentCount
+    }
+    
+    func visibleIndexPathsToReload(intersecting indexPaths: [IndexPath]) -> [IndexPath] {
+        let indexPathsForVisibleRows = tableView.indexPathsForVisibleRows ?? []
+        let indexPathsIntersection = Set(indexPathsForVisibleRows).intersection(indexPaths)
+        return Array(indexPathsIntersection)
     }
 }

@@ -8,25 +8,36 @@
 
 import UIKit
 
-class DetailViewModel {
+class DetailViewModel: APIClient {
     var isShown: Bool = false
     var photos: [Photo] = []
-    
     var startIndex: Int = 0
+    weak var delegate: DetailViewModelDelegate?
+    weak var showAlertDelegate: NetworkFailureDelegate?
     
-    init(index: Int) {
+    init(index: Int, photos: [Photo]) {
         self.startIndex = index
+        self.photos = photos
     }
-    
-//    func currentPhotoURL()-> URL? {
-//        guard let urlString = photos[startIndex].urls.regular else { return nil }
-//        return URL(string: urlString)
-//    }
-    
-    func currentPhotoURL(at index: Int)-> URL? {
+
+    func getURL(at index: Int)-> URL? {
         let url = photos[index].urls.regular!
         return URL(string: url)
-        
+    }
+    
+    func fetchPhoto(at index: Int) {
+        let id = photos[index].id
+        let request = URLConstructor.getPhotoInfo(id: id).request
+        fetch(with: request, responseType: Photo.self) { response, error in
+            if let response = response {
+                self.delegate?.updateInfo(photo: response)
+            }
+            
+            if let error = error {
+                self.showAlertDelegate?.showAlert(message: error.localizedDescription)
+            }
+            
+        }
     }
    
 }

@@ -6,91 +6,98 @@
 //  Copyright © 2019 Бекдаулет Касымов. All rights reserved.
 //
 
-import AlamofireImage
+import Foundation
 
-class PhotosViewModel: APIClient {
+class PhotosViewModel: APIClient, DataPrefetchable {
     
-    private var page: Int = 1
-    var photos: [Photo] = []
+    public var photos: [Photo] = []
+    internal var currentPage = 1
+    internal var isFetchInProgress = false
     
-    let photoCache = AutoPurgingImageCache(
-        memoryCapacity: UInt64(400).megabytes(),
-        preferredMemoryUsageAfterPurge: UInt64(350).megabytes()
-    )
-    
-    weak var delegate: DataViewModelDelegate?
-    weak var showAlertDelegate: NetworkFailureDelegate?
-
-    
-    func cacheImage(_ photo: Photo) {
-//        if let url = URL(string: photo.urls.full!), let newData = try? Data(contentsOf: url), let image = UIImage(data: newData) {
-//            self.photoCache.add(image, withIdentifier: photo.id)
-//            return image
-//        }
-//        return nil
-        DispatchQueue.global().async { [weak self] in
-            if let url = URL(string: photo.urls.full!), let newData = try? Data(contentsOf: url), let image = UIImage(data: newData) {
-                
-                DispatchQueue.main.async {
-                    self?.photoCache.add(image, withIdentifier: photo.id)
-                    self?.delegate?.reloadData()
-                    print("image is added")
-                }
-                
-            }
-        }
+    var totalCount: Int {
+        // Will fetch maximum - 50 elements
+        return 60
     }
     
+    var currentCount: Int {
+        return photos.count
+    }
+    
+    weak var showAlertDelegate: NetworkFailureDelegate?
+    weak var delegate: PrefetcherDelegate?
+    
+    
+    // MARK: Fetch new photos
     func fetchPhotos() {
-        let request = URLConstructor.getPhotos(page: page).request
+        guard !isFetchInProgress else {
+            return
+        }
         
+        isFetchInProgress = true
+        let request = URLConstructor.getPhotos(page: currentPage).request
         fetch(with: request, responseType: [Photo].self) { [weak self] response, error in
             if let response = response {
-                self?.photos = response
-                self?.delegate?.reloadData()
+                self?.photos.append(contentsOf: response)
+                response.forEach({
+                    DataController.shared.setState(photo: $0)
+                })
+                self?.isFetchInProgress = false
+                self?.currentPage += 1
+                let indexPathsToReload = self?.calculateIndexPathsToReload(from: response)
+                self?.delegate?.onFetchCompleted(with: indexPathsToReload)
             }
             
             if let error = error {
-                // TODO: delegate to VC to show alert controller with error
-                print(error.localizedDescription)
+                self?.showAlertDelegate?.showAlert(message: error.localizedDescription)
+                self?.isFetchInProgress = false
             }
         }
-        self.page += 1
+        
     }
     
+    // MARK: Fetch search results
     func fetchSearchResults(text: String)-> ListViewModel? {
         let newViewModel = ListViewModel(sourceType: .listOfPhotos)
         newViewModel.title = text
         let request = URLConstructor.searchPhotos(text: text).request
         
-        fetch(with: request, responseType: SearchResponse.self) { response, error in
+        fetch(with: request, responseType: SearchResponse.self) { [weak self] response, error in
             if let response = response {
                 newViewModel.container = response.results
             }
             if let error = error {
-                // TODO: delegate to VC to show alert controller with error
-                self.showAlertDelegate?.showAlert(message: error.localizedDescription)
+                self?.showAlertDelegate?.showAlert(message: error.localizedDescription)
             }
         }
         
         return newViewModel
     }
     
+    // MARK: Create DetailVM
     func setupDetailForPhoto(index: Int) -> DetailViewModel? {
-        let newViewModel = DetailViewModel(index: index)
-        newViewModel.photos = photos
+        let newViewModel = DetailViewModel(index: index, photos: photos)
         return newViewModel
+    }
+    
+    func calculateIndexPathsToReload(from newData: [Any]) -> [IndexPath] {
+        let startIndex = photos.count - newData.count
+        let endIndex = startIndex + newData.count
+        return (startIndex..<endIndex).map { IndexPath(row: $0, section: 0) }
+    }
+    
+    func save(for index: Int) {
+        let photo = photos[index]
+        if DataController.shared.contains(id: photo.id) {
+            DataController.shared.delete(photo)
+        }
+        else {
+            DataController.shared.insert(photo)
+        }
     }
  
 }
 
-extension UInt64 {
-    
-    func megabytes() -> UInt64 {
-        return self * 1024 * 1024
-    }
-    
-}
+
 
 
 

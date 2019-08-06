@@ -46,6 +46,7 @@ enum URLConstructor {
     case getPhotosOfCollection(id: Int)
     case getAuthorPhotos(username: String)
     case getAuthorCollections(username: String)
+    case getPhotoInfo(id: String)
 }
 
 extension URLConstructor: Endpoint {
@@ -68,6 +69,8 @@ extension URLConstructor: Endpoint {
             return "/users/\(username)/photos"
         case .getAuthorCollections(let username):
             return "/users/\(username)/collections"
+        case .getPhotoInfo(let id):
+            return "/photos/\(id)"
         }
     }
     
@@ -77,27 +80,12 @@ extension URLConstructor: Endpoint {
             return ["client_id": API.key, "page": page]
         case .getCollections(let page):
             return ["client_id": API.key, "page": page]
-        case .getPhotosOfCollection:
-            return ["client_id": API.key]
         case .searchPhotos(let text):
             return ["query": text, "client_id": API.key]
-        case .getAuthorPhotos:
-            return ["client_id": API.key]
-        case .getAuthorCollections:
+        default:
             return ["client_id": API.key]
         }
     }
 }
 
-extension Dictionary {
-    
-    func percentEscaped() -> String {
-        return map { (key, value) in
-            let escapedKey = "\(key)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
-            let escapedValue = "\(value)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
-            return escapedKey + "=" + escapedValue
-        }
-            .joined(separator: "&")
-    }
-    
-}
+
