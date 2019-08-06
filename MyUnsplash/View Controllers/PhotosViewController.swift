@@ -45,7 +45,7 @@ class PhotosViewController: UIViewController {
         tableView.contentInset = UIEdgeInsets(top: -dummyViewHeight, left: 0, bottom: 0, right: 0)
         
         tableView.snp.makeConstraints({make in
-            make.leading.trailing.top.bottom.equalTo(view.safeAreaLayoutGuide)
+            make.edges.equalTo(view.safeAreaLayoutGuide)
         })
         
         
@@ -92,8 +92,8 @@ class PhotosViewController: UIViewController {
 }
 
 // MARK: Setup table view
-extension PhotosViewController: UITableViewDataSource, UITableViewDataSourcePrefetching, UITableViewDelegate {
-    
+extension PhotosViewController: UITableViewDataSource, UITableViewDataSourcePrefetching, UITableViewDelegate, PhotoTableViewCellDelegate {
+   
     func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
         if indexPaths.contains(where: isLoadingCell) {
             viewModel.fetchPhotos()
@@ -117,6 +117,7 @@ extension PhotosViewController: UITableViewDataSource, UITableViewDataSourcePref
         }
     
         cell.delegate = self
+        cell.saverDelegate = self
         cell.index = indexPath.row
         return cell
     }
@@ -146,6 +147,12 @@ extension PhotosViewController: UITableViewDataSource, UITableViewDataSourcePref
             let height = (width * CGFloat(photo.height)) / CGFloat(photo.width)
             return height
         }
+    }
+    
+    func updateState(_ cell: PhotoTableViewCell) {
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        viewModel.save(for: indexPath.row)
+        tableView.reloadRows(at: [indexPath], with: .none)
     }
 }
 

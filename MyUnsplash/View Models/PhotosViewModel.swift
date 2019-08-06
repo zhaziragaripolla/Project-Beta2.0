@@ -38,6 +38,9 @@ class PhotosViewModel: APIClient, DataPrefetchable {
         fetch(with: request, responseType: [Photo].self) { [weak self] response, error in
             if let response = response {
                 self?.photos.append(contentsOf: response)
+                response.forEach({
+                    DataController.shared.setState(photo: $0)
+                })
                 self?.isFetchInProgress = false
                 self?.currentPage += 1
                 let indexPathsToReload = self?.calculateIndexPathsToReload(from: response)
@@ -80,6 +83,16 @@ class PhotosViewModel: APIClient, DataPrefetchable {
         let startIndex = photos.count - newData.count
         let endIndex = startIndex + newData.count
         return (startIndex..<endIndex).map { IndexPath(row: $0, section: 0) }
+    }
+    
+    func save(for index: Int) {
+        let photo = photos[index]
+        if DataController.shared.contains(id: photo.id) {
+            DataController.shared.delete(photo)
+        }
+        else {
+            DataController.shared.insert(photo)
+        }
     }
  
 }

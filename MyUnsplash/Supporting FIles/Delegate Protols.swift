@@ -6,7 +6,7 @@
 //  Copyright © 2019 Бекдаулет Касымов. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
 protocol PhotosViewControllerDelegate: class {
     func didTapAuthorButton(index: Int)
@@ -40,14 +40,8 @@ protocol DataPrefetchable: class {
     func calculateIndexPathsToReload(from newData: [Any]) -> [IndexPath]
 }
 
-extension UIImageView {
-    func load(identifier: String) {
-        ImageCacher.shared.load(identifier: identifier) { image in
-            if let image = image {
-                self.image = image
-            }
-        }
-        
-    }
-    
+protocol PhotoTableViewCellDelegate: class {
+    func updateState(_ cell: PhotoTableViewCell)
 }
+
+

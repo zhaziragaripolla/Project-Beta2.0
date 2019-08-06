@@ -31,8 +31,6 @@ class CollectionTableViewCell: UITableViewCell {
     
     func updateUI(collection: Collection) {
         photoImageView.image = nil
-        
-//        guard let url = URL(string: collection.coverPhoto.urls.regular!) else { return }
         photoImageView.load(identifier: collection.coverPhoto.urls.regular!)
         titleLabel.text = collection.title
     }

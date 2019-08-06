@@ -43,7 +43,13 @@ class ListViewController: UIViewController {
     }
 }
 
-extension ListViewController: UITableViewDataSource, UITableViewDelegate {
+extension ListViewController: UITableViewDataSource, UITableViewDelegate, PhotoTableViewCellDelegate {
+    func updateState(_ cell: PhotoTableViewCell) {
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        viewModel.save(for: indexPath.row)
+        tableView.reloadRows(at: [indexPath], with: .none)
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.container.count
     }
@@ -56,6 +62,7 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate {
             let photo = viewModel.container[indexPath.row] as! Photo
             cell.updateUI(photo: photo)
             cell.delegate = self
+            cell.saverDelegate = self
             return cell
         case .listOfCollections:
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CollectionTableViewCell

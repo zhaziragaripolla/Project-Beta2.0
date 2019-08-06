@@ -21,7 +21,6 @@ class CollectionsViewController: UIViewController {
         
         viewModel.delegate = self
         viewModel.showAlertDelegate = self
-//        viewModel.fetchCollections()
         
         setupTableView()
         layoutUI()
@@ -63,13 +62,10 @@ extension CollectionsViewController: UITableViewDataSource, UITableViewDelegate,
             return UITableViewCell()
         }
         
-        if isLoadingCell(for: indexPath) {
-//            cell.updateUI(collection: .none)
-        } else {
+        if !isLoadingCell(for: indexPath) {
             let collection = viewModel.collections[indexPath.row]
             cell.updateUI(collection: collection)
         }
-//        cell.updateUI(collection: collection)
         return cell
     }
     

@@ -38,5 +38,16 @@ class ListViewModel {
         }
     }
     
+    func save(for index: Int) {
+        let photo = container[index] as! Photo
+        if DataController.shared.contains(id: photo.id) {
+            DataController.shared.delete(photo)
+        }
+        else {
+            DataController.shared.insert(photo)
+        }
+    }
+   
+    
 }
 

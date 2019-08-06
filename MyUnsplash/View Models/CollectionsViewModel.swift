@@ -36,8 +36,10 @@ class CollectionsViewModel: APIClient, DataPrefetchable {
         fetch(with: request, responseType: [Collection].self) { [weak self] response, error in
             if let response = response {
                 self?.collections.append(contentsOf: response)
+                
                 self?.isFetchInProgress = false
                 self?.currentPage += 1
+                
                 let indexPathsToReload = self?.calculateIndexPathsToReload(from: response)
                 self?.delegate?.onFetchCompleted(with: indexPathsToReload)
             }
@@ -56,13 +58,17 @@ class CollectionsViewModel: APIClient, DataPrefetchable {
         let newViewModel = ListViewModel(sourceType: .listOfPhotos)
         newViewModel.title = collection.title
         let request = URLConstructor.getPhotosOfCollection(id: collection.id).request
-        fetch(with: request, responseType: [Photo].self) {  response, error in
+        fetch(with: request, responseType: [Photo].self) { [weak self]  response, error in
             if let response = response {
+                response.forEach({
+                    DataController.shared.setState(photo: $0)
+                })
                 newViewModel.container = response
+                
             }
             
             if let error = error {
-                self.showAlertDelegate?.showAlert(message: error.localizedDescription)
+                self?.showAlertDelegate?.showAlert(message: error.localizedDescription)
             }
             
         }

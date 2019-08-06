@@ -18,6 +18,7 @@ class Photo: Codable {
     let likes: Int?
     let sponsored: Bool?
     let exif: Camera?
+    var isSaved: Bool?
     
     struct Camera: Codable {
         let make: String?
