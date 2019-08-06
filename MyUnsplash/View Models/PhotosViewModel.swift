@@ -8,10 +8,17 @@
 
 import AlamofireImage
 
+enum State {
+    case photos
+    case search
+}
+
 class PhotosViewModel: APIClient {
     
     private var page: Int = 1
     var photos: [Photo] = []
+    var state: State = .photos
+    var searchHistory: [String] = []
     
     let photoCache = AutoPurgingImageCache(
         memoryCapacity: UInt64(400).megabytes(),
@@ -76,16 +83,21 @@ class PhotosViewModel: APIClient {
         return newViewModel
     }
  
+    func fetchHistory() {
+        guard let tempHistory = UserDefaults.standard.array(forKey: "history") as? [String] else {
+            return
+        }
+        searchHistory = tempHistory
+    }
+    
+    func clearHistory() {
+        searchHistory = []
+        UserDefaults.standard.removeObject(forKey: "history")
+    }
 }
 
 extension UInt64 {
-    
     func megabytes() -> UInt64 {
         return self * 1024 * 1024
     }
-    
 }
-
-
-
-

@@ -43,6 +43,12 @@ class AuthorViewController: UIViewController {
         viewModel.fetchLikedPhotos()
         
         layoutUI()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(methodOfReceivedNotificationHideBar), name:NSNotification.Name(rawValue: "NotificationIdentifierForHideNavigationBar"), object: nil)
+    }
+    
+    @objc func methodOfReceivedNotificationHideBar() {
+        navigationController?.navigationBar.isHidden = true
     }
     
     override func viewDidLayoutSubviews() {

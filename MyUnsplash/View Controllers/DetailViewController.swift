@@ -106,6 +106,10 @@ class DetailViewController: UIViewController {
         
         setupInformationView()
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "NotificationIdentifierForHideNavigationBar"), object: nil)
+    }
  
     @objc func didTapDone() {
         dismiss(animated: true, completion: nil)

@@ -49,6 +49,7 @@
 		F165A63F22F8647B0014EE59 /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A63E22F8647B0014EE59 /* LaunchViewController.swift */; };
 		F165A64122F865600014EE59 /* OfflineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A64022F865600014EE59 /* OfflineViewController.swift */; };
 		F165A64522F8E24D0014EE59 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A64422F8E24D0014EE59 /* Extensions.swift */; };
+		F165A64D22FA35630014EE59 /* SectionClearHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A64C22FA35630014EE59 /* SectionClearHeader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -98,6 +99,7 @@
 		F165A63E22F8647B0014EE59 /* LaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
 		F165A64022F865600014EE59 /* OfflineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineViewController.swift; sourceTree = "<group>"; };
 		F165A64422F8E24D0014EE59 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		F165A64C22FA35630014EE59 /* SectionClearHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionClearHeader.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -203,6 +205,7 @@
 				F165A5EE22EEF4540014EE59 /* PhotoTableViewCell.swift */,
 				F165A5FE22EEFABF0014EE59 /* CollectionTableViewCell.swift */,
 				56ED8D8622F58B1E006FE3F1 /* DetailCollectionViewCell.swift */,
+				F165A64C22FA35630014EE59 /* SectionClearHeader.swift */,
 			);
 			path = "Custom Views";
 			sourceTree = "<group>";
@@ -368,6 +371,7 @@
 				F165A63922F69FED0014EE59 /* DoubleLabelView.swift in Sources */,
 				F165A64522F8E24D0014EE59 /* Extensions.swift in Sources */,
 				F165A63F22F8647B0014EE59 /* LaunchViewController.swift in Sources */,
+				F165A64D22FA35630014EE59 /* SectionClearHeader.swift in Sources */,
 				F165A63122F0C6F30014EE59 /* ParallaxImageView.swift in Sources */,
 				F165A60422EF1A760014EE59 /* DetailViewController.swift in Sources */,
 				F165A5EF22EEF4540014EE59 /* PhotoTableViewCell.swift in Sources */,

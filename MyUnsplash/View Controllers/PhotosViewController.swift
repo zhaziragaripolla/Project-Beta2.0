@@ -34,6 +34,7 @@ class PhotosViewController: UIViewController {
         viewModel.delegate = self
         viewModel.showAlertDelegate = self
         viewModel.fetchPhotos()
+        viewModel.fetchHistory()
         
         setupTableView()
         setupSearchBar()
@@ -61,12 +62,12 @@ class PhotosViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(PhotoTableViewCell.self, forCellReuseIdentifier: "photoCell")
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "searchCell")
         tableView.isPagingEnabled = true
     }
 
     func setupSearchBar() {
         searchController.searchBar.delegate = self
-        
         searchController.dimsBackgroundDuringPresentation = false
         searchController.hidesNavigationBarDuringPresentation = true
         searchController.searchBar.placeholder = "Search photos"
@@ -92,19 +93,31 @@ class PhotosViewController: UIViewController {
 extension PhotosViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.photos.count
+        switch viewModel.state {
+        case .photos:
+            return viewModel.photos.count
+        default:
+            return viewModel.searchHistory.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "photoCell", for: indexPath) as? PhotoTableViewCell else {
-            return UITableViewCell()
+        switch viewModel.state {
+        case .photos:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "photoCell", for: indexPath) as? PhotoTableViewCell else {
+                return UITableViewCell()
+            }
+            let photo = viewModel.photos[indexPath.row]
+            cell.updateUI(photo: photo)
+            cell.delegate = self
+            cell.index = indexPath.row
+            return cell
+        default:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "searchCell", for: indexPath)
+            cell.textLabel!.text = viewModel.searchHistory[indexPath.row]
+            return cell
         }
-        let photo = viewModel.photos[indexPath.row]
-//        viewModel.cacheImage(photo)
-        cell.updateUI(photo: photo)
-        cell.delegate = self
-        cell.index = indexPath.row
-        return cell
+        
     }
     
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
@@ -114,23 +127,56 @@ extension PhotosViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let detailViewController = DetailViewController()
-        detailViewController.viewModel = DetailViewModel(index: indexPath.row, photos: viewModel.photos)
-        present(detailViewController, animated: true)
+        switch viewModel.state {
+        case .photos:
+            let detailViewController = DetailViewController()
+            detailViewController.viewModel = DetailViewModel(index: indexPath.row, photos: viewModel.photos)
+            present(detailViewController, animated: true)
+        default:
+            let listVC = ListViewController()
+            listVC.viewModel = viewModel.fetchSearchResults(text: viewModel.searchHistory[indexPath.row])
+            navigationController?.pushViewController(listVC, animated: true)
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if viewModel.state == .search && viewModel.searchHistory.count > 0 {
+            let section = SectionClearHeader()
+            section.delegate = self
+            return section
+        }
+        return nil
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        switch viewModel.state {
+        case .photos:
+            return 0
+        default:
+            return 20
+        }
+    }
+}
+
+extension PhotosViewController: HistoryCleanable {
+    func cleanHistory() {
+        viewModel.clearHistory()
+        tableView.reloadData()
     }
 }
 
 
 extension PhotosViewController: UITableViewDelegate {
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        print("scroll")
-    }
-    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let photo = viewModel.photos[indexPath.row]
-        let width = view.bounds.width
-        let height = (width * CGFloat(photo.height)) / CGFloat(photo.width)
-        return height
+        switch viewModel.state {
+        case .photos:
+            let photo = viewModel.photos[indexPath.row]
+            let width = view.bounds.width
+            let height = (width * CGFloat(photo.height)) / CGFloat(photo.width)
+            return height
+        default:
+            return UITableViewCell().bounds.height
+        }
     }
 }
 
@@ -141,10 +187,25 @@ extension PhotosViewController: UIPopoverPresentationControllerDelegate {
 }
 
 extension PhotosViewController: UISearchBarDelegate {
+    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
+        viewModel.state = .search
+        tableView.reloadData()
+        return true
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        viewModel.state = .photos
+        tableView.reloadData()
+    }
+    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let textToSearch = searchBar.text, !textToSearch.isEmpty else {
             return
         }
+        
+        viewModel.searchHistory.append(textToSearch)
+        UserDefaults.standard.set(viewModel.searchHistory, forKey: "history")
+        tableView.reloadData()
         
         let listVC = ListViewController()
         listVC.viewModel = viewModel.fetchSearchResults(text: textToSearch)
