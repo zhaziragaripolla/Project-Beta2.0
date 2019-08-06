@@ -30,11 +30,9 @@ class PhotosViewController: UIViewController {
         
         view.backgroundColor = .white
         title = "Photos for everyone"
-        
-//        viewModel.delegate = self
+
         viewModel.showAlertDelegate = self
         viewModel.delegate = self
-//        viewModel.fetchPhotos()
         
         setupTableView()
         setupSearchBar()
@@ -58,10 +56,12 @@ class PhotosViewController: UIViewController {
     
     func setupTableView() {
         view.addSubview(tableView)
+        
         tableView.dataSource = self
         tableView.prefetchDataSource = self
         tableView.delegate = self
         tableView.estimatedRowHeight = 0
+    
         tableView.register(PhotoTableViewCell.self, forCellReuseIdentifier: "photoCell")
         tableView.isPagingEnabled = true
     }

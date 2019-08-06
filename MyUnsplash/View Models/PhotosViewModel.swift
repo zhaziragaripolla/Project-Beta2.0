@@ -6,28 +6,17 @@
 //  Copyright © 2019 Бекдаулет Касымов. All rights reserved.
 //
 
-import AlamofireImage
-
-protocol PrefetcherDelegate: class {
-    func onFetchCompleted(with newIndexPathsToReload: [IndexPath]?)
-}
-
-protocol DataPrefetchable: class {
-    var totalCount: Int { get }
-    var currentCount: Int { get }
-    var currentPage: Int { get }
-    var isFetchInProgress: Bool { get }
-}
+import Foundation
 
 class PhotosViewModel: APIClient, DataPrefetchable {
-    internal var currentPage = 1
+    
     public var photos: [Photo] = []
-    private var total = 0
+    internal var currentPage = 1
     internal var isFetchInProgress = false
     
     var totalCount: Int {
         // Will fetch maximum - 50 elements
-        return 50
+        return 60
     }
     
     var currentCount: Int {
@@ -37,26 +26,22 @@ class PhotosViewModel: APIClient, DataPrefetchable {
     weak var showAlertDelegate: NetworkFailureDelegate?
     weak var delegate: PrefetcherDelegate?
     
+    
+    // MARK: Fetch new photos
     func fetchPhotos() {
-        
         guard !isFetchInProgress else {
             return
         }
+        
         isFetchInProgress = true
         let request = URLConstructor.getPhotos(page: currentPage).request
         fetch(with: request, responseType: [Photo].self) { [weak self] response, error in
             if let response = response {
                 self?.photos.append(contentsOf: response)
                 self?.isFetchInProgress = false
-//                self?.total += response.count
                 self?.currentPage += 1
-                if self!.currentPage > 1 {
-                    let indexPathsToReload = self?.calculateIndexPathsToReload(from: response)
-                    self?.delegate?.onFetchCompleted(with: indexPathsToReload)
-                }
-                else {
-                    self?.delegate?.onFetchCompleted(with: .none)
-                }
+                let indexPathsToReload = self?.calculateIndexPathsToReload(from: response)
+                self?.delegate?.onFetchCompleted(with: indexPathsToReload)
             }
             
             if let error = error {
@@ -67,32 +52,33 @@ class PhotosViewModel: APIClient, DataPrefetchable {
         
     }
     
+    // MARK: Fetch search results
     func fetchSearchResults(text: String)-> ListViewModel? {
         let newViewModel = ListViewModel(sourceType: .listOfPhotos)
         newViewModel.title = text
         let request = URLConstructor.searchPhotos(text: text).request
         
-        fetch(with: request, responseType: SearchResponse.self) { response, error in
+        fetch(with: request, responseType: SearchResponse.self) { [weak self] response, error in
             if let response = response {
                 newViewModel.container = response.results
             }
             if let error = error {
-                self.showAlertDelegate?.showAlert(message: error.localizedDescription)
+                self?.showAlertDelegate?.showAlert(message: error.localizedDescription)
             }
         }
         
         return newViewModel
     }
     
+    // MARK: Create DetailVM
     func setupDetailForPhoto(index: Int) -> DetailViewModel? {
         let newViewModel = DetailViewModel(index: index, photos: photos)
-//        newViewModel.photos = photos
         return newViewModel
     }
     
-    private func calculateIndexPathsToReload(from newPhotos: [Photo]) -> [IndexPath] {
-        let startIndex = photos.count - newPhotos.count
-        let endIndex = startIndex + newPhotos.count
+    func calculateIndexPathsToReload(from newData: [Any]) -> [IndexPath] {
+        let startIndex = photos.count - newData.count
+        let endIndex = startIndex + newData.count
         return (startIndex..<endIndex).map { IndexPath(row: $0, section: 0) }
     }
  

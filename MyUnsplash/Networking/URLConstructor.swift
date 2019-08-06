@@ -74,22 +74,15 @@ extension URLConstructor: Endpoint {
         }
     }
     
-    // TODO: refactor repetetive into default
     var params: [String: Any]? {
         switch self {
         case .getPhotos(let page):
             return ["client_id": API.key, "page": page]
         case .getCollections(let page):
             return ["client_id": API.key, "page": page]
-        case .getPhotosOfCollection:
-            return ["client_id": API.key]
         case .searchPhotos(let text):
             return ["query": text, "client_id": API.key]
-        case .getAuthorPhotos:
-            return ["client_id": API.key]
-        case .getAuthorCollections:
-            return ["client_id": API.key]
-        case .getPhotoInfo:
+        default:
             return ["client_id": API.key]
         }
     }

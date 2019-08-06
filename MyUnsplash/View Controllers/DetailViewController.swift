@@ -75,7 +75,10 @@ class DetailViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .black
+        
         viewModel.delegate = self
+        viewModel.showAlertDelegate = self
+        
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(hideInformationView))
         view.addGestureRecognizer(tapGestureRecognizer)
         
@@ -172,7 +175,7 @@ extension DetailViewController {
     }
     
     @objc func didTapUploadButton() {
-        if let photoImageURL = viewModel.currentPhotoURL(at: currentIndex()!) {
+        if let photoImageURL = viewModel.getURL(at: currentIndex()!) {
             let activityController = UIActivityViewController(activityItems: [photoImageURL], applicationActivities: nil)
             activityController.popoverPresentationController?.sourceView = self.view
             self.present(activityController, animated: true, completion: nil)
@@ -194,7 +197,7 @@ extension DetailViewController {
     }
     
     @objc func didTapDownloadButton() {
-        if let url = viewModel.currentPhotoURL(at: currentIndex()!), let data = try? Data(contentsOf: url), let image = UIImage(data: data) {
+        if let url = viewModel.getURL(at: currentIndex()!), let data = try? Data(contentsOf: url), let image = UIImage(data: data) {
             let alertController = UIAlertController(title: "Download image", message: "Successfully saved", preferredStyle: .alert)
             
             UIView.animate(withDuration: 3) {
@@ -244,7 +247,13 @@ extension DetailViewController: UICollectionViewDelegateFlowLayout, UICollection
     
 }
 
-extension DetailViewController: DetailViewModelDelegate {
+extension DetailViewController: DetailViewModelDelegate, NetworkFailureDelegate {
+    func showAlert(message: String) {
+        let alertVC = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alertVC, animated: false)
+    }
+    
     func updateInfo(photo: Photo) {
          informationView.updateUI(photo: photo)
     }

@@ -9,6 +9,7 @@
 import Foundation
 
 class CollectionsViewModel: APIClient, DataPrefetchable {
+    
     internal var isFetchInProgress = false
     internal var currentPage = 1
     
@@ -25,18 +26,8 @@ class CollectionsViewModel: APIClient, DataPrefetchable {
         return collections.count
     }
     
-    func coverPhoto(for index: Int) -> URL? {
-        let coverPhotoURL = collections[index].coverPhoto.urls.raw
-        let photoURL = URL(string: coverPhotoURL!)
-        return photoURL
-    }
-    
-    func title(for index: Int)-> String {
-        return collections[index].title
-    }
-    
+    // MARK: Fetch collections
     func fetchCollections() {
-        
         guard !isFetchInProgress else {
             return
         }
@@ -47,13 +38,8 @@ class CollectionsViewModel: APIClient, DataPrefetchable {
                 self?.collections.append(contentsOf: response)
                 self?.isFetchInProgress = false
                 self?.currentPage += 1
-                if self!.currentPage > 1 {
-                    let indexPathsToReload = self?.calculateIndexPathsToReload(from: response)
-                    self?.delegate?.onFetchCompleted(with: indexPathsToReload)
-                }
-                else {
-                    self?.delegate?.onFetchCompleted(with: .none)
-                }
+                let indexPathsToReload = self?.calculateIndexPathsToReload(from: response)
+                self?.delegate?.onFetchCompleted(with: indexPathsToReload)
             }
             
             if let error = error {
@@ -64,6 +50,7 @@ class CollectionsViewModel: APIClient, DataPrefetchable {
         }
     }
     
+    // MARK: Fetch photos of collection
     func checkPhotosOfCollection(for index: Int) -> ListViewModel? {
         let collection = collections[index]
         let newViewModel = ListViewModel(sourceType: .listOfPhotos)
@@ -82,9 +69,9 @@ class CollectionsViewModel: APIClient, DataPrefetchable {
         return newViewModel
     }
     
-    private func calculateIndexPathsToReload(from newCollections: [Collection]) -> [IndexPath] {
-        let startIndex = collections.count - newCollections.count
-        let endIndex = startIndex + newCollections.count
+    func calculateIndexPathsToReload(from newData: [Any]) -> [IndexPath] {
+        let startIndex = collections.count - newData.count
+        let endIndex = startIndex + newData.count
         return (startIndex..<endIndex).map { IndexPath(row: $0, section: 0) }
     }
     
