@@ -10,10 +10,16 @@ import UIKit
 import AlamofireImage
 import MobileCoreServices
 
+protocol DetailViewControllerDelegate: class {
+    func updatePhotoDetail(at index: Int)
+}
+
 class DetailViewController: UIViewController {
     
     var viewModel: DetailViewModel!
     var isShown = false
+
+    weak var delegate: DetailViewControllerDelegate?
     
     var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -56,7 +62,6 @@ class DetailViewController: UIViewController {
     
     private var informationView: InformationView!
     
-    
     private let informationButton: UIButton = {
         let button = UIButton()
         let tintedImage = UIImage(named: "info")?.withRenderingMode(.alwaysTemplate)
@@ -70,7 +75,7 @@ class DetailViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .black
-        
+        viewModel.delegate = self
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(hideInformationView))
         view.addGestureRecognizer(tapGestureRecognizer)
         
@@ -199,6 +204,7 @@ extension DetailViewController {
             UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
         }
     }
+    
     func currentIndex()-> Int? {
         if collectionView.indexPathsForVisibleItems.count == 1 {
             let currentIndexPath = collectionView.indexPathsForVisibleItems[0].row
@@ -221,9 +227,9 @@ extension DetailViewController: UICollectionViewDelegateFlowLayout, UICollection
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! DetailCollectionViewCell
       
         let photo = viewModel.photos[indexPath.row]
-        if let url = photo.urls.regular {
-            cell.photoImageView.af_setImage(withURL: URL(string: url)!)
-        }
+        viewModel.fetchPhoto(at: indexPath.row)
+        cell.updateUI(photo: photo)
+        
         if !isShown {
             collectionView.scrollToItem(at: IndexPath(row: viewModel.startIndex, section: 0), at: .centeredHorizontally, animated: false)
             isShown = true
@@ -236,5 +242,11 @@ extension DetailViewController: UICollectionViewDelegateFlowLayout, UICollection
         return CGSize(width: view.frame.width, height: view.frame.height)
     }
     
+}
+
+extension DetailViewController: DetailViewModelDelegate {
+    func updateInfo(photo: Photo) {
+         informationView.updateUI(photo: photo)
+    }
 }
 

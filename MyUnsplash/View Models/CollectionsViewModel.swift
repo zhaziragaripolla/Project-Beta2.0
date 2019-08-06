@@ -8,13 +8,21 @@
 
 import Foundation
 
-class CollectionsViewModel: APIClient {
-    var collections: [Collection] = []
-    weak var delegate: DataViewModelDelegate?
+class CollectionsViewModel: APIClient, DataPrefetchable {
+    internal var isFetchInProgress = false
+    internal var currentPage = 1
     
+    public var collections: [Collection] = []
+    weak var showAlertDelegate: NetworkFailureDelegate?
+    weak var delegate: PrefetcherDelegate?
+
+    var totalCount: Int {
+        // Will fetch maximum - 50 elements
+        return 50
+    }
     
-    init(delegate: DataViewModelDelegate) {
-        self.delegate = delegate
+    var currentCount: Int {
+        return collections.count
     }
     
     func coverPhoto(for index: Int) -> URL? {
@@ -28,15 +36,29 @@ class CollectionsViewModel: APIClient {
     }
     
     func fetchCollections() {
-        let request = URLConstructor.getCollections(page: 1).request
+        
+        guard !isFetchInProgress else {
+            return
+        }
+        
+        let request = URLConstructor.getCollections(page: currentPage).request
         fetch(with: request, responseType: [Collection].self) { [weak self] response, error in
             if let response = response {
-                self?.collections = response
-                self?.delegate?.reloadData()
+                self?.collections.append(contentsOf: response)
+                self?.isFetchInProgress = false
+                self?.currentPage += 1
+                if self!.currentPage > 1 {
+                    let indexPathsToReload = self?.calculateIndexPathsToReload(from: response)
+                    self?.delegate?.onFetchCompleted(with: indexPathsToReload)
+                }
+                else {
+                    self?.delegate?.onFetchCompleted(with: .none)
+                }
             }
             
             if let error = error {
-                // TODO: delegate to VC to show alert controller with error
+                self?.showAlertDelegate?.showAlert(message: error.localizedDescription)
+                self?.isFetchInProgress = false
             }
             
         }
@@ -53,11 +75,17 @@ class CollectionsViewModel: APIClient {
             }
             
             if let error = error {
-                // TODO: delegate to VC to show alert controller with error
+                self.showAlertDelegate?.showAlert(message: error.localizedDescription)
             }
             
         }
         return newViewModel
+    }
+    
+    private func calculateIndexPathsToReload(from newCollections: [Collection]) -> [IndexPath] {
+        let startIndex = collections.count - newCollections.count
+        let endIndex = startIndex + newCollections.count
+        return (startIndex..<endIndex).map { IndexPath(row: $0, section: 0) }
     }
     
 }

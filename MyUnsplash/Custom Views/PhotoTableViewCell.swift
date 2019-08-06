@@ -34,12 +34,12 @@ class PhotoTableViewCell: UITableViewCell {
         label.font = UIFont.systemFont(ofSize: 13)
         return label
     }()
-    
-    private let activityIndicator: UIActivityIndicatorView = {
-        let indicator = UIActivityIndicatorView(style: .gray)
-        indicator.hidesWhenStopped = true
-        return indicator
-    }()
+//
+//    private let activityIndicator: UIActivityIndicatorView = {
+//        let indicator = UIActivityIndicatorView(style: .gray)
+//        indicator.hidesWhenStopped = true
+//        return indicator
+//    }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -80,29 +80,27 @@ class PhotoTableViewCell: UITableViewCell {
             make.trailing.equalToSuperview().offset(-5)
         })
         
-        addSubview(activityIndicator)
-        activityIndicator.snp_makeConstraints{ make in
-            make.center.equalToSuperview()
-        }
+//        addSubview(activityIndicator)
+//        activityIndicator.snp.makeConstraints { make in
+//            make.center.equalToSuperview()
+//        }
+        
     }
     
     func updateUI(photo: Photo?) {
         self.photo = photo
         photoImageView.image = nil
-        
-        if let photo = photo {
-            guard let url = URL(string: photo.urls.small!) else { return }
-            photoImageView.af_setImage(withURL: url)
-            
+//        activityIndicator.startAnimating()
+        if let photo = photo, let identifier = photo.urls.regular {
+            photoImageView.load(identifier: identifier)
             authorButton.setTitle(photo.user.name, for: .normal)
             if let _ = photo.sponsored {
                 sponsoredLabel.text = "Sponsored \(photo.user.name)"
             }
-            
-            activityIndicator.stopAnimating()
+//            activityIndicator.stopAnimating()
         }
         else {
-            activityIndicator.startAnimating()
+//            activityIndicator.startAnimating()
         }
      
     }
@@ -112,4 +110,15 @@ class PhotoTableViewCell: UITableViewCell {
     }
 }
 
+extension UIImageView {
+    func load(identifier: String) {
+        ImageCacher.shared.load(identifier: identifier) { image in
+            if let image = image {
+                self.image = image
+            }            
+        }
+
+    }
+
+}
 

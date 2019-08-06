@@ -29,4 +29,8 @@ class DetailCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func updateUI(photo: Photo) {
+        photoImageView.load(identifier: photo.urls.regular!)
+    }
+    
 }

@@ -8,22 +8,22 @@
 
 import AlamofireImage
 
-protocol PhotosViewModelDelegate: class {
+protocol PrefetcherDelegate: class {
     func onFetchCompleted(with newIndexPathsToReload: [IndexPath]?)
-    func onFetchFailed(with reason: String)
 }
 
-class PhotosViewModel: APIClient {
-    
-    private var currentPage: Int = 1
+protocol DataPrefetchable: class {
+    var totalCount: Int { get }
+    var currentCount: Int { get }
+    var currentPage: Int { get }
+    var isFetchInProgress: Bool { get }
+}
+
+class PhotosViewModel: APIClient, DataPrefetchable {
+    internal var currentPage = 1
     public var photos: [Photo] = []
     private var total = 0
-    var isFetchInProgress = false
-    
-//    let photoCache = AutoPurgingImageCache(
-//        memoryCapacity: UInt64(400).megabytes(),
-//        preferredMemoryUsageAfterPurge: UInt64(350).megabytes()
-//    )
+    internal var isFetchInProgress = false
     
     var totalCount: Int {
         // Will fetch maximum - 50 elements
@@ -34,28 +34,8 @@ class PhotosViewModel: APIClient {
         return photos.count
     }
     
-    weak var delegate: DataViewModelDelegate?
     weak var showAlertDelegate: NetworkFailureDelegate?
-    weak var fetchDelegate: PhotosViewModelDelegate?
-    
-//    func cacheImage(_ photo: Photo) {
-////        if let url = URL(string: photo.urls.full!), let newData = try? Data(contentsOf: url), let image = UIImage(data: newData) {
-////            self.photoCache.add(image, withIdentifier: photo.id)
-////            return image
-////        }
-////        return nil
-//        DispatchQueue.global().async { [weak self] in
-//            if let url = URL(string: photo.urls.full!), let newData = try? Data(contentsOf: url), let image = UIImage(data: newData) {
-//
-//                DispatchQueue.main.async {
-//                    self?.photoCache.add(image, withIdentifier: photo.id)
-//                    self?.delegate?.reloadData()
-//                    print("image is added")
-//                }
-//
-//            }
-//        }
-//    }
+    weak var delegate: PrefetcherDelegate?
     
     func fetchPhotos() {
         
@@ -66,22 +46,22 @@ class PhotosViewModel: APIClient {
         let request = URLConstructor.getPhotos(page: currentPage).request
         fetch(with: request, responseType: [Photo].self) { [weak self] response, error in
             if let response = response {
-                
                 self?.photos.append(contentsOf: response)
                 self?.isFetchInProgress = false
-                self?.total += response.count
+//                self?.total += response.count
                 self?.currentPage += 1
                 if self!.currentPage > 1 {
                     let indexPathsToReload = self?.calculateIndexPathsToReload(from: response)
-                    self?.fetchDelegate?.onFetchCompleted(with: indexPathsToReload)
+                    self?.delegate?.onFetchCompleted(with: indexPathsToReload)
                 }
                 else {
-                    self?.fetchDelegate?.onFetchCompleted(with: .none)
+                    self?.delegate?.onFetchCompleted(with: .none)
                 }
             }
             
             if let error = error {
                 self?.showAlertDelegate?.showAlert(message: error.localizedDescription)
+                self?.isFetchInProgress = false
             }
         }
         
@@ -105,8 +85,8 @@ class PhotosViewModel: APIClient {
     }
     
     func setupDetailForPhoto(index: Int) -> DetailViewModel? {
-        let newViewModel = DetailViewModel(index: index)
-        newViewModel.photos = photos
+        let newViewModel = DetailViewModel(index: index, photos: photos)
+//        newViewModel.photos = photos
         return newViewModel
     }
     
@@ -118,13 +98,7 @@ class PhotosViewModel: APIClient {
  
 }
 
-//extension UInt64 {
-//
-//    func megabytes() -> UInt64 {
-//        return self * 1024 * 1024
-//    }
-//
-//}
+
 
 
 

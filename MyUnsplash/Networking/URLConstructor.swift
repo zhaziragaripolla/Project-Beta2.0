@@ -46,6 +46,7 @@ enum URLConstructor {
     case getPhotosOfCollection(id: Int)
     case getAuthorPhotos(username: String)
     case getAuthorCollections(username: String)
+    case getPhotoInfo(id: String)
 }
 
 extension URLConstructor: Endpoint {
@@ -68,9 +69,12 @@ extension URLConstructor: Endpoint {
             return "/users/\(username)/photos"
         case .getAuthorCollections(let username):
             return "/users/\(username)/collections"
+        case .getPhotoInfo(let id):
+            return "/photos/\(id)"
         }
     }
     
+    // TODO: refactor repetetive into default
     var params: [String: Any]? {
         switch self {
         case .getPhotos(let page):
@@ -84,6 +88,8 @@ extension URLConstructor: Endpoint {
         case .getAuthorPhotos:
             return ["client_id": API.key]
         case .getAuthorCollections:
+            return ["client_id": API.key]
+        case .getPhotoInfo:
             return ["client_id": API.key]
         }
     }

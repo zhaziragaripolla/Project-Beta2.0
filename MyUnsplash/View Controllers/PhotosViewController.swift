@@ -31,10 +31,10 @@ class PhotosViewController: UIViewController {
         view.backgroundColor = .white
         title = "Photos for everyone"
         
-        viewModel.delegate = self
+//        viewModel.delegate = self
         viewModel.showAlertDelegate = self
-        viewModel.fetchDelegate = self
-        viewModel.fetchPhotos()
+        viewModel.delegate = self
+//        viewModel.fetchPhotos()
         
         setupTableView()
         setupSearchBar()
@@ -58,11 +58,10 @@ class PhotosViewController: UIViewController {
     
     func setupTableView() {
         view.addSubview(tableView)
-        
         tableView.dataSource = self
         tableView.prefetchDataSource = self
         tableView.delegate = self
-        
+        tableView.estimatedRowHeight = 0
         tableView.register(PhotoTableViewCell.self, forCellReuseIdentifier: "photoCell")
         tableView.isPagingEnabled = true
     }
@@ -92,14 +91,14 @@ class PhotosViewController: UIViewController {
     }
 }
 
-extension PhotosViewController: UITableViewDataSource, UITableViewDataSourcePrefetching {
+// MARK: Setup table view
+extension PhotosViewController: UITableViewDataSource, UITableViewDataSourcePrefetching, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
         if indexPaths.contains(where: isLoadingCell) {
             viewModel.fetchPhotos()
         }
     }
-    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.totalCount
@@ -114,7 +113,6 @@ extension PhotosViewController: UITableViewDataSource, UITableViewDataSourcePref
             cell.updateUI(photo: .none)
         } else {
             let photo = viewModel.photos[indexPath.row]
-            //        viewModel.cacheImage(photo)
             cell.updateUI(photo: photo)
         }
     
@@ -135,26 +133,8 @@ extension PhotosViewController: UITableViewDataSource, UITableViewDataSourcePref
         present(vc, animated: true)
     }
     
-//    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-//        let lastSectionIndex = tableView.numberOfSections - 1
-//        let lastRowIndex = tableView.numberOfRows(inSection: lastSectionIndex) - 1
-//        if indexPath.section ==  lastSectionIndex && indexPath.row == lastRowIndex {
-//             print("this is the last cell")
-////            viewModel.fetchPhotos()
-//            let spinner = UIActivityIndicatorView(style: .gray)
-//            spinner.startAnimating()
-//            spinner.frame = CGRect(x: CGFloat(0), y: CGFloat(0), width: tableView.bounds.width, height: CGFloat(44))
-//            
-//            self.tableView.tableFooterView = spinner
-//            self.tableView.tableFooterView?.isHidden = false
-//        }
-//    }
-}
-
-
-extension PhotosViewController: UITableViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        print("scroll")
+        //        print("scroll")
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -168,6 +148,7 @@ extension PhotosViewController: UITableViewDelegate {
         }
     }
 }
+
 
 extension PhotosViewController: UIPopoverPresentationControllerDelegate {
     func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
@@ -196,35 +177,24 @@ extension PhotosViewController: PhotosViewControllerDelegate {
     }
 }
 
-extension PhotosViewController: DataViewModelDelegate, NetworkFailureDelegate  {
-    func reloadData() {
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-        }
-    }
-    
+extension PhotosViewController: NetworkFailureDelegate  {
     func showAlert(message: String) {
         let alertVC = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
         alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        show(alertVC, sender: nil)
+        present(alertVC, animated: false)
     }
 }
 
-extension PhotosViewController: PhotosViewModelDelegate {
+extension PhotosViewController: PrefetcherDelegate {
     func onFetchCompleted(with newIndexPathsToReload: [IndexPath]?) {
         guard let newIndexPathsToReload = newIndexPathsToReload else {
-            tableView.tableFooterView?.isHidden = true
             tableView.isHidden = false
             tableView.reloadData()
             return
         }
-        // 2
+  
         let indexPathsToReload = visibleIndexPathsToReload(intersecting: newIndexPathsToReload)
-        tableView.reloadRows(at: indexPathsToReload, with: .automatic)
-    }
-    
-    func onFetchFailed(with reason: String) {
-        
+        tableView.reloadRows(at: indexPathsToReload, with: .none)
     }
     
 }

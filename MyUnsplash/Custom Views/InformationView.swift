@@ -72,4 +72,11 @@ class InformationView: UIView {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    func updateUI(photo: Photo) {
+        makeDoubleLabel.bodyLabel.text = photo.exif?.make
+        modelDoubleLabel.bodyLabel.text = photo.exif?.model
+        shutterDoubleLabel.bodyLabel.text = photo.exif?.exposureTime
+        apertureDoubleLabel.bodyLabel.text = photo.exif?.aperture
+    }
 }
