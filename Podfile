@@ -9,5 +9,4 @@ target 'MyUnsplash' do
   pod 'SnapKit', '~> 4.0.0'
   pod 'AlamofireImage', '~> 3.5'
   pod 'ReachabilitySwift'
-  pod 'NVActivityIndicatorView'
 end
