@@ -49,7 +49,7 @@ class AuthorViewController: UIViewController {
     }
     
     @objc func methodOfReceivedNotificationHideBar() {
-        navigationController?.navigationBar.isHidden = true
+//        navigationController?.navigationBar.isHidden = true
     }
     
     override func viewDidLayoutSubviews() {
@@ -80,7 +80,13 @@ class AuthorViewController: UIViewController {
     }
 }
 
-extension AuthorViewController: UITableViewDataSource, UITableViewDelegate {
+extension AuthorViewController: UITableViewDataSource, UITableViewDelegate, PhotoTableViewCellDelegate {
+    func updateState(_ cell: PhotoTableViewCell) {
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        viewModel.save(for: indexPath.row)
+        tableView.reloadRows(at: [indexPath], with: .none)
+    }
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let ofsetY = -scrollView.contentOffset.y
         let maxHeight = max(parallaxImageView.bounds.height, parallaxImageView.bounds.height + ofsetY)
@@ -114,6 +120,7 @@ extension AuthorViewController: UITableViewDataSource, UITableViewDelegate {
             }
             let photo = viewModel.getItem(atIndex: indexPath.row) as! Photo
             cell.delegate = self
+            cell.saverDelegate = self
             cell.updateUI(photo: photo)
             return cell
         }
@@ -131,12 +138,12 @@ extension AuthorViewController: UITableViewDataSource, UITableViewDelegate {
             let photo = viewModel.likedPhotos[indexPath.row]
             let width = view.bounds.width
             let height = (width * CGFloat(photo.height)) / CGFloat(photo.width)
-            return height
+            return height + 60
         case .photos:
             let photo = viewModel.photos[indexPath.row]
             let width = view.bounds.width
             let height = (width * CGFloat(photo.height)) / CGFloat(photo.width)
-            return height
+            return height + 60
         }
     }
     

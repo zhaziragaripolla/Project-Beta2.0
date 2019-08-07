@@ -10,10 +10,16 @@ import UIKit
 import AlamofireImage
 import MobileCoreServices
 
+protocol DetailViewControllerDelegate: class {
+    func updatePhotoDetail(at index: Int)
+}
+
 class DetailViewController: UIViewController {
     
     var viewModel: DetailViewModel!
     var isShown = false
+
+    weak var delegate: DetailViewControllerDelegate?
     
     var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -174,7 +180,7 @@ extension DetailViewController: InformationViewDelegate {
     }
     
     @objc func didTapUploadButton() {
-        if let photoImageURL = viewModel.currentPhotoURL(at: currentIndex()!) {
+        if let photoImageURL = viewModel.getURL(at: currentIndex()!) {
             let activityController = UIActivityViewController(activityItems: [photoImageURL], applicationActivities: nil)
             activityController.popoverPresentationController?.sourceView = self.view
             self.present(activityController, animated: true, completion: nil)
@@ -217,7 +223,7 @@ extension DetailViewController: InformationViewDelegate {
     }
     
     @objc func didTapDownloadButton() {
-        if let url = viewModel.currentPhotoURL(at: currentIndex()!), let data = try? Data(contentsOf: url), let image = UIImage(data: data) {
+        if let url = viewModel.getURL(at: currentIndex()!), let data = try? Data(contentsOf: url), let image = UIImage(data: data) {
             let alertController = UIAlertController(title: "Download image", message: "Successfully saved", preferredStyle: .alert)
             
             UIView.animate(withDuration: 3) {
@@ -253,9 +259,6 @@ extension DetailViewController: UICollectionViewDelegateFlowLayout, UICollection
         viewModel.fetchPhoto(at: indexPath.row)
         cell.updateUI(photo: photo)
         
-        if let url = photo.urls.regular {
-            cell.photoImageView.af_setImage(withURL: URL(string: url)!)
-        }
         if !isShown {
             collectionView.scrollToItem(at: IndexPath(row: viewModel.startIndex, section: 0), at: .centeredHorizontally, animated: false)
             isShown = true
@@ -278,6 +281,7 @@ extension DetailViewController: DetailViewModelDelegate, NetworkFailureDelegate 
     }
     
     func updateInfo(photo: Photo) {
-        informationView.updateUI(photo: photo)
+         informationView.updateUI(photo: photo)
     }
 }
+

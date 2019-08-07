@@ -83,8 +83,6 @@ extension URLConstructor: Endpoint {
             return ["client_id": API.key, "page": page]
         case .getCollections(let page):
             return ["client_id": API.key, "page": page]
-        case .getPhotosOfCollection:
-            return ["client_id": API.key]
         case .searchPhotos(let text):
             return ["query": text, "client_id": API.key]
         default:
@@ -93,15 +91,4 @@ extension URLConstructor: Endpoint {
     }
 }
 
-extension Dictionary {
-    
-    func percentEscaped() -> String {
-        return map { (key, value) in
-            let escapedKey = "\(key)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
-            let escapedValue = "\(value)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
-            return escapedKey + "=" + escapedValue
-        }
-            .joined(separator: "&")
-    }
-    
-}
+

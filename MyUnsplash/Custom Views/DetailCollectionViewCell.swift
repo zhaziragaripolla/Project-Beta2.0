@@ -23,7 +23,7 @@ class DetailCollectionViewCell: UICollectionViewCell {
         
         addSubview(photoImageView)
         photoImageView.snp_makeConstraints { make in
-            make.top.leading.trailing.equalToSuperview()
+            make.edges.equalToSuperview()
         }
     }
     
@@ -31,16 +31,12 @@ class DetailCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    @objc func infoButtonTapped() {
-        delegate?.getPhotoInfo(self)
+    func updateUI(photo: Photo) {
+        photoImageView.load(identifier: photo.urls.regular!)
     }
     
     @objc func downloadButtonTapped() {
         delegate?.downloadPhoto(self)
     }
-    
-    func updateUI(photo: Photo) {
-        print(photo)
-//        photoImageView.load(identifier: photo.urls.regular!)
-    }
+
 }

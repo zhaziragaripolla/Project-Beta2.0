@@ -33,7 +33,8 @@ class PhotosViewController: UIViewController {
         
         view.backgroundColor = .white
         title = "Photos for everyone"
-        
+
+        viewModel.showAlertDelegate = self
         viewModel.delegate = self
         viewModel.showAlertDelegate = self
         viewModel.fetchPhotos()
@@ -50,12 +51,12 @@ class PhotosViewController: UIViewController {
         tableView.contentInset = UIEdgeInsets(top: -dummyViewHeight, left: 0, bottom: 0, right: 0)
         
         tableView.snp.makeConstraints({make in
-            make.leading.trailing.top.bottom.equalTo(view.safeAreaLayoutGuide)
+            make.edges.equalTo(view.safeAreaLayoutGuide)
         })
+        
         
         menuButton.addTarget(self, action: #selector(didTapMenuButton), for: .touchUpInside)
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: menuButton)
-        
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     
@@ -63,7 +64,10 @@ class PhotosViewController: UIViewController {
         view.addSubview(tableView)
         
         tableView.dataSource = self
+        tableView.prefetchDataSource = self
         tableView.delegate = self
+        tableView.estimatedRowHeight = 0
+    
         tableView.register(PhotoTableViewCell.self, forCellReuseIdentifier: "photoCell")
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "searchCell")
         tableView.isPagingEnabled = true
@@ -93,7 +97,14 @@ class PhotosViewController: UIViewController {
     }
 }
 
-extension PhotosViewController: UITableViewDataSource {
+// MARK: Setup table view
+extension PhotosViewController: UITableViewDataSource, UITableViewDataSourcePrefetching, UITableViewDelegate, PhotoTableViewCellDelegate {
+   
+    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+        if indexPaths.contains(where: isLoadingCell) {
+            viewModel.fetchPhotos()
+        }
+    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch viewModel.state {
@@ -110,9 +121,14 @@ extension PhotosViewController: UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "photoCell", for: indexPath) as? PhotoTableViewCell else {
                 return UITableViewCell()
             }
-            let photo = viewModel.photos[indexPath.row]
-            cell.updateUI(photo: photo)
+            if isLoadingCell(for: indexPath) {
+                cell.updateUI(photo: .none)
+            } else {
+                let photo = viewModel.photos[indexPath.row]
+                cell.updateUI(photo: photo)
+            }
             cell.delegate = self
+            cell.saverDelegate = self
             cell.index = indexPath.row
             return cell
         default:
@@ -159,6 +175,24 @@ extension PhotosViewController: UITableViewDataSource {
             return 20
         }
     }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        switch viewModel.state {
+        case .photos:
+            let photo = viewModel.photos[indexPath.row]
+            let width = view.bounds.width
+            let height = (width * CGFloat(photo.height)) / CGFloat(photo.width)
+            return height + 60
+        default:
+            return UITableViewCell().bounds.height
+        }
+    }
+    
+    func updateState(_ cell: PhotoTableViewCell) {
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        viewModel.save(for: indexPath.row)
+        tableView.reloadRows(at: [indexPath], with: .none)
+    }
 }
 
 extension PhotosViewController: HistoryCleanable {
@@ -168,20 +202,6 @@ extension PhotosViewController: HistoryCleanable {
     }
 }
 
-
-extension PhotosViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        switch viewModel.state {
-        case .photos:
-            let photo = viewModel.photos[indexPath.row]
-            let width = view.bounds.width
-            let height = (width * CGFloat(photo.height)) / CGFloat(photo.width)
-            return height
-        default:
-            return UITableViewCell().bounds.height
-        }
-    }
-}
 
 extension PhotosViewController: UIPopoverPresentationControllerDelegate {
     func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
@@ -223,16 +243,38 @@ extension PhotosViewController: PhotosViewControllerDelegate {
     }
 }
 
-extension PhotosViewController: DataViewModelDelegate, NetworkFailureDelegate  {
-    func reloadData() {
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-        }
-    }
-    
+extension PhotosViewController: NetworkFailureDelegate  {
     func showAlert(message: String) {
         let alertVC = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
         alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        show(alertVC, sender: nil)
+        present(alertVC, animated: false)
+    }
+}
+
+extension PhotosViewController: PrefetcherDelegate {
+    func onFetchCompleted(with newIndexPathsToReload: [IndexPath]?) {
+        
+//        guard let newIndexPathsToReload = newIndexPathsToReload else {
+//            tableView.isHidden = false
+//            tableView.reloadData()
+//            return
+//        }
+//
+//        let indexPathsToReload = visibleIndexPathsToReload(intersecting: newIndexPathsToReload)
+//        tableView.reloadRows(at: indexPathsToReload, with: .none)
+        tableView.reloadData()
+    }
+    
+}
+
+private extension PhotosViewController {
+    func isLoadingCell(for indexPath: IndexPath) -> Bool {
+        return indexPath.row >= viewModel.currentCount
+    }
+    
+    func visibleIndexPathsToReload(intersecting indexPaths: [IndexPath]) -> [IndexPath] {
+        let indexPathsForVisibleRows = tableView.indexPathsForVisibleRows ?? []
+        let indexPathsIntersection = Set(indexPathsForVisibleRows).intersection(indexPaths)
+        return Array(indexPathsIntersection)
     }
 }

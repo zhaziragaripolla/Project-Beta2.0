@@ -11,13 +11,13 @@ import SVProgressHUD
 
 protocol APIClient {
     func fetch<ResponseType: Decodable>(with request: URLRequest, responseType: ResponseType.Type,
-                             completion: @escaping (ResponseType?, Error?) -> Void)
+                             completion: @escaping (ResponseType?, Error?) -> ())
 }
 
 extension APIClient {
     
     func fetch<ResponseType: Decodable>(with request: URLRequest, responseType: ResponseType.Type,
-                             completion: @escaping (ResponseType?, Error?) -> Void) {
+                             completion: @escaping (ResponseType?, Error?) -> ()) {
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data else {
@@ -30,23 +30,16 @@ extension APIClient {
             decoder.keyDecodingStrategy = .convertFromSnakeCase
             do {
                 let response = try decoder.decode(ResponseType.self, from: data)
-//                completion(response, nil)
                 DispatchQueue.main.async {
                     completion(response, nil)
                     SVProgressHUD.dismiss()
                 }
             }
             catch {
-                do {
-                    let errorResponse = try decoder.decode(UnsplashResponse.self, from: data) as Error
-                    DispatchQueue.main.async {
-                        completion(nil, errorResponse)
-                    }
-                } catch {
-                    DispatchQueue.main.async {
-                        completion(nil, error)
-                    }
+                DispatchQueue.main.async {
+                    completion(nil, error)
                 }
+                    
             }
         }
         task.resume()

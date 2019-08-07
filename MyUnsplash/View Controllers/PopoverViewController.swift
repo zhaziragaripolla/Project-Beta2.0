@@ -90,7 +90,6 @@ class PopoverViewController: UIViewController {
     }
     
     @IBAction func switchChanged(_ mySwitch: UISwitch) {
-        // TODO: Dark Mode
         switchView.onTintColor = .black
     }
 }

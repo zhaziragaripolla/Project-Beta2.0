@@ -102,4 +102,14 @@ class AuthorViewModel: PhotosOfCollectionProtocol {
             
         }
     }
+    
+    func save(for index: Int) {
+        let photo = photos[index]
+        if DataController.shared.contains(id: photo.id) {
+            DataController.shared.delete(photo)
+        }
+        else {
+            DataController.shared.insert(photo)
+        }
+    }
 }

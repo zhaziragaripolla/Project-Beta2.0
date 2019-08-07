@@ -42,7 +42,6 @@ class OfflineViewController: UIViewController {
     
     func showOnlinePage() {
         DispatchQueue.main.async {
-            // TODO: how present works
             self.present(ViewController(), animated: false)
         }
     }

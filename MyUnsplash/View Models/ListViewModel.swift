@@ -21,10 +21,7 @@ class ListViewModel {
     var currentMode: SourceType
     
     enum SourceType {
-        // In case of representing search results among collections
         case listOfCollections
-        
-        // Represent photos in collection or search results
         case listOfPhotos
     }
     
@@ -37,6 +34,17 @@ class ListViewModel {
             container = [Collection]()
         }
     }
+    
+    func save(for index: Int) {
+        let photo = container[index] as! Photo
+        if DataController.shared.contains(id: photo.id) {
+            DataController.shared.delete(photo)
+        }
+        else {
+            DataController.shared.insert(photo)
+        }
+    }
+   
     
 }
 

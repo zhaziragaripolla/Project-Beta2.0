@@ -10,5 +10,4 @@ target 'MyUnsplash' do
   pod 'AlamofireImage', '~> 3.5'
   pod 'ReachabilitySwift'
   pod 'SVProgressHUD'
-  pod 'NVActivityIndicatorView'
 end
