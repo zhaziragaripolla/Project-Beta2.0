@@ -9,6 +9,7 @@
 import UIKit
 import SnapKit
 import AlamofireImage
+import SVProgressHUD
 
 class PhotosViewController: UIViewController {
     
@@ -27,6 +28,8 @@ class PhotosViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        SVProgressHUD.show()
         
         view.backgroundColor = .white
         title = "Photos for everyone"
@@ -203,9 +206,7 @@ extension PhotosViewController: UISearchBarDelegate {
             return
         }
         
-        viewModel.searchHistory.append(textToSearch)
-        UserDefaults.standard.set(viewModel.searchHistory, forKey: "history")
-        tableView.reloadData()
+        viewModel.saveHistory(searchWord: textToSearch)
         
         let listVC = ListViewController()
         listVC.viewModel = viewModel.fetchSearchResults(text: textToSearch)

@@ -94,6 +94,14 @@ class PhotosViewModel: APIClient {
         searchHistory = []
         UserDefaults.standard.removeObject(forKey: "history")
     }
+    
+    func saveHistory(searchWord: String) {
+        if !searchHistory.contains(searchWord) {
+            searchHistory.append(searchWord)
+            UserDefaults.standard.set(searchHistory, forKey: "history")
+            delegate?.reloadData()
+        }
+    }
 }
 
 extension UInt64 {

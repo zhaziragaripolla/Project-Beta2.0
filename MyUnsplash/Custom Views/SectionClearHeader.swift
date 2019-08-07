@@ -40,7 +40,7 @@ class SectionClearHeader: UIView {
     func layoutUI() {
         addSubview(clearButton)
         clearButton.snp.makeConstraints { (make) in
-            make.trailing.equalToSuperview().offset(-5)
+            make.trailing.equalToSuperview().offset(-15)
         }
     }
     
