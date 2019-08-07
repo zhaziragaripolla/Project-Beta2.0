@@ -15,8 +15,9 @@ class OfflineViewController: UIViewController {
     let label: UILabel = {
         let label = UILabel()
         let attributedText = NSMutableAttributedString(string: "Oops!", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 28), NSAttributedString.Key.foregroundColor: UIColor.black])
-        attributedText.append(NSAttributedString(string: "\nThe internet connection appears to be offline", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 22), NSAttributedString.Key.foregroundColor: UIColor.red]))
+        attributedText.append(NSMutableAttributedString(string: "\nThe internet connection appears to be offline", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16), NSAttributedString.Key.foregroundColor: UIColor.darkGray]))
         label.attributedText = attributedText
+        label.numberOfLines = 0
         label.textAlignment = .center
         return label
     }()
@@ -37,13 +38,10 @@ class OfflineViewController: UIViewController {
         view.backgroundColor = .white
         
         layoutUI()
-        
-        
     }
     
     func showOnlinePage() {
         DispatchQueue.main.async {
-            // TODO: how present works
             self.present(ViewController(), animated: false)
         }
     }
@@ -52,7 +50,7 @@ class OfflineViewController: UIViewController {
         view.addSubview(label)
         label.snp.makeConstraints { (make) in
             make.top.equalTo(view.snp.centerY)
-            make.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(20)
+            make.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(50)
         }
         
         view.addSubview(retryButton)

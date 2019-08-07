@@ -8,8 +8,7 @@
 
 import Foundation
 
-class AuthorViewModel: APIClient {
-
+class AuthorViewModel: PhotosOfCollectionProtocol {
     var user: User!
     var photos: [Photo] = []
     var likedPhotos: [Photo] = []
@@ -73,7 +72,7 @@ class AuthorViewModel: APIClient {
     }
     
     func fetchLikedPhotos() {
-        let request = URLConstructor.getAuthorPhotos(username: user.username).request
+        let request = URLConstructor.getAuthorLikedPhotos(username: user.username).request
         
         fetch(with: request, responseType: [Photo].self) { [weak self] response, error in
             if let response = response {
@@ -101,6 +100,16 @@ class AuthorViewModel: APIClient {
                 print(error.localizedDescription)
             }
             
+        }
+    }
+    
+    func save(for index: Int) {
+        let photo = photos[index]
+        if DataController.shared.contains(id: photo.id) {
+            DataController.shared.delete(photo)
+        }
+        else {
+            DataController.shared.insert(photo)
         }
     }
 }

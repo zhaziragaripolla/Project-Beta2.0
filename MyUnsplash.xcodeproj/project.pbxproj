@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		23962B38D83A597088AA1408 /* Pods_MyUnsplash.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E0BFBB06854955754632D84 /* Pods_MyUnsplash.framework */; };
+		43C9C7347D6AAA6D73EB7290 /* Pods_MyUnsplash.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D45B196AC548952C5A9C9B85 /* Pods_MyUnsplash.framework */; };
 		56ED8D7B22F061CB006FE3F1 /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ED8D7A22F061CB006FE3F1 /* DetailViewModel.swift */; };
 		56ED8D7D22F17623006FE3F1 /* ListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ED8D7C22F17623006FE3F1 /* ListViewModel.swift */; };
 		56ED8D7F22F18F57006FE3F1 /* SearchResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ED8D7E22F18F57006FE3F1 /* SearchResponse.swift */; };
@@ -16,7 +16,6 @@
 		56F297DE22F9B957004F1346 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56F297DD22F9B957004F1346 /* DataController.swift */; };
 		56F297E222F9CE72004F1346 /* StoredPhotosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56F297E122F9CE72004F1346 /* StoredPhotosViewController.swift */; };
 		56F297E422F9E223004F1346 /* StoredPhotoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56F297E322F9E223004F1346 /* StoredPhotoTableViewCell.swift */; };
-		56F297E622F9F412004F1346 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56F297E522F9F412004F1346 /* Extensions.swift */; };
 		F165A5D122EEF24C0014EE59 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A5D022EEF24C0014EE59 /* AppDelegate.swift */; };
 		F165A5D322EEF24C0014EE59 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A5D222EEF24C0014EE59 /* ViewController.swift */; };
 		F165A5D922EEF24C0014EE59 /* MyUnsplash.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F165A5D722EEF24C0014EE59 /* MyUnsplash.xcdatamodeld */; };
@@ -28,7 +27,6 @@
 		F165A5EF22EEF4540014EE59 /* PhotoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A5EE22EEF4540014EE59 /* PhotoTableViewCell.swift */; };
 		F165A5F122EEF46E0014EE59 /* GradientImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A5F022EEF46E0014EE59 /* GradientImageView.swift */; };
 		F165A5F322EEF66D0014EE59 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A5F222EEF66D0014EE59 /* API.swift */; };
-		F165A5F522EEF6830014EE59 /* LocalDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A5F422EEF6830014EE59 /* LocalDatabase.swift */; };
 		F165A5FF22EEFABF0014EE59 /* CollectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A5FE22EEFABF0014EE59 /* CollectionTableViewCell.swift */; };
 		F165A60222EF18EC0014EE59 /* PhotosViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A60122EF18EC0014EE59 /* PhotosViewModel.swift */; };
 		F165A60422EF1A760014EE59 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A60322EF1A760014EE59 /* DetailViewController.swift */; };
@@ -36,9 +34,8 @@
 		F165A60822EF1F960014EE59 /* Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A60722EF1F960014EE59 /* Collection.swift */; };
 		F165A61122EF2A160014EE59 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = F165A61022EF2A160014EE59 /* .gitignore */; };
 		F165A61322EF32C40014EE59 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A61222EF32C40014EE59 /* ListViewController.swift */; };
-		F165A61522EF34520014EE59 /* Delegate Protols.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A61422EF34520014EE59 /* Delegate Protols.swift */; };
+		F165A61522EF34520014EE59 /* Delegate Protcols.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A61422EF34520014EE59 /* Delegate Protcols.swift */; };
 		F165A61722EF62DD0014EE59 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A61622EF62DD0014EE59 /* APIClient.swift */; };
-		F165A61922EF633D0014EE59 /* DataFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A61822EF633D0014EE59 /* DataFetcher.swift */; };
 		F165A61B22EF63770014EE59 /* URLConstructor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A61A22EF63770014EE59 /* URLConstructor.swift */; };
 		F165A61D22EF64D90014EE59 /* CollectionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A61C22EF64D90014EE59 /* CollectionsViewModel.swift */; };
 		F165A61F22EF81DA0014EE59 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A61E22EF81DA0014EE59 /* Colors.swift */; };
@@ -52,10 +49,13 @@
 		F165A63D22F8630F0014EE59 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A63C22F8630F0014EE59 /* NetworkManager.swift */; };
 		F165A63F22F8647B0014EE59 /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A63E22F8647B0014EE59 /* LaunchViewController.swift */; };
 		F165A64122F865600014EE59 /* OfflineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A64022F865600014EE59 /* OfflineViewController.swift */; };
+		F165A64522F8E24D0014EE59 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A64422F8E24D0014EE59 /* Extensions.swift */; };
+		F165A64D22FA35630014EE59 /* SectionClearHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165A64C22FA35630014EE59 /* SectionClearHeader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1BCC15307C30FDAAFB4C288F /* Pods-MyUnsplash.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyUnsplash.debug.xcconfig"; path = "Target Support Files/Pods-MyUnsplash/Pods-MyUnsplash.debug.xcconfig"; sourceTree = "<group>"; };
+		252FCA219886E13FB76B9888 /* Pods-MyUnsplash.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyUnsplash.debug.xcconfig"; path = "Target Support Files/Pods-MyUnsplash/Pods-MyUnsplash.debug.xcconfig"; sourceTree = "<group>"; };
+		2D13C66A3657B68023494DE0 /* Pods-MyUnsplash.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyUnsplash.release.xcconfig"; path = "Target Support Files/Pods-MyUnsplash/Pods-MyUnsplash.release.xcconfig"; sourceTree = "<group>"; };
 		56ED8D7A22F061CB006FE3F1 /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
 		56ED8D7C22F17623006FE3F1 /* ListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewModel.swift; sourceTree = "<group>"; };
 		56ED8D7E22F18F57006FE3F1 /* SearchResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResponse.swift; sourceTree = "<group>"; };
@@ -65,8 +65,7 @@
 		56F297E122F9CE72004F1346 /* StoredPhotosViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoredPhotosViewController.swift; sourceTree = "<group>"; };
 		56F297E322F9E223004F1346 /* StoredPhotoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoredPhotoTableViewCell.swift; sourceTree = "<group>"; };
 		56F297E522F9F412004F1346 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
-		9E0BFBB06854955754632D84 /* Pods_MyUnsplash.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyUnsplash.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E2C7624F1DC3207F9CF44A84 /* Pods-MyUnsplash.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyUnsplash.release.xcconfig"; path = "Target Support Files/Pods-MyUnsplash/Pods-MyUnsplash.release.xcconfig"; sourceTree = "<group>"; };
+		D45B196AC548952C5A9C9B85 /* Pods_MyUnsplash.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyUnsplash.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F165A5CD22EEF24C0014EE59 /* MyUnsplash.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyUnsplash.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F165A5D022EEF24C0014EE59 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F165A5D222EEF24C0014EE59 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -80,7 +79,6 @@
 		F165A5EE22EEF4540014EE59 /* PhotoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoTableViewCell.swift; sourceTree = "<group>"; };
 		F165A5F022EEF46E0014EE59 /* GradientImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientImageView.swift; sourceTree = "<group>"; };
 		F165A5F222EEF66D0014EE59 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
-		F165A5F422EEF6830014EE59 /* LocalDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalDatabase.swift; sourceTree = "<group>"; };
 		F165A5FE22EEFABF0014EE59 /* CollectionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionTableViewCell.swift; sourceTree = "<group>"; };
 		F165A60122EF18EC0014EE59 /* PhotosViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosViewModel.swift; sourceTree = "<group>"; };
 		F165A60322EF1A760014EE59 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
@@ -88,9 +86,8 @@
 		F165A60722EF1F960014EE59 /* Collection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Collection.swift; sourceTree = "<group>"; };
 		F165A61022EF2A160014EE59 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		F165A61222EF32C40014EE59 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
-		F165A61422EF34520014EE59 /* Delegate Protols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Delegate Protols.swift"; sourceTree = "<group>"; };
+		F165A61422EF34520014EE59 /* Delegate Protcols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Delegate Protcols.swift"; sourceTree = "<group>"; };
 		F165A61622EF62DD0014EE59 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
-		F165A61822EF633D0014EE59 /* DataFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataFetcher.swift; sourceTree = "<group>"; };
 		F165A61A22EF63770014EE59 /* URLConstructor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLConstructor.swift; sourceTree = "<group>"; };
 		F165A61C22EF64D90014EE59 /* CollectionsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionsViewModel.swift; sourceTree = "<group>"; };
 		F165A61E22EF81DA0014EE59 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
@@ -104,6 +101,8 @@
 		F165A63C22F8630F0014EE59 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		F165A63E22F8647B0014EE59 /* LaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
 		F165A64022F865600014EE59 /* OfflineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineViewController.swift; sourceTree = "<group>"; };
+		F165A64422F8E24D0014EE59 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		F165A64C22FA35630014EE59 /* SectionClearHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionClearHeader.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,17 +110,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				23962B38D83A597088AA1408 /* Pods_MyUnsplash.framework in Frameworks */,
+				43C9C7347D6AAA6D73EB7290 /* Pods_MyUnsplash.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		45FF34B21F898B21F2AFB1D1 /* Frameworks */ = {
+		6C0ABB84B2BFDAA8E4194BF4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				9E0BFBB06854955754632D84 /* Pods_MyUnsplash.framework */,
+				D45B196AC548952C5A9C9B85 /* Pods_MyUnsplash.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -129,8 +128,8 @@
 		F150B2850E04D4DEF76BB672 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				1BCC15307C30FDAAFB4C288F /* Pods-MyUnsplash.debug.xcconfig */,
-				E2C7624F1DC3207F9CF44A84 /* Pods-MyUnsplash.release.xcconfig */,
+				252FCA219886E13FB76B9888 /* Pods-MyUnsplash.debug.xcconfig */,
+				2D13C66A3657B68023494DE0 /* Pods-MyUnsplash.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -142,7 +141,8 @@
 				F165A5CF22EEF24C0014EE59 /* MyUnsplash */,
 				F165A5CE22EEF24C0014EE59 /* Products */,
 				F150B2850E04D4DEF76BB672 /* Pods */,
-				45FF34B21F898B21F2AFB1D1 /* Frameworks */,
+				6C0ABB84B2BFDAA8E4194BF4 /* Frameworks */,
+				F171D39C22FABAA20009DA16 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -194,10 +194,9 @@
 			children = (
 				56F297DB22F859BE004F1346 /* ImageCacher.swift */,
 				F165A61E22EF81DA0014EE59 /* Colors.swift */,
-				F165A5F422EEF6830014EE59 /* LocalDatabase.swift */,
-				F165A61422EF34520014EE59 /* Delegate Protols.swift */,
+				F165A61422EF34520014EE59 /* Delegate Protcols.swift */,
+				F165A64422F8E24D0014EE59 /* Extensions.swift */,
 				56F297DD22F9B957004F1346 /* DataController.swift */,
-				56F297E522F9F412004F1346 /* Extensions.swift */,
 			);
 			path = "Supporting FIles";
 			sourceTree = "<group>";
@@ -212,6 +211,7 @@
 				F165A5EE22EEF4540014EE59 /* PhotoTableViewCell.swift */,
 				F165A5FE22EEFABF0014EE59 /* CollectionTableViewCell.swift */,
 				56ED8D8622F58B1E006FE3F1 /* DetailCollectionViewCell.swift */,
+				F165A64C22FA35630014EE59 /* SectionClearHeader.swift */,
 				56F297E322F9E223004F1346 /* StoredPhotoTableViewCell.swift */,
 			);
 			path = "Custom Views";
@@ -221,10 +221,10 @@
 			isa = PBXGroup;
 			children = (
 				F165A63A22F8582E0014EE59 /* CustomSegmentedView.swift */,
-				F165A62D22F0B3FA0014EE59 /* ListViewModel.swift */,
 				F165A63422F254310014EE59 /* AuthorViewModel.swift */,
 				F165A60122EF18EC0014EE59 /* PhotosViewModel.swift */,
 				F165A61C22EF64D90014EE59 /* CollectionsViewModel.swift */,
+				F165A62D22F0B3FA0014EE59 /* ListViewModel.swift */,
 				56ED8D7A22F061CB006FE3F1 /* DetailViewModel.swift */,
 				56ED8D7C22F17623006FE3F1 /* ListViewModel.swift */,
 			);
@@ -236,7 +236,6 @@
 			children = (
 				F165A63C22F8630F0014EE59 /* NetworkManager.swift */,
 				F165A61622EF62DD0014EE59 /* APIClient.swift */,
-				F165A61822EF633D0014EE59 /* DataFetcher.swift */,
 				F165A61A22EF63770014EE59 /* URLConstructor.swift */,
 				F165A5F222EEF66D0014EE59 /* API.swift */,
 			);
@@ -253,6 +252,14 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		F171D39C22FABAA20009DA16 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				56F297E522F9F412004F1346 /* Extensions.swift */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -260,11 +267,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F165A5E222EEF24D0014EE59 /* Build configuration list for PBXNativeTarget "MyUnsplash" */;
 			buildPhases = (
-				1591F38DF0206CBBB43CBDCA /* [CP] Check Pods Manifest.lock */,
+				0B3EF1A114C80D2874906B00 /* [CP] Check Pods Manifest.lock */,
 				F165A5C922EEF24C0014EE59 /* Sources */,
 				F165A5CA22EEF24C0014EE59 /* Frameworks */,
 				F165A5CB22EEF24C0014EE59 /* Resources */,
-				C29F4082CA51ABE3B2A53475 /* [CP] Embed Pods Frameworks */,
+				F4D3A5EFB731D6107432E77B /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -322,7 +329,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1591F38DF0206CBBB43CBDCA /* [CP] Check Pods Manifest.lock */ = {
+		0B3EF1A114C80D2874906B00 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -344,7 +351,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C29F4082CA51ABE3B2A53475 /* [CP] Embed Pods Frameworks */ = {
+		F4D3A5EFB731D6107432E77B /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -370,26 +377,26 @@
 			files = (
 				56ED8D7F22F18F57006FE3F1 /* SearchResponse.swift in Sources */,
 				56F297DC22F859BE004F1346 /* ImageCacher.swift in Sources */,
-				F165A61522EF34520014EE59 /* Delegate Protols.swift in Sources */,
+				F165A61522EF34520014EE59 /* Delegate Protcols.swift in Sources */,
 				F165A61F22EF81DA0014EE59 /* Colors.swift in Sources */,
 				F165A62E22F0B3FA0014EE59 /* ListViewModel.swift in Sources */,
 				F165A63522F254310014EE59 /* AuthorViewModel.swift in Sources */,
 				F165A60622EF1BC00014EE59 /* Photo.swift in Sources */,
 				56F297DE22F9B957004F1346 /* DataController.swift in Sources */,
 				F165A63922F69FED0014EE59 /* DoubleLabelView.swift in Sources */,
+				F165A64522F8E24D0014EE59 /* Extensions.swift in Sources */,
 				F165A63F22F8647B0014EE59 /* LaunchViewController.swift in Sources */,
+				F165A64D22FA35630014EE59 /* SectionClearHeader.swift in Sources */,
 				F165A63122F0C6F30014EE59 /* ParallaxImageView.swift in Sources */,
 				56F297E222F9CE72004F1346 /* StoredPhotosViewController.swift in Sources */,
 				F165A60422EF1A760014EE59 /* DetailViewController.swift in Sources */,
 				F165A5EF22EEF4540014EE59 /* PhotoTableViewCell.swift in Sources */,
 				F165A61B22EF63770014EE59 /* URLConstructor.swift in Sources */,
-				56F297E622F9F412004F1346 /* Extensions.swift in Sources */,
 				F165A5ED22EEF2CF0014EE59 /* CollectionsViewController.swift in Sources */,
 				56F297E422F9E223004F1346 /* StoredPhotoTableViewCell.swift in Sources */,
 				56ED8D7B22F061CB006FE3F1 /* DetailViewModel.swift in Sources */,
 				F165A5D922EEF24C0014EE59 /* MyUnsplash.xcdatamodeld in Sources */,
 				F165A5E922EEF2AE0014EE59 /* PhotosViewController.swift in Sources */,
-				F165A61922EF633D0014EE59 /* DataFetcher.swift in Sources */,
 				F165A63D22F8630F0014EE59 /* NetworkManager.swift in Sources */,
 				F165A60822EF1F960014EE59 /* Collection.swift in Sources */,
 				F165A63B22F8582E0014EE59 /* CustomSegmentedView.swift in Sources */,
@@ -403,7 +410,6 @@
 				F165A64122F865600014EE59 /* OfflineViewController.swift in Sources */,
 				F165A5F322EEF66D0014EE59 /* API.swift in Sources */,
 				F165A60222EF18EC0014EE59 /* PhotosViewModel.swift in Sources */,
-				F165A5F522EEF6830014EE59 /* LocalDatabase.swift in Sources */,
 				F165A62222EF95850014EE59 /* AuthorViewController.swift in Sources */,
 				F165A61322EF32C40014EE59 /* ListViewController.swift in Sources */,
 				F165A61D22EF64D90014EE59 /* CollectionsViewModel.swift in Sources */,
@@ -544,7 +550,7 @@
 		};
 		F165A5E322EEF24D0014EE59 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1BCC15307C30FDAAFB4C288F /* Pods-MyUnsplash.debug.xcconfig */;
+			baseConfigurationReference = 252FCA219886E13FB76B9888 /* Pods-MyUnsplash.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -564,7 +570,7 @@
 		};
 		F165A5E422EEF24D0014EE59 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E2C7624F1DC3207F9CF44A84 /* Pods-MyUnsplash.release.xcconfig */;
+			baseConfigurationReference = 2D13C66A3657B68023494DE0 /* Pods-MyUnsplash.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;

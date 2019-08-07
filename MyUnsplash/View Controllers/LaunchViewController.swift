@@ -21,6 +21,7 @@ class LaunchViewController: UIViewController {
             self.showOfflinePage()
         }
     }
+    
     private func showOnlinePage() {
         DispatchQueue.main.async {
             self.present(ViewController(), animated: false)

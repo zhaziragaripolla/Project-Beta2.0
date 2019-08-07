@@ -14,6 +14,7 @@ class AuthorViewController: UIViewController {
     init(photo: Photo) {
         super.init(nibName: nil, bundle: nil)
         
+        title = photo.user.name
         viewModel = AuthorViewModel(delegate: self, user: photo.user)
         parallaxImageView.updateUI(photo: photo)
     }
@@ -40,8 +41,15 @@ class AuthorViewController: UIViewController {
 
         viewModel.fetchPhotos()
         viewModel.fetchCollections()
+        viewModel.fetchLikedPhotos()
         
         layoutUI()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(methodOfReceivedNotificationHideBar), name:NSNotification.Name(rawValue: "NotificationIdentifierForHideNavigationBar"), object: nil)
+    }
+    
+    @objc func methodOfReceivedNotificationHideBar() {
+//        navigationController?.navigationBar.isHidden = true
     }
     
     override func viewDidLayoutSubviews() {
@@ -49,16 +57,12 @@ class AuthorViewController: UIViewController {
     }
 
     func layoutUI() {
+        parallaxImageView.frame.size.height = 250
         customSegmentView.segmentView.addTarget(self, action: #selector(didCatchAction(_:)), for: .valueChanged)
-        
-        view.addSubview(parallaxImageView)
-        parallaxImageView.snp.makeConstraints { (make) in
-            make.height.equalToSuperview().multipliedBy(0.4)
-        }
         
         view.addSubview(tableView)
         tableView.snp.makeConstraints { (make) in
-            make.top.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
+            make.edges.equalToSuperview()
         }
         
         navigationController?.navigationBar.isHidden = true
@@ -76,7 +80,27 @@ class AuthorViewController: UIViewController {
     }
 }
 
-extension AuthorViewController: UITableViewDataSource, UITableViewDelegate {
+extension AuthorViewController: UITableViewDataSource, UITableViewDelegate, PhotoTableViewCellDelegate {
+    func updateState(_ cell: PhotoTableViewCell) {
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        viewModel.save(for: indexPath.row)
+        tableView.reloadRows(at: [indexPath], with: .none)
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let ofsetY = -scrollView.contentOffset.y
+        let maxHeight = max(parallaxImageView.bounds.height, parallaxImageView.bounds.height + ofsetY)
+        parallaxImageView.imageView.snp.updateConstraints { (make) in
+            make.height.equalTo(maxHeight)
+        }
+        
+        if ofsetY <= -150 {
+            navigationController?.isNavigationBarHidden = false
+        } else {
+            navigationController?.isNavigationBarHidden = true
+        }
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.getSize()
     }
@@ -95,6 +119,8 @@ extension AuthorViewController: UITableViewDataSource, UITableViewDelegate {
                 return UITableViewCell()
             }
             let photo = viewModel.getItem(atIndex: indexPath.row) as! Photo
+            cell.delegate = self
+            cell.saverDelegate = self
             cell.updateUI(photo: photo)
             return cell
         }
@@ -112,17 +138,32 @@ extension AuthorViewController: UITableViewDataSource, UITableViewDelegate {
             let photo = viewModel.likedPhotos[indexPath.row]
             let width = view.bounds.width
             let height = (width * CGFloat(photo.height)) / CGFloat(photo.width)
-            return height
+            return height + 60
         case .photos:
             let photo = viewModel.photos[indexPath.row]
             let width = view.bounds.width
             let height = (width * CGFloat(photo.height)) / CGFloat(photo.width)
-            return height
+            return height + 60
         }
     }
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        print(scrollView.contentOffset.y)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        navigationController?.navigationBar.isHidden = false
+        switch viewModel.sourceType {
+        case .collections:
+            let listViewController = ListViewController()
+            let collection = viewModel.collections[indexPath.row]
+            listViewController.viewModel = viewModel.checkPhotosOfCollection(for: collection)
+            navigationController?.pushViewController(listViewController, animated: true)
+        case .likedPhotos:
+            let detailViewController = DetailViewController()
+            detailViewController.viewModel = DetailViewModel(index: indexPath.row, photos: viewModel.likedPhotos)
+            present(detailViewController, animated: true)
+        case .photos:
+            let detailViewController = DetailViewController()
+            detailViewController.viewModel = DetailViewModel(index: indexPath.row, photos: viewModel.photos)
+            present(detailViewController, animated: true)
+        }
     }
 }
 
@@ -133,7 +174,13 @@ extension AuthorViewController: PopNavigationControllerDelegate {
     }
 }
 
-extension AuthorViewController: DataViewModelDelegate {
+extension AuthorViewController: DataViewModelDelegate, PhotosViewControllerDelegate {
+    func didTapAuthorButton(index: Int) {
+        let photo = viewModel.photos[index]
+        let authorViewController = AuthorViewController(photo: photo)
+        navigationController?.pushViewController(authorViewController, animated: true)
+    }
+    
     func reloadData() {
         tableView.reloadData()
     }

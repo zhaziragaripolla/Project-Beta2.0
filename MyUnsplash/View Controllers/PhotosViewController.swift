@@ -9,6 +9,7 @@
 import UIKit
 import SnapKit
 import AlamofireImage
+import SVProgressHUD
 
 class PhotosViewController: UIViewController {
     
@@ -28,11 +29,16 @@ class PhotosViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        SVProgressHUD.show()
+        
         view.backgroundColor = .white
         title = "Photos for everyone"
 
         viewModel.showAlertDelegate = self
         viewModel.delegate = self
+        viewModel.showAlertDelegate = self
+        viewModel.fetchPhotos()
+        viewModel.fetchHistory()
         
         setupTableView()
         setupSearchBar()
@@ -63,12 +69,12 @@ class PhotosViewController: UIViewController {
         tableView.estimatedRowHeight = 0
     
         tableView.register(PhotoTableViewCell.self, forCellReuseIdentifier: "photoCell")
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "searchCell")
         tableView.isPagingEnabled = true
     }
 
     func setupSearchBar() {
         searchController.searchBar.delegate = self
-        
         searchController.dimsBackgroundDuringPresentation = false
         searchController.hidesNavigationBarDuringPresentation = true
         searchController.searchBar.placeholder = "Search photos"
@@ -101,25 +107,36 @@ extension PhotosViewController: UITableViewDataSource, UITableViewDataSourcePref
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.totalCount
+        switch viewModel.state {
+        case .photos:
+            return viewModel.photos.count
+        default:
+            return viewModel.searchHistory.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "photoCell", for: indexPath) as? PhotoTableViewCell else {
-            return UITableViewCell()
+        switch viewModel.state {
+        case .photos:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "photoCell", for: indexPath) as? PhotoTableViewCell else {
+                return UITableViewCell()
+            }
+            if isLoadingCell(for: indexPath) {
+                cell.updateUI(photo: .none)
+            } else {
+                let photo = viewModel.photos[indexPath.row]
+                cell.updateUI(photo: photo)
+            }
+            cell.delegate = self
+            cell.saverDelegate = self
+            cell.index = indexPath.row
+            return cell
+        default:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "searchCell", for: indexPath)
+            cell.textLabel!.text = viewModel.searchHistory[indexPath.row]
+            return cell
         }
         
-        if isLoadingCell(for: indexPath) {
-            cell.updateUI(photo: .none)
-        } else {
-            let photo = viewModel.photos[indexPath.row]
-            cell.updateUI(photo: photo)
-        }
-    
-        cell.delegate = self
-        cell.saverDelegate = self
-        cell.index = indexPath.row
-        return cell
     }
     
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
@@ -129,23 +146,45 @@ extension PhotosViewController: UITableViewDataSource, UITableViewDataSourcePref
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let vc = DetailViewController()
-        vc.viewModel = viewModel.setupDetailForPhoto(index: indexPath.row)
-        present(vc, animated: true)
+        switch viewModel.state {
+        case .photos:
+            let detailViewController = DetailViewController()
+            detailViewController.viewModel = DetailViewModel(index: indexPath.row, photos: viewModel.photos)
+            present(detailViewController, animated: true)
+        default:
+            let listVC = ListViewController()
+            listVC.viewModel = viewModel.fetchSearchResults(text: viewModel.searchHistory[indexPath.row])
+            navigationController?.pushViewController(listVC, animated: true)
+        }
     }
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        //        print("scroll")
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if viewModel.state == .search && viewModel.searchHistory.count > 0 {
+            let section = SectionClearHeader()
+            section.delegate = self
+            return section
+        }
+        return nil
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        switch viewModel.state {
+        case .photos:
+            return 0
+        default:
+            return 20
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if isLoadingCell(for: indexPath) {
-            return 200
-        } else {
+        switch viewModel.state {
+        case .photos:
             let photo = viewModel.photos[indexPath.row]
             let width = view.bounds.width
             let height = (width * CGFloat(photo.height)) / CGFloat(photo.width)
-            return height
+            return height + 60
+        default:
+            return UITableViewCell().bounds.height
         }
     }
     
@@ -153,6 +192,13 @@ extension PhotosViewController: UITableViewDataSource, UITableViewDataSourcePref
         guard let indexPath = tableView.indexPath(for: cell) else { return }
         viewModel.save(for: indexPath.row)
         tableView.reloadRows(at: [indexPath], with: .none)
+    }
+}
+
+extension PhotosViewController: HistoryCleanable {
+    func cleanHistory() {
+        viewModel.clearHistory()
+        tableView.reloadData()
     }
 }
 
@@ -164,10 +210,23 @@ extension PhotosViewController: UIPopoverPresentationControllerDelegate {
 }
 
 extension PhotosViewController: UISearchBarDelegate {
+    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
+        viewModel.state = .search
+        tableView.reloadData()
+        return true
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        viewModel.state = .photos
+        tableView.reloadData()
+    }
+    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let textToSearch = searchBar.text, !textToSearch.isEmpty else {
             return
         }
+        
+        viewModel.saveHistory(searchWord: textToSearch)
         
         let listVC = ListViewController()
         listVC.viewModel = viewModel.fetchSearchResults(text: textToSearch)
@@ -194,14 +253,16 @@ extension PhotosViewController: NetworkFailureDelegate  {
 
 extension PhotosViewController: PrefetcherDelegate {
     func onFetchCompleted(with newIndexPathsToReload: [IndexPath]?) {
-        guard let newIndexPathsToReload = newIndexPathsToReload else {
-            tableView.isHidden = false
-            tableView.reloadData()
-            return
-        }
-  
-        let indexPathsToReload = visibleIndexPathsToReload(intersecting: newIndexPathsToReload)
-        tableView.reloadRows(at: indexPathsToReload, with: .none)
+        
+//        guard let newIndexPathsToReload = newIndexPathsToReload else {
+//            tableView.isHidden = false
+//            tableView.reloadData()
+//            return
+//        }
+//
+//        let indexPathsToReload = visibleIndexPathsToReload(intersecting: newIndexPathsToReload)
+//        tableView.reloadRows(at: indexPathsToReload, with: .none)
+        tableView.reloadData()
     }
     
 }

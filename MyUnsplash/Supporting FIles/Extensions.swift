@@ -2,11 +2,33 @@
 //  Extensions.swift
 //  MyUnsplash
 //
-//  Created by Zhazira Garipolla on 8/6/19.
+//  Created by Бекдаулет Касымов on 8/6/19.
 //  Copyright © 2019 Бекдаулет Касымов. All rights reserved.
 //
 
 import UIKit
+
+protocol PhotosOfCollectionProtocol: APIClient {
+    func checkPhotosOfCollection(for collection: Collection) -> ListViewModel?
+}
+
+extension PhotosOfCollectionProtocol {
+    func checkPhotosOfCollection(for collection: Collection) -> ListViewModel? {
+        let newViewModel = ListViewModel(sourceType: .listOfPhotos)
+        newViewModel.title = collection.title
+        let request = URLConstructor.getPhotosOfCollection(id: collection.id).request
+        fetch(with: request, responseType: [Photo].self) {  response, error in
+            if let response = response {
+                newViewModel.container = response
+            }
+            if let error = error {
+                // TODO: delegate to VC to show alert controller with error
+                print(error)
+            }
+        }
+        return newViewModel
+    }
+}
 
 extension UIImageView {
     func load(identifier: String) {
@@ -23,22 +45,23 @@ extension UIImageView {
 
 extension Int {
     var abbreviated: String {
-        // less than 1000, no abbreviation
         if self < 1000 {
             return "\(self)"
         }
-        
-        // less than 1 million, abbreviate to thousands
         if self < 1000000 {
             var n = Double(self)
             n = Double(floor(n/100)/10)
             return "\(n.description)K"
         }
-        
-        // more than 1 million, abbreviate to millions
         var n = Double(self)
         n = Double( floor(n/100000)/10 )
         return "\(n.description)M"
+    }
+}
+
+extension UInt64 {
+    func megabytes() -> UInt64 {
+        return self * 1024 * 1024
     }
 }
 

@@ -115,13 +115,17 @@ class DetailViewController: UIViewController {
         
         setupInformationView()
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "NotificationIdentifierForHideNavigationBar"), object: nil)
+    }
  
     @objc func didTapDone() {
         dismiss(animated: true, completion: nil)
     }
     
     func setupInformationView() {
-        informationView = InformationView(frame: CGRect(x: 0, y: view.bounds.height, width: view.bounds.width, height: view.bounds.height / 2))
+        informationView = InformationView(frame: CGRect(x: 0, y: view.bounds.height, width: view.bounds.width, height: view.bounds.height * 0.4))
         informationView.delegate = self
         view.addSubview(informationView)
         let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(didDragInformationView(_:)))
@@ -166,7 +170,7 @@ extension DetailViewController: InformationViewDelegate {
     
     @objc func showInfromatinView() {
         UIView.animate(withDuration: 0.3) {
-            self.informationView.frame.origin = CGPoint(x: 0, y: self.view.bounds.height - self.informationView.bounds.height)
+            self.informationView.frame.origin = CGPoint(x: 0, y: self.view.bounds.height * 0.6)
         }
         viewModel.isShown = true
     }
@@ -194,7 +198,28 @@ extension DetailViewController: InformationViewDelegate {
     }
     
     @objc func didDragInformationView(_ sender: UIPanGestureRecognizer) {
-        // TODO: gestures
+        switch sender.state {
+        case .began:
+            viewModel.startHeight = informationView.bounds.height
+            viewModel.touchPosition = sender.location(in: informationView)
+        case .changed:
+            let (height, newY) = viewModel.updateLocation(position: sender.location(in: view), viewHeight: view.bounds.height)
+            informationView.frame = CGRect(x: 0, y: newY, width: view.bounds.width, height: height)
+            informationView.updateSize()
+        case .ended:
+            let velocity = sender.velocity(in: view)
+            if velocity.y > 400 {
+                hideInformationView()
+            }
+            let untouchPosition = sender.location(in: view)
+            if (untouchPosition.y > viewModel.startHeight * 0.8) {
+                hideInformationView()
+            } else {
+                showInfromatinView()
+            }
+        default:
+            break
+        }
     }
     
     @objc func didTapDownloadButton() {

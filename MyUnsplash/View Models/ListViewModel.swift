@@ -21,10 +21,7 @@ class ListViewModel {
     var currentMode: SourceType
     
     enum SourceType {
-        // In case of representing search results of collections
         case listOfCollections
-        
-        // Represent photos in collection or search results
         case listOfPhotos
     }
     

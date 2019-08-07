@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SVProgressHUD
 
 protocol APIClient {
     func fetch<ResponseType: Decodable>(with request: URLRequest, responseType: ResponseType.Type,
@@ -31,6 +32,7 @@ extension APIClient {
                 let response = try decoder.decode(ResponseType.self, from: data)
                 DispatchQueue.main.async {
                     completion(response, nil)
+                    SVProgressHUD.dismiss()
                 }
             }
             catch {

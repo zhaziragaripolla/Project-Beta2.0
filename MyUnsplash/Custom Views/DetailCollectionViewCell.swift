@@ -16,6 +16,8 @@ class DetailCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
+    weak var delegate: DetailCollectionViewCellDelegate?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -33,4 +35,8 @@ class DetailCollectionViewCell: UICollectionViewCell {
         photoImageView.load(identifier: photo.urls.regular!)
     }
     
+    @objc func downloadButtonTapped() {
+        delegate?.downloadPhoto(self)
+    }
+
 }

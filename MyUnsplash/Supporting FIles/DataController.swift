@@ -14,7 +14,6 @@ class DataController {
     
     let persistentContainer: NSPersistentContainer
     
-    // Context to store slangs.
     var viewContext: NSManagedObjectContext {
         return persistentContainer.viewContext
     }
@@ -43,14 +42,10 @@ class DataController {
         }
     }
     
-    // MARK: Add slang
     func insert(_ photo: Photo) {
-        
-        // Creates a new slang in a view context.
         let entity = NSEntityDescription.entity(forEntityName: "StoredPhoto", in: viewContext)
         let newPhoto = NSManagedObject(entity: entity!, insertInto: viewContext)
         
-        // Sets values to a new photo.
         newPhoto.setValue(photo.id, forKey: "id")
         newPhoto.setValue(photo.height, forKey: "height")
         newPhoto.setValue(photo.width, forKey: "width")
@@ -60,7 +55,6 @@ class DataController {
         save()
     }
     
-    // MARK: Delete a slang
     func delete(_ photo: Photo) {
         let id = photo.id
         let fetchRequest: NSFetchRequest<StoredPhoto> = StoredPhoto.fetchRequest()

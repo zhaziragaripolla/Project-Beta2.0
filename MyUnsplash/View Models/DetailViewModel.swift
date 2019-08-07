@@ -11,6 +11,11 @@ import UIKit
 class DetailViewModel: APIClient {
     var isShown: Bool = false
     var photos: [Photo] = []
+    
+    var touchPosition: CGPoint!
+    var startHeight: CGFloat!
+    
+    
     var startIndex: Int = 0
     weak var delegate: DetailViewModelDelegate?
     weak var showAlertDelegate: NetworkFailureDelegate?
@@ -18,6 +23,11 @@ class DetailViewModel: APIClient {
     init(index: Int, photos: [Photo]) {
         self.startIndex = index
         self.photos = photos
+    }
+
+    func updateLocation(position: CGPoint, viewHeight: CGFloat) -> (CGFloat, CGFloat) {
+        let newY = max(position.y - touchPosition.y, 0)
+        return (viewHeight + touchPosition.y, newY)
     }
 
     func getURL(at index: Int)-> URL? {
@@ -40,4 +50,5 @@ class DetailViewModel: APIClient {
         }
     }
    
+    
 }

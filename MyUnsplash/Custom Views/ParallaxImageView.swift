@@ -9,11 +9,16 @@
 import UIKit
 import AlamofireImage
 
-class ParallaxImageView: UIImageView {
+class ParallaxImageView: UIView {
     
     var photo: Photo!
     var delegate: PopNavigationControllerDelegate?
     
+    let imageView:UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = ContentMode.scaleToFill
+        return imageView
+    }()
     lazy var backButton: UIButton = {
         let button = UIButton()
         let image = UIImage(named: "backArrow")
@@ -56,7 +61,7 @@ class ParallaxImageView: UIImageView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        contentMode = ContentMode.scaleAspectFill
+        contentMode = ContentMode.scaleAspectFit
         autoresizingMask = [.flexibleWidth, .flexibleHeight]
         isUserInteractionEnabled = true
         
@@ -75,7 +80,7 @@ class ParallaxImageView: UIImageView {
         websiteButton.setTitle((photo.user.portfolioUrl ?? ""), for: .normal)
         locationLabel.text = (photo.user.location ?? "")
         if let url = URL(string: photo.urls.regular!) {
-            af_setImage(withURL: url)
+            imageView.af_setImage(withURL: url)
         }
         
         if let url = URL(string: photo.user.profileImage!.medium) {
@@ -84,11 +89,14 @@ class ParallaxImageView: UIImageView {
     }
     
     func layoutUI(){
-        snp.makeConstraints { (make) in
-            make.width.equalTo(UIScreen.main.bounds.width)
+        
+        addSubview(imageView)
+        imageView.snp.makeConstraints { (make) in
+            make.bottom.leading.trailing.equalToSuperview()
+            make.height.equalTo(250)
         }
         
-        addSubview(blurredEffectView)
+        imageView.addSubview(blurredEffectView)
         blurredEffectView.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
         }

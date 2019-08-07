@@ -25,7 +25,7 @@ class ViewController: UITabBarController {
         let collectionsVC = UINavigationController(rootViewController: CollectionsViewController())
         collectionsVC.tabBarItem = UITabBarItem(title: "Collections", image: UIImage(named: "gallery"), tag: 2)
         let storedPhotosVC = UINavigationController(rootViewController: StoredPhotosViewController())
-        storedPhotosVC.tabBarItem = UITabBarItem(title: "Saved", image: UIImage(named: "bookmarkOff"), tag: 3)
+        storedPhotosVC.tabBarItem = UITabBarItem(title: "Saved", image: UIImage(named: "bookmark_ribbon"), tag: 3)
         
         viewControllers = [ photosVC, storedPhotosVC, collectionsVC]
         

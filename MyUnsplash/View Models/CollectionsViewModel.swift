@@ -8,17 +8,15 @@
 
 import Foundation
 
-class CollectionsViewModel: APIClient, DataPrefetchable {
-    
+class CollectionsViewModel: PhotosOfCollectionProtocol, DataPrefetchable {
+    public var collections: [Collection] = []
     internal var isFetchInProgress = false
     internal var currentPage = 1
     
-    public var collections: [Collection] = []
     weak var showAlertDelegate: NetworkFailureDelegate?
     weak var delegate: PrefetcherDelegate?
 
     var totalCount: Int {
-        // Will fetch maximum - 50 elements
         return 50
     }
     

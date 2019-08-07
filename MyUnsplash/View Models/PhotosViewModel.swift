@@ -8,14 +8,20 @@
 
 import Foundation
 
+enum State {
+    case photos
+    case search
+}
+
 class PhotosViewModel: APIClient, DataPrefetchable {
     
     public var photos: [Photo] = []
     internal var currentPage = 1
     internal var isFetchInProgress = false
+    var state: State = .photos
+    var searchHistory: [String] = []
     
     var totalCount: Int {
-        // Will fetch maximum - 50 elements
         return 60
     }
     
@@ -25,7 +31,7 @@ class PhotosViewModel: APIClient, DataPrefetchable {
     
     weak var showAlertDelegate: NetworkFailureDelegate?
     weak var delegate: PrefetcherDelegate?
-    
+    weak var updateDelegate: DataViewModelDelegate?
     
     // MARK: Fetch new photos
     func fetchPhotos() {
@@ -38,6 +44,7 @@ class PhotosViewModel: APIClient, DataPrefetchable {
         fetch(with: request, responseType: [Photo].self) { [weak self] response, error in
             if let response = response {
                 self?.photos.append(contentsOf: response)
+                print(response.count)
                 response.forEach({
                     DataController.shared.setState(photo: $0)
                 })
@@ -72,12 +79,33 @@ class PhotosViewModel: APIClient, DataPrefetchable {
         
         return newViewModel
     }
+ 
+    func fetchHistory() {
+        guard let tempHistory = UserDefaults.standard.array(forKey: "history") as? [String] else {
+            return
+        }
+        searchHistory = tempHistory
+    }
+    
+    func clearHistory() {
+        searchHistory = []
+        UserDefaults.standard.removeObject(forKey: "history")
+    }
     
     // MARK: Create DetailVM
     func setupDetailForPhoto(index: Int) -> DetailViewModel? {
         let newViewModel = DetailViewModel(index: index, photos: photos)
         return newViewModel
     }
+    
+    func saveHistory(searchWord: String) {
+        if !searchHistory.contains(searchWord) {
+            searchHistory.append(searchWord)
+            UserDefaults.standard.set(searchHistory, forKey: "history")
+            updateDelegate?.reloadData()
+        }
+    }
+
     
     func calculateIndexPathsToReload(from newData: [Any]) -> [IndexPath] {
         let startIndex = photos.count - newData.count
@@ -94,11 +122,4 @@ class PhotosViewModel: APIClient, DataPrefetchable {
             DataController.shared.insert(photo)
         }
     }
- 
 }
-
-
-
-
-
-

@@ -48,9 +48,8 @@ protocol PhotoTableViewCellDelegate: class {
     func updateState(_ cell: PhotoTableViewCell)
 }
 
-
-
 protocol DetailCollectionViewCellDelegate: class {
     func downloadPhoto(_ cell: DetailCollectionViewCell)
     func getPhotoInfo(_ cell: DetailCollectionViewCell)
 }
+
