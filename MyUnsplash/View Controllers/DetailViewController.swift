@@ -70,6 +70,9 @@ class DetailViewController: UIViewController {
         
         view.backgroundColor = .black
         
+        viewModel.delegate = self
+        viewModel.showAlertDelegate = self
+        
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(hideInformationView))
         view.addGestureRecognizer(tapGestureRecognizer)
         
@@ -224,6 +227,7 @@ extension DetailViewController: InformationViewDelegate {
             UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
         }
     }
+    
     func currentIndex()-> Int? {
         if collectionView.indexPathsForVisibleItems.count == 1 {
             let currentIndexPath = collectionView.indexPathsForVisibleItems[0].row
@@ -246,6 +250,9 @@ extension DetailViewController: UICollectionViewDelegateFlowLayout, UICollection
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! DetailCollectionViewCell
       
         let photo = viewModel.photos[indexPath.row]
+        viewModel.fetchPhoto(at: indexPath.row)
+        cell.updateUI(photo: photo)
+        
         if let url = photo.urls.regular {
             cell.photoImageView.af_setImage(withURL: URL(string: url)!)
         }
@@ -263,3 +270,14 @@ extension DetailViewController: UICollectionViewDelegateFlowLayout, UICollection
     
 }
 
+extension DetailViewController: DetailViewModelDelegate, NetworkFailureDelegate {
+    func showAlert(message: String) {
+        let alertVC = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alertVC, animated: false)
+    }
+    
+    func updateInfo(photo: Photo) {
+        informationView.updateUI(photo: photo)
+    }
+}

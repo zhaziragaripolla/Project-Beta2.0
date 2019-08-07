@@ -8,13 +8,16 @@
 
 import UIKit
 
-class DetailViewModel {
+class DetailViewModel: APIClient {
     
     var isShown: Bool = false
     var photos: [Photo] = []
     
     var touchPosition: CGPoint!
     var startHeight: CGFloat!
+    
+    weak var delegate: DetailViewModelDelegate?
+    weak var showAlertDelegate: NetworkFailureDelegate?
     
     var startIndex: Int = 0
     
@@ -33,4 +36,17 @@ class DetailViewModel {
         return URL(string: url)   
     }
    
+    func fetchPhoto(at index: Int) {
+        let id = photos[index].id
+        let request = URLConstructor.getPhotoInfo(id: id).request
+        fetch(with: request, responseType: Photo.self) { response, error in
+            if let response = response {
+                self.delegate?.updateInfo(photo: response)
+            }
+            
+            if let error = error {
+                self.showAlertDelegate?.showAlert(message: error.localizedDescription)
+            }
+        }
+    }
 }

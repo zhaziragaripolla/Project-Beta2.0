@@ -33,3 +33,6 @@ protocol DetailCollectionViewCellDelegate: class {
     func getPhotoInfo(_ cell: DetailCollectionViewCell)
 }
 
+protocol DetailViewModelDelegate: class {
+    func updateInfo(photo: Photo)
+}

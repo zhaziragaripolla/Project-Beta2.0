@@ -16,18 +16,6 @@ class DetailCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
-//    let downloadButton: UIButton = {
-//        let button = UIButton()
-//        button.setImage(UIImage(named: "down-white"), for: .normal)
-//        return button
-//    }()
-//
-//    let infoButton: UIButton = {
-//        let button = UIButton()
-//        button.setTitle("info", for: .normal)
-//        return button
-//    }()
-    
     weak var delegate: DetailCollectionViewCellDelegate?
     
     override init(frame: CGRect) {
@@ -37,24 +25,6 @@ class DetailCollectionViewCell: UICollectionViewCell {
         photoImageView.snp_makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
         }
-        
-//        addSubview(infoButton)
-//        infoButton.addTarget(self, action: #selector(infoButtonTapped), for: .touchUpInside)
-//        infoButton.snp_makeConstraints { make in
-//            make.top.equalTo(photoImageView.snp.bottom).offset(5)
-//            make.bottom.equalToSuperview().offset(-20)
-//            make.leading.equalToSuperview().offset(15)
-//            make.width.height.equalTo(50)
-//        }
-//        
-//        addSubview(downloadButton)
-//        downloadButton.addTarget(self, action: #selector(downloadButtonTapped), for: .touchUpInside)
-//        downloadButton.snp_makeConstraints { make in
-//            make.top.equalTo(photoImageView.snp.bottom).offset(5)
-//            make.trailing.equalToSuperview().offset(-15)
-//            make.bottom.equalToSuperview().offset(-20)
-//            make.width.height.equalTo(50)
-//        }
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -69,4 +39,8 @@ class DetailCollectionViewCell: UICollectionViewCell {
         delegate?.downloadPhoto(self)
     }
     
+    func updateUI(photo: Photo) {
+        print(photo)
+//        photoImageView.load(identifier: photo.urls.regular!)
+    }
 }

@@ -112,13 +112,13 @@ class InformationView: UIView {
     }
     
     func updateUI(photo: Photo) {
-        makeDoubleLabel.bodyLabel.text = ""
-        modelDoubleLabel.bodyLabel.text = ""
-        shutterDoubleLabel.bodyLabel.text = ""
-        apertureDoubleLabel.bodyLabel.text = ""
-        focalDoubleLabel.bodyLabel.text = ""
-        isoDoubleLabel.bodyLabel.text = ""
-        dimensionsDoubleLabel.bodyLabel.text = "\(photo.width) \(photo.height)"
+        makeDoubleLabel.bodyLabel.text = photo.exif?.make
+        modelDoubleLabel.bodyLabel.text = photo.exif?.model
+        shutterDoubleLabel.bodyLabel.text = photo.exif?.exposureTime
+        apertureDoubleLabel.bodyLabel.text = photo.exif?.aperture
+        focalDoubleLabel.bodyLabel.text = "-"
+        isoDoubleLabel.bodyLabel.text = "-"
+        dimensionsDoubleLabel.bodyLabel.text = "\(photo.width) x \(photo.height)"
     }
     
     @objc func hideSelf() {
