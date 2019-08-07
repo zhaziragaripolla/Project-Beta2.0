@@ -14,6 +14,7 @@ class AuthorViewController: UIViewController {
     init(photo: Photo) {
         super.init(nibName: nil, bundle: nil)
         
+        title = photo.user.name
         viewModel = AuthorViewModel(delegate: self, user: photo.user)
         parallaxImageView.updateUI(photo: photo)
     }
@@ -56,16 +57,12 @@ class AuthorViewController: UIViewController {
     }
 
     func layoutUI() {
+        parallaxImageView.frame.size.height = 250
         customSegmentView.segmentView.addTarget(self, action: #selector(didCatchAction(_:)), for: .valueChanged)
-        
-        view.addSubview(parallaxImageView)
-        parallaxImageView.snp.makeConstraints { (make) in
-            make.height.equalToSuperview().multipliedBy(0.4)
-        }
         
         view.addSubview(tableView)
         tableView.snp.makeConstraints { (make) in
-            make.top.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
+            make.edges.equalToSuperview()
         }
         
         navigationController?.navigationBar.isHidden = true
@@ -84,6 +81,20 @@ class AuthorViewController: UIViewController {
 }
 
 extension AuthorViewController: UITableViewDataSource, UITableViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let ofsetY = -scrollView.contentOffset.y
+        let maxHeight = max(parallaxImageView.bounds.height, parallaxImageView.bounds.height + ofsetY)
+        parallaxImageView.imageView.snp.updateConstraints { (make) in
+            make.height.equalTo(maxHeight)
+        }
+        
+        if ofsetY <= -150 {
+            navigationController?.isNavigationBarHidden = false
+        } else {
+            navigationController?.isNavigationBarHidden = true
+        }
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.getSize()
     }
